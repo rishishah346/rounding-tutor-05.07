@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}Math Tutor - Choose Your Topic{% endblock %}
+
+{% block header_title %}Math Tutor{% endblock %}
+
+{% block extra_css %}
+<style>
+.topic-card {
+    transition: all 0.3s ease;
+}
+
+.topic-card:hover {
+    transform: translateY(-4px);
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-8">
+    <div class="text-center mb-8">
+        <h2 class="text-2xl font-semibold mb-4">Choose Your Math Topic</h2>
+        <p class="text-gray-600 mb-6">
+            Select a topic to begin your personalized learning experience. Each topic adapts to your pace and provides targeted feedback.
+        </p>
+    </div>
+    
+    <div class="grid md:grid-cols-2 gap-6">
+        <!-- Rounding Decimals Topic Card -->
+        <div class="topic-card bg-blue-50 border-2 border-blue-200 rounded-lg p-6 hover:shadow-lg transition-all cursor-pointer" onclick="selectTopic('rounding')">
+            <div class="text-center">
+                <div class="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="text-white text-2xl font-bold">0.5</span>
+                </div>
+                <h3 class="text-xl font-semibold text-blue-800 mb-3">Rounding Decimals</h3>
+                <p class="text-gray-700 mb-4">
+                    Learn to round decimal numbers to specific decimal places. Master the rules and build confidence with step-by-step guidance.
+                </p>
+                <div class="text-sm text-blue-600 mb-4">
+                    <span class="font-medium">Topics covered:</span>
+                    <ul class="list-disc list-inside mt-2 text-left">
+                        <li>Rounding to 1 decimal place</li>
+                        <li>Rounding to 2-3 decimal places</li>
+                        <li>Complex rounding challenges</li>
+                    </ul>
+                </div>
+                <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-all w-full">
+                    Start Rounding Lesson
+                </button>
+            </div>
+        </div>
+        
+        <!-- Fractions Topic Card -->
+        <div class="topic-card bg-green-50 border-2 border-green-200 rounded-lg p-6 hover:shadow-lg transition-all cursor-pointer" onclick="selectTopic('fractions')">
+            <div class="text-center">
+                <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="text-white text-2xl font-bold">½</span>
+                </div>
+                <h3 class="text-xl font-semibold text-green-800 mb-3">Adding & Subtracting Fractions</h3>
+                <p class="text-gray-700 mb-4">
+                    Master fraction operations with like and unlike denominators. Build understanding through visual examples and practice.
+                </p>
+                <div class="text-sm text-green-600 mb-4">
+                    <span class="font-medium">Topics covered:</span>
+                    <ul class="list-disc list-inside mt-2 text-left">
+                        <li>Adding fractions with like denominators</li>
+                        <li>Adding fractions with unlike denominators</li>
+                        <li>Subtracting fractions</li>
+                    </ul>
+                </div>
+                <button class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-all w-full">
+                    Start Fractions Lesson
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mt-8 text-center text-sm text-gray-500">
+        <p>Progress is saved automatically. You can return to continue your learning anytime.</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function selectTopic(topic) {
+    if (topic === 'rounding') {
+        window.location.href = '/rounding/intro';
+    } else if (topic === 'fractions') {
+        window.location.href = '/fractions/intro';
+    }
+}
+
+// Add hover effects for topic cards
+document.addEventListener('DOMContentLoaded', function() {
+    const topicCards = document.querySelectorAll('.topic-card');
+    
+    topicCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-4px)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+});
+</script>
+{% endblock %}

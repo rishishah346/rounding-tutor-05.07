@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+
+{% block title %}Rounding Practice{% endblock %}
+
+{% block header_title %}Rounding to Decimal Places{% endblock %}
+
+{% block header_buttons %}
+<button id="reset-button" class="text-gray-600 hover:text-gray-800 font-medium py-2 px-4 rounded border border-gray-300 shadow-sm transition-all">
+    Reset Lesson
+</button>
+{% endblock %}
+
+{% block content %}
+<div class="flex flex-col lg:flex-row gap-6">
+    <!-- Left column - Examples -->
+    <div id="examples-column" class="lg:w-1/2">
+        <div id="examples-container" class="p-6 bg-blue-50 rounded-lg shadow-md">
+            <h2 class="text-xl font-semibold mb-4">Examples</h2>
+            
+            <!-- Example 1 -->
+            <div class="mb-6">
+                <h3 class="text-lg font-semibold mb-2">Example 1: Round 12.632 to 1 decimal place (scroll through example to see full steps)</h3>
+                <div class="bg-white rounded-md p-4 mb-4">
+                    <div id="example1-steps" class="steps-container max-h-96">
+                        <!-- Step 1 -->
+                        <div class="step mb-4">
+                            <div class="flex items-start">
+                                <div class="border-l-4 border-blue-500 pl-3 w-full">
+                                    <h4 class="text-md font-semibold mb-3 text-blue-600">Step 1</h4>
+                                    <div class="flex justify-center items-center mb-3">
+                                        <img src="/static/images/stage1_1_step1.jpg" alt="Step 1" class="rounded-md step-image">
+                                    </div>
+                                    <p>Identify the digit in the 1st decimal place. This is the first digit after the decimal point. We will call it the "rounding digit". Draw a "cut off" line after the rounding digit.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 2 -->
+                        <div class="step mb-4">
+                            <div class="flex items-start">
+                                <div class="border-l-4 border-blue-500 pl-3 w-full">
+                                    <h4 class="text-md font-semibold mb-3 text-blue-600">Step 2</h4>
+                                    <div class="flex justify-center items-center mb-3">
+                                        <img src="/static/images/stage1_1_step2.jpg" alt="Step 2" class="rounded-md step-image">
+                                    </div>
+                                    <p>Check the digit to the right of the "cut off" line. If this digit is less than 5 we keep our rounding digit the same.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 3 -->
+                        <div class="step mb-4">
+                            <div class="flex items-start">
+                                <div class="border-l-4 border-blue-500 pl-3 w-full">
+                                    <h4 class="text-md font-semibold mb-3 text-blue-600">Step 3</h4>
+                                    <div class="flex justify-center items-center mb-3">
+                                        <img src="/static/images/stage1_1_step3.jpg" alt="Step 3" class="rounded-md step-image">
+                                    </div>
+                                    <p>Remove all digits after the "cut off" line. We have now rounded the number to 1 decimal place.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Example 2 -->
+            <div>
+                <h3 class="text-lg font-semibold mb-2">Example 2: Round 12.682 to 1 decimal place (scroll through example to see full steps)</h3>
+                <div class="bg-white rounded-md p-4">
+                    <div id="example2-steps" class="steps-container max-h-96">
+                        <!-- Step 1 -->
+                        <div class="step mb-4">
+                            <div class="flex items-start">
+                                <div class="border-l-4 border-blue-500 pl-3 w-full">
+                                    <h4 class="text-md font-semibold mb-3 text-blue-600">Step 1</h4>
+                                    <div class="flex justify-center items-center mb-3">
+                                        <img src="/static/images/stage1_2_step1.jpg" alt="Step 1" class="rounded-md step-image">
+                                    </div>
+                                    <p>Identify the digit in the 1st decimal place. This is the first digit after the decimal point. We will call it the "rounding digit". Draw a "cut off" line after the rounding digit.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 2 -->
+                        <div class="step mb-4">
+                            <div class="flex items-start">
+                                <div class="border-l-4 border-blue-500 pl-3 w-full">
+                                    <h4 class="text-md font-semibold mb-3 text-blue-600">Step 2</h4>
+                                    <div class="flex justify-center items-center mb-3">
+                                        <img src="/static/images/stage1_2_step2.jpg" alt="Step 2" class="rounded-md step-image">
+                                    </div>
+                                    <p>Check the digit to the right of the "cut off" line. If this digit is 5 or bigger we need to round up. We do this by adding 1 to the rounding digit.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 3 -->
+                        <div class="step mb-4">
+                            <div class="flex items-start">
+                                <div class="border-l-4 border-blue-500 pl-3 w-full">
+                                    <h4 class="text-md font-semibold mb-3 text-blue-600">Step 3</h4>
+                                    <div class="flex justify-center items-center mb-3">
+                                        <img src="/static/images/stage1_2_step3.jpg" alt="Step 3" class="rounded-md step-image">
+                                    </div>
+                                    <p>Remove all digits after the "cut off" line. We have now rounded the number to 1 decimal place. Notice that the 6 has changed to a 7 as we rounded up.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right column - Practice -->
+    <div id="practice-column" class="lg:w-1/2">
+        <div id="practice-container" class="p-6 bg-green-50 rounded-lg shadow-md h-full">
+            <h2 class="text-xl font-semibold mb-4">Practice Questions</h2>
+            
+            <!-- Question display -->
+            <div id="question-container" class="mb-6">
+                <h3 id="question-text" class="text-lg font-semibold mb-4"></h3>
+                
+                <!-- Choices container -->
+                <div id="choices-container" class="space-y-3 mb-6">
+                    <!-- Choices will be inserted here by JavaScript -->
+                </div>
+                
+                <div id="submit-button-container">
+                    <button id="submit-answer" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-md transition-all">
+                        Submit Answer
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Feedback container (hidden initially) -->
+            <div id="feedback-container" class="mb-6 p-4 rounded-md hidden">
+                <!-- Feedback will be inserted here by JavaScript -->
+            </div>
+            
+            <!-- Navigation buttons -->
+            <div id="navigation" class="flex justify-end">
+                <button id="next-button" class="hidden bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-md transition-all">
+                    Next Question
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Loading indicator -->
+    <div id="loading" class="text-center py-12 hidden">
+        <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
+        <p class="mt-4">Loading...</p>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/practice_common.js') }}"></script>
+<script src="{{ url_for('static', filename='js/pages/decimal1_practice.js') }}"></script>
+{% endblock %}

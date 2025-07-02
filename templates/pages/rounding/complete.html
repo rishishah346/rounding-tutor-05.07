@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}Lesson Complete - Rounding Decimals{% endblock %}
+
+{% block header_title %}Rounding to Decimal Places{% endblock %}
+
+{% block header_buttons %}
+<a href="{{ url_for('index') }}" class="text-gray-600 hover:text-gray-800 font-medium py-2 px-4 rounded border border-gray-300 shadow-sm transition-all">
+    Choose Another Topic
+</a>
+{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-8" style="height: 600px; display: flex; align-items: center; justify-content: center;">
+    <div class="text-center">
+        <!-- Success Icon -->
+        <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+        </div>
+        
+        <!-- Main Message -->
+        <h2 class="text-3xl font-bold text-green-800 mb-4">Lesson Complete!</h2>
+        
+        <p class="text-xl text-gray-700 mb-6 leading-relaxed">
+            Congratulations! You've successfully mastered rounding decimal numbers.
+        </p>
+        
+        <!-- Achievement Summary -->
+        <div class="bg-green-50 border border-green-200 rounded-lg p-6 mb-6">
+            <h3 class="font-semibold text-green-800 mb-3">What You've Learned:</h3>
+            <ul class="text-green-700 text-left space-y-2">
+                <li class="flex items-center">
+                    <svg class="w-4 h-4 text-green-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                    </svg>
+                    Rounding to 1 decimal place
+                </li>
+                <li class="flex items-center">
+                    <svg class="w-4 h-4 text-green-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                    </svg>
+                    Rounding to 2 and 3 decimal places
+                </li>
+                <li class="flex items-center">
+                    <svg class="w-4 h-4 text-green-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                    </svg>
+                    The 5-or-more rounding rule
+                </li>
+                <li class="flex items-center">
+                    <svg class="w-4 h-4 text-green-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                    </svg>
+                    Complex rounding challenges
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="space-y-3">
+            <button onclick="restartLesson()" class="block w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-all">
+                Practice Rounding Again
+            </button>
+            
+            <a href="{{ url_for('fractions_intro') }}" class="block w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg transition-all">
+                Try Fractions Next
+            </a>
+            
+            <a href="{{ url_for('index') }}" class="block w-full bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded-lg transition-all">
+                Back to Topic Selection
+            </a>
+        </div>
+        
+        <!-- Encouragement Message -->
+        <div class="mt-6 text-sm text-gray-600">
+            <p>Great job! You've shown real mathematical understanding and persistence.</p>
+        </div>
+    </div>
+</div>
+
+<script>
+function restartLesson() {
+    // Reset the lesson and redirect to rounding intro
+    fetch('/api/reset', {
+        method: 'POST'
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Redirect to rounding intro instead of homepage
+        window.location.href = '/rounding/intro';
+    })
+    .catch(error => {
+        console.error('Error resetting lesson:', error);
+        // Fallback: redirect to rounding intro
+        window.location.href = '/rounding/intro';
+    });
+}
+</script>
+{% endblock %}

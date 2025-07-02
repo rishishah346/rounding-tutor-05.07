@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Examples: Rounding to 2 or 3 Decimal Places{% endblock %}
+
+{% block content %}
+<div class="mb-8">
+    <h2 class="text-xl font-semibold mb-4">Examples: Rounding to 2 or 3 Decimal Places</h2>
+    
+    <p class="mb-4">
+        This section is under development. It will contain examples for rounding to 2 or 3 decimal places.
+    </p>
+</div>
+{% endblock %}
+
+{% block navigation %}
+<div class="mt-8 flex justify-between">
+    <a href="{{ url_for('decimal1_stretch') }}" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">
+        Back to Previous Section
+    </a>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!-- Load the page-specific JavaScript when ready -->
+<!-- <script src="{{ url_for('static', filename='js/decimal23_examples.js') }}"></script> -->
+{% endblock %}

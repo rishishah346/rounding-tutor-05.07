@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Lesson Introduction{% endblock %}
+
+{% block header_title %}Rounding to Decimal Places{% endblock %}
+
+{% block header_buttons %}
+<button id="reset-button" class="text-gray-600 hover:text-gray-800 font-medium py-2 px-4 rounded border border-gray-300 shadow-sm transition-all">
+    Reset Lesson
+</button>
+{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto bg-white rounded-lg shadow-md p-8" style="height: 800px; overflow-y: auto;">
+    <div class="mb-8">
+        <h2 class="text-xl font-semibold mb-4">Introduction</h2>
+        <p class="mb-4">
+            In this lesson, you'll learn how to round to a specific number of decimal places. This is a skill used all the time in real life situations. For example:
+        </p>
+        <div class="bg-blue-50 p-4 rounded-md mb-6">
+            <ul class="list-disc pl-8">
+                <li><b>Money and budgeting:</b> Money always needs to be rounded to 2 decimal places</li>
+                <li><b>Science and medicine:</b> Rounding measurements or dosages to a specific number of decimal places for accuracy and safety.</li>
+                <li><b>Construction and engineering:</b> Rounding measurements (like lengths or volumes) for practical use in plans and material orders.</li>
+            </ul>
+        </div>
+        <p class="mb-6">
+            We will work entirely at your own pace. We'll start with some examples to demonstrate the process, then you'll have
+            an opportunity to practice yourself. If you're finding things too difficiult at first, don't worry! I'll provide you with feedback
+            to help you improve, and I won't move on until you're ready.
+        </p>
+    </div>
+    <div class="text-center">
+        <a href="{{ url_for('examples') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-all">
+            Continue to Examples
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/pages/lesson_intro.js') }}"></script>
+{% endblock %}

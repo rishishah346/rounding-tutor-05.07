@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Stretch Problems: Rounding to 1 Decimal Place{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Additional styles for stretch page */
+    .step-image {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    .step {
+        margin-bottom: 1.5rem;
+        padding: 1rem;
+        background-color: white;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .fade-in {
+        animation: fadeIn 0.5s ease forwards;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="mb-8">
+    <h2 class="text-xl font-semibold mb-4">Stretch Problems: Rounding to 1 Decimal Place</h2>
+    
+    <p class="mb-4">
+        Now let's tackle some more challenging problems - rounding numbers with 9s.
+    </p>
+    
+    <!-- Loading indicator -->
+    <div id="loading" class="text-center py-12">
+        <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
+        <p class="mt-4">Loading examples...</p>
+    </div>
+    
+    <!-- Example container -->
+    <div id="first-example-container" class="hidden mb-8 p-6 bg-blue-50 rounded-lg">
+        <div id="first-example-content" class="h-full">
+            <!-- Example content will be inserted here -->
+        </div>
+    </div>
+    
+    <!-- Second example container -->
+    <div id="example-container" class="hidden mb-8 p-6 bg-blue-50 rounded-lg">
+        <div id="example-content" class="h-full">
+            <!-- Example content will be inserted here -->
+        </div>
+        <button id="next-after-example" class="next-example-btn mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow-md transition-all">
+            Continue
+        </button>
+    </div>
+</div>
+{% endblock %}
+
+{% block navigation %}
+<div class="mt-8 flex justify-between">
+    <a href="{{ url_for('decimal1_practice') }}" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">
+        Back to Practice
+    </a>
+    
+    <a href="{{ url_for('decimal23_examples') }}" id="continue-to-next-section" class="bg-blue-600 hidden hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        Continue to Rounding with 2 or 3 Decimal Places
+    </a>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/decimal1_stretch.js') }}"></script>
+{% endblock %}

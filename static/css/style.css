@@ -1,0 +1,637 @@
+/* =======================================
+   Rounding Tutor - Consolidated CSS
+   Author: Rishi Shah (Claude assisted)
+   
+   Table of Contents:
+   1. Variables & Base Styles
+   2. Layout Components
+   3. Example Containers
+   4. Practice Elements
+   5. Interactive Elements
+   6. Feedback Styles
+   7. Animation Effects
+   8. Scrollbar Styling
+   9. Responsive Adjustments
+   ======================================= */
+
+/* =======================================
+   1. Variables & Base Styles
+   ======================================= */
+   :root {
+    /* Colors */
+    --color-white: #ffffff;
+    --color-black: #000000;
+    
+    --color-gray-50: #f9fafb;
+    --color-gray-100: #f3f4f6;
+    --color-gray-200: #e5e7eb;
+    --color-gray-300: #d1d5db;
+    --color-gray-400: #9ca3af;
+    --color-gray-500: #6b7280;
+    --color-gray-600: #4b5563;
+    
+    --color-blue-50: #eff6ff;
+    --color-blue-100: #dbeafe;
+    --color-blue-200: #bfdbfe;
+    --color-blue-500: #3b82f6;
+    --color-blue-600: #2563eb;
+    --color-blue-700: #1d4ed8;
+    
+    --color-green-25: #f0fdf4;
+    --color-green-50: #d1fae5;
+    --color-green-200: #94e5c9;
+    --color-green-500: #10b981;
+    --color-green-600: #059669;
+    --color-green-700: #047857;
+    
+    --color-red-50: #fee2e2;
+    --color-red-500: #ef4444;
+    --color-red-600: #dc2626;
+  }
+  
+  body {
+    padding: 5px;
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+  
+  .container {
+    padding: 5px;
+    margin-top: 5px;
+  }
+  
+  .container:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+  /* =======================================
+     2. Layout Components
+     ======================================= */
+  
+  /* Title and header area */
+  h1.text-3xl {
+    margin-top: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* Reset button positioning */
+  #reset-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 1rem;
+  }
+  
+  /* Main column layouts */
+  #first-example-column,
+  #second-example-column,
+  #examples-column,
+  #practice-column {
+    width: 48%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Main containers */
+  #first-example-container,
+  #second-example-container,
+  #examples-container {
+    height: 725px;
+    margin: 0;
+    box-sizing: border-box;
+    padding: 24px;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+  
+  /* Background colors */
+  #first-example-container,
+  #second-example-container,
+  #examples-container {
+    background-color: var(--color-blue-50);
+  }
+
+  #examples-container {
+    background-color: var(--color-blue-50);
+    border: 3px solid var(--color-blue-200);
+    padding: 15px;
+  }
+  
+  /* Headings */
+  h2, h3 {
+    font-weight: 600;
+  }
+  
+  h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+
+  /* Practice container headings */
+  #practice-container h2 {
+    padding-left: 0;
+    margin-top: 0; /* Remove top margin to move it up */
+    margin-bottom: 8px; /* Reduced from default */
+    font-size: 1.25rem;
+  }
+  
+  /* Example container headings */
+  #examples-container h2 {
+    padding-left: 0;
+    margin-top: 0;
+    margin-bottom: 1px;
+    font-size: 1.25rem;
+  }
+  
+  h3 {
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Example heading sizes - more specific selector with !important */
+  #examples-container h3,
+  #examples-sidebar h3,
+  .mb-6 h3,
+  div.mb-6 > h3 {
+    font-size: 0.95rem !important;
+    margin-bottom: 0.25rem !important;
+    font-weight: 600 !important;
+  }
+
+  /* Target the example titles directly using their Tailwind classes */
+  .text-lg.font-semibold.mb-2 {
+  font-size: 0.85rem !important;
+  }
+
+  /* Target both example titles directly */
+  #examples-container h3 {
+  font-size: 1rem !important;
+  margin-bottom: 0.25rem !important;
+  font-weight: 600 !important;
+  }
+
+  /* Target both example containers */
+  #examples-container .mb-6,
+  #examples-container > div:not(.mb-6) {
+  width: 100% !important;
+  max-width: 550px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  }
+
+  /* Target both step containers */
+  #example1-steps,
+  #example2-steps,
+  .bg-white.rounded-md.p-4.mb-4,
+  .bg-white.rounded-md.p-4 {
+  width: 100% !important;
+  max-width: 550px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding: 0.25rem !important;
+  }
+
+    /* Make height propagate properly */
+    html, body {
+      height: 100%;
+    }
+  
+    body > .container {
+      min-height: calc(100vh - 40px);
+      display: flex;
+      flex-direction: column;
+    }
+  
+    .container > .flex {
+      flex-shrink: 0; /* Don't let the header shrink */
+    }
+  
+    /* This targets the content block */
+    .container > :not(.flex) {
+      flex-grow: 1; /* Let the content take remaining space */
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+  
+    /* Target your specific container */
+    .max-w-2xl.mx-auto.bg-white.rounded-lg.shadow-md {
+      height: 500px !important; /* Force the height */
+      max-height: 60vh; /* But don't make it taller than the viewport */
+      overflow-y: auto; /* Add scroll if needed */
+    }
+  
+  
+  /* =======================================
+     3. Example Containers
+     ======================================= */
+  
+  /* Example content wrappers */
+  #first-example-content,
+  #second-example-content {
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 60px);
+  }
+  
+  /* Steps containers */
+  .steps-container,
+  #steps-container-1,
+  #steps-container-2 {
+    background-color: var(--color-white);
+    border-radius: 0.375rem;
+    padding: 0.75rem;
+    height:550px;
+    max-height: 550px;
+    overflow-y: auto;
+    transition: scrollbar-color 0.3s ease;
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+  }
+
+  /* Special height for example containers in practice section */
+  #example1-steps,
+  #example2-steps {
+    background-color: var(--color-white);
+    border-radius: 0.375rem;
+    padding: 0;
+    padding-right: 0;
+    height: 250px;
+    max-height: 250px;
+    width: 100%;
+    margin: 0;
+    overflow-y: auto;
+    transition: scrollbar-color 0.3s ease;
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+    box-sizing: border-box;
+  }
+  
+  /* Step styling */
+  .step {
+    margin-bottom: 1rem;
+    overflow: hidden;
+  }
+
+  .step:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Override specifically for examples sidebar with stronger selectors */
+  #examples-sidebar .step {
+    margin-bottom: 0.5rem !important;
+    padding: 0 !important;
+  }
+
+  /* Add horizontal lines between steps - use more specific selectors */
+  #examples-sidebar .step:not(:last-child),
+  #example1-steps .step:not(:last-child),
+  #example2-steps .step:not(:last-child) {
+    border-bottom: 2px solid var(--color-gray-300) !important;
+    margin-bottom: 12px !important;
+    padding-bottom: 12px !important;
+  }
+
+  /* Target Tailwind classes directly */
+  #examples-sidebar .mb-4:not(:last-child) {
+    border-bottom: 2px solid var(--color-gray-300) !important;
+    margin-bottom: 12px !important;
+    padding-bottom: 12px !important;
+  }
+
+  /* Step 1 text styling */
+  #examples-sidebar .step-number,
+  #examples-sidebar .step > div:first-child {
+    color: #4361ee;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin: 0;
+    padding: 0;
+  }
+
+  #examples-sidebar .step h4 {
+    margin: 0;
+    padding: 0;
+    font-size: 0.95rem;
+    color: #4361ee;
+    font-weight: 600;
+  }
+
+  #examples-sidebar .step .flex,
+  #examples-sidebar .step .flex > div {
+    padding: 0;
+  }
+
+  /* Remove blue left border from examples sidebar and practice examples */
+  #examples-sidebar .border-l-4,
+  #example1-steps .border-l-4,
+  #example2-steps .border-l-4 {
+    border-left-width: 0 !important;
+    padding-left: 0 !important;
+  }
+  
+  /* Step heading */
+  .step h4 {
+    color: var(--color-blue-600);
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+  }
+  
+  /* Step images */
+  .step-image {
+    max-width: 100%;
+    max-height: 180px;
+    margin: 0.5rem auto;
+    border-radius: 0.25rem;
+    display: block;
+  }
+
+  /* Step images for examples sidebar */
+  #examples-sidebar .step-image,
+  #example1-steps .step-image, 
+  #example2-steps .step-image {
+    max-width: 100%;
+    max-height: 100px;
+    margin: 0.25rem auto;
+    border-radius: 0.25rem;
+    display: block;
+  }
+  
+  /* White backgrounds */
+  .bg-white {
+    background-color: var(--color-white);
+    border-radius: 0.375rem;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  
+  /* =======================================
+     4. Practice Elements
+     ======================================= */
+  
+  /* Question container */
+  #question-container {
+    margin-bottom: 1.5rem;
+  }
+  
+  #question-text {
+    font-weight: 600 !important;
+    font-size: 1.3rem !important;
+    margin-bottom: 1.25rem !important;
+    line-height: 1.4 !important;
+  }
+
+  /* Question form layout */
+  #question-container {
+    display: block; /* Keep the default display */
+  }
+
+  /* Submit button container */
+  #submit-button-container {
+    display: flex;
+    justify-content: flex-start;
+  }  
+  
+  /* Choice items */
+  .choice-item {
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: 1px solid var(--color-gray-200);
+    border-radius: 0.375rem;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .choice-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+  
+  .choice-item.selected {
+    border-width: 2px;
+    border-color: var(--color-blue-500);
+    background-color: var(--color-blue-50);
+  }
+  
+  .choice-item.correct {
+    border-color: var(--color-green-500);
+    background-color: var(--color-green-50);
+  }
+  
+  .choice-item.incorrect {
+    border-color: var(--color-red-500);
+    background-color: var(--color-red-50);
+  }
+  
+  /* Feedback container */
+  #feedback-container {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    border-radius: 0.375rem;
+    width: calc(100%);
+  }
+  
+  .feedback-correct {
+    background-color: var(--color-green-50);
+    border-left: 4px solid var(--color-green-500);
+  }
+  
+  .feedback-incorrect {
+    background-color: var(--color-red-50);
+    border-left: 4px solid var(--color-red-500);
+  }
+
+  /* Navigation container */
+  #navigation {
+    position: absolute;
+    top: 395px; /* Position to match the Submit button's top position */
+    right: 24px; /* Same distance from right as Submit is from left */
+    z-index: 10;
+  }
+
+  /* Adjust the feedback container to accommodate absolute positioning */
+  #feedback-container {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    border-radius: 0.375rem;
+    width: calc(100%);
+    margin-top: -20px; /* Add space between feedback and question elements */
+  }
+
+  /* Practice container with fixed height */
+  #practice-container {
+    position: relative; /* For absolute positioning of children */
+    height: 725px; /* Fixed height */
+    max-height: 725px; /* Maximum height matches fixed height */
+    margin: 0;
+    box-sizing: border-box;
+    padding: 24px 24px 24px 24px; /* Top, Right, Bottom, Left */
+    padding-top: 15px; /* Override top padding */
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    overflow-y: auto; /* Allow vertical scrolling if needed */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    background-color: var(--color-green-25);
+    border: 3px solid var(--color-green-200);
+  }
+
+  
+  /* =======================================
+     5. Interactive Elements
+     ======================================= */
+  
+  /* Buttons */
+  button {
+    transition: all 0.2s ease;
+  }
+  
+  button:hover {
+    transform: translateY(-2px);
+  }
+  
+  #submit-answer,
+  #next-button {
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    width: 140px; /* Set a fixed width for both buttons */
+    height: 60px; /* Set a fixed height for both buttons */
+  }
+  
+  #next-step-button-1,
+  #next-step-button-2 {
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    width: 100%;
+    margin-top: 1rem;
+  }
+  
+  /* Blue button */
+  .bg-blue-600,
+  #submit-answer {
+    background-color: var(--color-blue-600);
+    color: var(--color-white);
+  }
+  
+  .bg-blue-600:hover,
+  #submit-answer:hover {
+    background-color: var(--color-blue-700);
+  }
+  
+  /* Green button */
+  .bg-green-600,
+  #next-button {
+    background-color: var(--color-green-600);
+    color: var(--color-white);
+  }
+  
+  .bg-green-600:hover,
+  #next-button:hover {
+    background-color: var(--color-green-700);
+  }
+  
+  /* Loading indicator */
+  #loading {
+    text-align: center;
+    padding: 3rem 0;
+  }
+  
+  /* =======================================
+     6. Animation Effects
+     ======================================= */
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .fade-in {
+    animation: fadeIn 0.5s ease forwards;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  /* =======================================
+     7. Scrollbar Styling
+     ======================================= */
+  
+  .steps-container::-webkit-scrollbar,
+  #steps-container-1::-webkit-scrollbar,
+  #steps-container-2::-webkit-scrollbar,
+  #example1-steps::-webkit-scrollbar,
+  #example2-steps::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .steps-container::-webkit-scrollbar-track,
+  #steps-container-1::-webkit-scrollbar-track,
+  #steps-container-2::-webkit-scrollbar-track,
+  #example1-steps::-webkit-scrollbar-track,
+  #example2-steps::-webkit-scrollbar-track {
+    background: transparent;
+    padding-right: 0;
+    margin-right: 0;
+  }
+  
+  .steps-container::-webkit-scrollbar-thumb,
+  #steps-container-1::-webkit-scrollbar-thumb,
+  #steps-container-2::-webkit-scrollbar-thumb,
+  #example1-steps::-webkit-scrollbar-thumb,
+  #example2-steps::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 3px;
+  }
+  
+  .steps-container:hover::-webkit-scrollbar-thumb,
+  #steps-container-1:hover::-webkit-scrollbar-thumb,
+  #steps-container-2:hover::-webkit-scrollbar-thumb,
+  #example1-steps:hover::-webkit-scrollbar-thumb,
+  #example2-steps:hover::-webkit-scrollbar-thumb {
+    background: rgba(156, 163, 175, 0.5);
+  }
+  
+  .steps-container:hover::-webkit-scrollbar-thumb:hover,
+  #steps-container-1:hover::-webkit-scrollbar-thumb:hover,
+  #steps-container-2:hover::-webkit-scrollbar-thumb:hover,
+  #example1-steps:hover::-webkit-scrollbar-thumb:hover,
+  #example2-steps:hover::-webkit-scrollbar-thumb:hover {
+    background: rgba(107, 114, 128, 0.7);
+  }
+  
+  /* =======================================
+     8. Responsive Adjustments
+     ======================================= */
+  
+  @media (max-width: 1024px) {
+    #first-example-column,
+    #second-example-column,
+    #examples-column,
+    #practice-column {
+      width: 100%;
+    }
+  
+    #first-example-container,
+    #second-example-container,
+    #examples-container,
+    #practice-container {
+      height: auto;
+      min-height: 400px;
+      margin-bottom: 20px;
+    }
+  
+    #reset-button {
+      position: static;
+      margin: 0;
+    }
+  }
