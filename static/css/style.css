@@ -979,13 +979,3 @@
     height: auto; /* Let height be determined by aspect ratio */
   }
   
-  #main-whiteboard {
-    aspect-ratio: 1/1 !important;
-    width: 400px !important;
-    height: auto !important;
-    flex: none !important;
-    max-height: 9999px !important; /* Override any max-height */
-    min-height: 800px !important; /* Force it to be 800px tall */
-    background-color: blue !important;
-  }
-  
