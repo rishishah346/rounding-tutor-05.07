@@ -629,10 +629,12 @@ def reset_lesson():
 # ROUNDING-SPECIFIC API ENDPOINTS
 # ==========================================
 
+# Add these updated endpoints to your app.py file
+
 @app.route('/api/decimal1/examples/first')
 @handle_errors
 def decimal1_examples_first():
-    """API endpoint to get the first example data."""
+    """API endpoint to get the first example data with separated content."""
     if session.get('current_topic') != 'rounding':
         return jsonify({'error': 'Wrong topic'}), 400
         
@@ -641,20 +643,38 @@ def decimal1_examples_first():
     learning_sequence.showing_example = True
     session['learning_state'] = prepare_session_data(learning_sequence, topic='rounding')
 
+    # Example 1 data with separated content structure
     example_data = {
+        "example_number": 1,
         "question_text": "Round 12.632 to 1 decimal place",
+        "total_steps": 3,
         "steps": [
             {
-                "image": "/static/images/stage1_1_step1.jpg",
-                "explanation": "Identify the digit in the 1st decimal place. This is the first digit after the decimal point. We will call it the \"rounding digit\". Draw a \"cut off\" line after the rounding digit."
+                "step_number": 1,
+                "image_content": {
+                    "display_text": "12.6|32",
+                    "annotation": "1st decimal place",
+                    "highlight_position": "after_6"
+                },
+                "text_content": "Identify the digit in the 1st decimal place. This is the first digit after the decimal point. We will call it the \"rounding digit\". Draw a \"cut off\" line after the rounding digit."
             },
             {
-                "image": "/static/images/stage1_1_step2.jpg",
-                "explanation": "Check the digit to the right of the \"cut off\" line. If this digit is less than 5 we keep our rounding digit the same."
+                "step_number": 2,
+                "image_content": {
+                    "display_text": "12.6|32",
+                    "annotation": "Next digit is 3 (less than 5)",
+                    "highlight_position": "after_line"
+                },
+                "text_content": "Check the digit to the right of the \"cut off\" line. If this digit is less than 5 we keep our rounding digit the same."
             },
             {
-                "image": "/static/images/stage1_1_step3.jpg",
-                "explanation": "Remove all digits after the \"cut off\" line. We have now rounded the number to 1 decimal place."
+                "step_number": 3,
+                "image_content": {
+                    "display_text": "12.6",
+                    "annotation": "Final answer",
+                    "highlight_position": "complete"
+                },
+                "text_content": "Remove all digits after the \"cut off\" line. We have now rounded the number to 1 decimal place."
             }
         ],
         "answer": "12.6"
@@ -665,33 +685,83 @@ def decimal1_examples_first():
 @app.route('/api/decimal1/examples/second')
 @handle_errors
 def decimal1_examples_second():
-    """API endpoint to get the second example data."""
+    """API endpoint to get the second example data with separated content."""
     if session.get('current_topic') != 'rounding':
         return jsonify({'error': 'Wrong topic'}), 400
         
     learning_sequence.current_example = 2
     session['learning_state'] = prepare_session_data(learning_sequence, topic='rounding')
     
+    # Example 2 data with separated content structure
     example_data = {
+        "example_number": 2,
         "question_text": "Round 12.682 to 1 decimal place",
+        "total_steps": 3,
         "steps": [
             {
-                "image": "/static/images/stage1_2_step1.jpg",
-                "explanation": "Identify the digit in the 1st decimal place. This is the first digit after the decimal point. We will call it the \"rounding digit\". Draw a \"cut off\" line after the rounding digit."
+                "step_number": 1,
+                "image_content": {
+                    "display_text": "12.6|82",
+                    "annotation": "1st decimal place",
+                    "highlight_position": "after_6"
+                },
+                "text_content": "Identify the digit in the 1st decimal place. This is the first digit after the decimal point. We will call it the \"rounding digit\". Draw a \"cut off\" line after the rounding digit."
             },
             {
-                "image": "/static/images/stage1_2_step2.jpg",
-                "explanation": "Check the digit to the right of the \"cut off\" line. If this digit is 5 or bigger we need to round up. We do this by adding 1 to the rounding digit."
+                "step_number": 2,
+                "image_content": {
+                    "display_text": "12.6|82",
+                    "annotation": "Next digit is 8 (5 or greater)",
+                    "highlight_position": "after_line"
+                },
+                "text_content": "Check the digit to the right of the \"cut off\" line. If this digit is 5 or bigger we need to round up. We do this by adding 1 to the rounding digit."
             },
             {
-                "image": "/static/images/stage1_2_step3.jpg",
-                "explanation": "Remove all digits after the \"cut off\" line. We have now rounded the number to 1 decimal place. Notice that the 6 has changed to a 7 as we rounded up."
+                "step_number": 3,
+                "image_content": {
+                    "display_text": "12.7",
+                    "annotation": "Final answer (6 became 7)",
+                    "highlight_position": "complete"
+                },
+                "text_content": "Remove all digits after the \"cut off\" line. We have now rounded the number to 1 decimal place. Notice that the 6 has changed to a 7 as we rounded up."
             }
         ],
         "answer": "12.7"
     }
     
     return jsonify(example_data)
+
+# Add new endpoint to get individual steps
+@app.route('/api/decimal1/examples/<int:example_num>/step/<int:step_num>')
+@handle_errors
+def get_example_step(example_num, step_num):
+    """Get a specific step of a specific example."""
+    if session.get('current_topic') != 'rounding':
+        return jsonify({'error': 'Wrong topic'}), 400
+    
+    # Get the appropriate example data
+    if example_num == 1:
+        response = decimal1_examples_first()
+        example_data = response.get_json()
+    elif example_num == 2:
+        response = decimal1_examples_second()
+        example_data = response.get_json()
+    else:
+        return jsonify({'error': 'Invalid example number'}), 400
+    
+    # Validate step number
+    if step_num < 1 or step_num > len(example_data['steps']):
+        return jsonify({'error': 'Invalid step number'}), 400
+    
+    # Return the specific step (array is 0-indexed)
+    step_data = example_data['steps'][step_num - 1]
+    
+    return jsonify({
+        'example_number': example_num,
+        'step': step_data,
+        'total_steps': example_data['total_steps'],
+        'question_text': example_data['question_text']
+    })
 
 @app.route('/api/decimal1/examples/complete', methods=['POST'])
 @handle_errors
@@ -955,3 +1025,4 @@ if __name__ == '__main__':
     print(f"Debug mode: {app.debug}")
     print("Available topics: Rounding (active), Fractions (coming soon)")
     app.run(debug=True, host='127.0.0.1', port=5000)
+
