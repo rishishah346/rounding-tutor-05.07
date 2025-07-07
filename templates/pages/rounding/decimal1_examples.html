@@ -23,15 +23,15 @@
 
 /* Fixed width layout to prevent resizing */
 .flex.w-full.h-full {
-    width: calc(100vw - 2rem) !important; /* Account for left/right padding */
-    padding: 0.5rem 1rem 0 1rem;
+    width: 100vw !important; /* Use full viewport width */
+    padding: 0.5rem 0 0 0; /* Remove left/right padding, keep top padding */
     box-sizing: border-box;
     margin-top: 1rem;
 }
 
 /* Instead of fixed pixels, use flex-basis with percentages */
 #progress-sidebar {
-    flex: 0 0 15%; /* 15% width, won't grow or shrink */
+    flex: 0 0 14%; /* Increased slightly from 12% to 14% */
     min-width: 150px; /* Minimum for small screens */
 }
 
@@ -41,7 +41,7 @@
 }
 
 #tutor-sidebar {
-    flex: 0 0 30%; /* 30% width, won't grow or shrink */
+    flex: 0 0 24%; /* Reduced from 27% to 24% */
     min-width: 300px;
 }
 
@@ -70,14 +70,27 @@
 }
 
 #whiteboard-container {
-    min-height: 80vh !important; /* Force the container to be 80% of viewport height */
+    min-height: 85vh !important; /* Force the container to be 85% of viewport height */
 }
 
 #main-whiteboard {
-    aspect-ratio: 4/3 !important;
+    aspect-ratio: 3/2 !important; /* Taller aspect ratio for more height */
     width: 100% !important;
     flex: none !important;
     height: auto !important;
+    min-height: 450px !important; /* Ensure minimum height */
+    display: flex !important; /* Make it a flex container */
+    flex-direction: column !important;
+}
+
+#whiteboard-content {
+    flex: 1 !important; /* Take up all available space within the border */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 1.5rem !important; /* Reduce padding to fit better */
+    box-sizing: border-box !important;
+    overflow: hidden !important; /* Remove scrollbar */
 }
 
 </style>
@@ -90,9 +103,9 @@
 {% endblock %}
 
 {% block content %}
-<div class="flex w-full h-full gap-4">
-    <!-- Left Sidebar - Progress Tracker (15%) -->
-    <div id="progress-sidebar" class="w-[15%] bg-gray-50 rounded-lg p-4">
+<div class="flex w-full h-full gap-4 px-4">
+    <!-- Left Sidebar - Progress Tracker (14%) -->
+    <div id="progress-sidebar" class="w-[14%] bg-gray-50 rounded-lg p-4">
         <h3 class="text-lg font-semibold mb-4 text-gray-700">Progress</h3>
         
         <!-- Progress Bar -->
@@ -127,20 +140,10 @@
                 </div>
             </div>
         </div>
-        
-        <!-- Navigation -->
-        <div class="mt-8 space-y-3">
-            <button id="prev-step" class="w-full bg-gray-300 text-gray-600 font-medium py-2 px-4 rounded-lg disabled:opacity-50" disabled>
-                Previous
-            </button>
-            <button id="next-step" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-all">
-                Next Step
-            </button>
-        </div>
     </div>
     
-    <!-- Center - Large Landscape Whiteboard (55%) -->
-    <div id="whiteboard-container" class="w-[55%] flex flex-col">
+    <!-- Center - Large Landscape Whiteboard (62%) -->
+    <div id="whiteboard-container" class="w-[62%] flex flex-col">
         <div id="example-info" class="mb-4">
             <h2 class="text-xl font-semibold text-gray-800" id="example-title">Example 1</h2>
             <p class="text-lg text-gray-600" id="example-question">Round 12.632 to 1 decimal place</p>
@@ -148,7 +151,7 @@
         
         <!-- Large Landscape Whiteboard -->
         <div id="main-whiteboard" class="bg-white border-15 rounded-lg overflow-hidden">
-            <div id="whiteboard-content" class="w-full h-full p-6 flex items-center justify-center">
+            <div id="whiteboard-content" class="w-full h-full flex items-center justify-center">
                 <!-- Example content will be loaded here -->
                 <div id="example-display" class="text-center">
                     <div class="text-6xl font-bold mb-4" id="math-display">12.6|32</div>
@@ -156,10 +159,20 @@
                 </div>
             </div>
         </div>
+        
+        <!-- Navigation Buttons - Under whiteboard -->
+        <div class="mt-4 flex justify-between">
+            <button id="prev-step" class="bg-gray-300 text-gray-600 font-medium py-2 px-6 rounded-lg disabled:opacity-50 transition-all" disabled>
+                Previous Step
+            </button>
+            <button id="next-step" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition-all">
+                Next Step
+            </button>
+        </div>
     </div>
     
-    <!-- Right Sidebar - Tutor Avatar and Speech Bubble (30%) -->
-    <div id="tutor-sidebar" class="w-[30%] flex flex-col">
+    <!-- Right Sidebar - Tutor Avatar and Speech Bubble (24%) -->
+    <div id="tutor-sidebar" class="w-[24%] flex flex-col">
         <!-- Tutor Avatar Placeholder -->
         <div id="tutor-avatar" class="mb-4 text-center">
             <div class="w-24 h-24 bg-blue-100 rounded-full mx-auto flex items-center justify-center">
@@ -175,7 +188,7 @@
             <div class="absolute -left-4 top-8 w-0 h-0 border-t-[10px] border-t-transparent border-b-[10px] border-b-transparent border-r-[15px] border-r-gray-200"></div>
             
             <!-- Text Content -->
-            <div id="tutor-text" class="text-gray-700 leading-relaxed">
+            <div id="tutor-text" class="text-gray-700 leading-relaxed flex-1">
                 <span id="typewriter-text">Identify the digit in the 1st decimal place. This is the first digit after the decimal point. We will call it the "rounding digit".</span>
                 <span id="cursor" class="animate-pulse">|</span>
             </div>
@@ -187,7 +200,7 @@
             </div>
         </div>
         
-        <!-- Example Navigation -->
+        <!-- Example Navigation (hidden by default) -->
         <div class="mt-4">
             <div class="flex justify-between items-center text-sm text-gray-600">
                 <span>Example <span id="current-example">1</span> of <span id="total-examples">2</span></span>
