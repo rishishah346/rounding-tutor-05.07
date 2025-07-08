@@ -125,14 +125,57 @@ class RedesignedExamplePage {
         this.updateNavigationButtons();
     }
     
-    updateWhiteboardContent(imageContent) {
-        // Update math display
-        this.elements.mathDisplay.textContent = imageContent.display_text;
-        this.elements.mathAnnotation.textContent = imageContent.annotation;
-        
-        // Add visual highlighting based on highlight_position
-        this.applyHighlighting(imageContent.highlight_position);
+// Fix for updateWhiteboardContent function in decimal1_examples_redesigned.js
+// Replace the existing updateWhiteboardContent function with this:
+
+updateWhiteboardContent(imageContent) {
+    // Clear the math display and annotation text elements
+    this.elements.mathDisplay.style.display = 'none';
+    this.elements.mathAnnotation.style.display = 'none';
+
+    // Get or create image element
+    let imageElement = document.getElementById('step-image');
+    if (!imageElement) {
+            imageElement = document.createElement('img');
+            imageElement.id = 'step-image';
+            imageElement.className = 'max-w-full max-h-full object-contain rounded-md';
+
+            // Add image to the whiteboard content container
+            const whiteboardContent = document.getElementById('whiteboard-content');
+            // Clear existing content first
+            whiteboardContent.innerHTML = '';
+            whiteboardContent.appendChild(imageElement);
     }
+
+    // Set the image source based on current step and example
+    const stepNumber = this.currentStep;
+    const exampleNumber = this.currentExample;
+
+    // Use the same naming convention as your practice pages
+    let imagePath;
+    if (exampleNumber === 1) {
+            // First example: stage1_1_step1.jpg, stage1_1_step2.jpg, stage1_1_step3.jpg
+            imagePath = `/static/images/stage1_1_step${stepNumber}.jpg`;
+    } else {
+            // Second example: stage1_2_step1.jpg, stage1_2_step2.jpg, stage1_2_step3.jpg  
+            imagePath = `/static/images/stage1_2_step${stepNumber}.jpg`;
+    }
+
+    imageElement.src = imagePath;
+    imageElement.alt = `Step ${stepNumber} - Example ${exampleNumber}`;
+    imageElement.onerror = function() {
+            console.error(`Failed to load image: ${imagePath}`);
+            // Fallback: show text if image fails to load
+            const fallbackDiv = document.createElement('div');
+            fallbackDiv.innerHTML = `
+                    <div class="text-6xl font-bold mb-4">${imageContent.display_text || 'Image not found'}</div>
+                    <div class="text-sm text-red-600">${imageContent.annotation || ''}</div>
+            `;
+            whiteboardContent.innerHTML = '';
+            whiteboardContent.appendChild(fallbackDiv);
+    };
+}
+
     
     applyHighlighting(highlightPosition) {
         // Remove previous highlighting

@@ -6,93 +6,31 @@
 
 {% block extra_css %}
 <style>
-/* Override base template container for full width */
+/* Page-specific class for targeting */
+body {
+    overflow: hidden;
+}
+
+/* Ensure this page uses full width layout */
 .container {
-    max-width: none !important;
-    width: 100% !important;
-    padding: 0 !important;
-    margin: 0 !important;
+    max-width: none;
+    width: 100%;
+    padding: 0;
+    margin: 0;
 }
 
-/* Add spacing after header and separator line */
 .container > .flex {
-    margin-bottom: 0.5rem !important;
-    padding-bottom: 1rem !important;
-    border-bottom: 2px solid #e5e7eb !important;
+    margin-bottom: 0.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e5e7eb;
 }
 
-/* Fixed width layout to prevent resizing */
 .flex.w-full.h-full {
-    width: 100vw !important; /* Use full viewport width */
-    padding: 0.5rem 0 0 0; /* Remove left/right padding, keep top padding */
+    width: 100vw;
+    padding: 0.5rem 0 0 0;
     box-sizing: border-box;
     margin-top: 1rem;
 }
-
-/* Instead of fixed pixels, use flex-basis with percentages */
-#progress-sidebar {
-    flex: 0 0 14%; /* Increased slightly from 12% to 14% */
-    min-width: 150px; /* Minimum for small screens */
-}
-
-#whiteboard-container {
-    flex: 1; /* Takes remaining space */
-    min-width: 400px;
-}
-
-#tutor-sidebar {
-    flex: 0 0 24%; /* Reduced from 27% to 24% */
-    min-width: 300px;
-}
-
-/* Ensure speech bubble has fixed dimensions */
-#speech-bubble {
-    min-height: 300px !important;
-    max-height: 400px !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-    overflow-y: auto !important;
-}
-
-/* Prevent text content from changing container size */
-#tutor-text {
-    width: 100% !important;
-    box-sizing: border-box !important;
-    word-wrap: break-word !important;
-    overflow-wrap: break-word !important;
-}
-
-#main-whiteboard {
-    flex: none !important; /* Remove all flex constraints */
-    aspect-ratio: 16/10 !important; /* Force aspect ratio */
-    width: 100% !important;
-    height: auto !important;
-}
-
-#whiteboard-container {
-    min-height: 85vh !important; /* Force the container to be 85% of viewport height */
-}
-
-#main-whiteboard {
-    aspect-ratio: 3/2 !important; /* Taller aspect ratio for more height */
-    width: 100% !important;
-    flex: none !important;
-    height: auto !important;
-    min-height: 450px !important; /* Ensure minimum height */
-    display: flex !important; /* Make it a flex container */
-    flex-direction: column !important;
-}
-
-#whiteboard-content {
-    flex: 1 !important; /* Take up all available space within the border */
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    padding: 1.5rem !important; /* Reduce padding to fit better */
-    box-sizing: border-box !important;
-    overflow: hidden !important; /* Remove scrollbar */
-}
-
 </style>
 {% endblock %}
 
