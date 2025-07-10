@@ -34,8 +34,7 @@ class RedesignedExamplePage {
             // Tutor elements
             typewriterText: document.getElementById('typewriter-text'),
             cursor: document.getElementById('cursor'),
-            pauseButton: document.getElementById('pause-text'),
-            skipButton: document.getElementById('speed-text'),
+            // REMOVED: pauseButton and skipButton references
             
             // Example tracking
             currentExampleSpan: document.getElementById('current-example'),
@@ -55,9 +54,7 @@ class RedesignedExamplePage {
         this.elements.prevButton.addEventListener('click', () => this.prevStep());
         this.elements.nextExampleButton.addEventListener('click', () => this.nextExample());
         
-        // Typewriter controls
-        this.elements.pauseButton.addEventListener('click', () => this.togglePause());
-        this.elements.skipButton.addEventListener('click', () => this.skipTypewriter());
+        // REMOVED: Typewriter controls event listeners
         
         // Reset button
         const resetButton = document.getElementById('reset-button');
@@ -125,57 +122,152 @@ class RedesignedExamplePage {
         this.updateNavigationButtons();
     }
     
-// Fix for updateWhiteboardContent function in decimal1_examples_redesigned.js
-// Replace the existing updateWhiteboardContent function with this:
+    updateWhiteboardContent(imageContent) {
+        // Hide the math display and annotation text elements
+        this.elements.mathDisplay.style.display = 'none';
+        this.elements.mathAnnotation.style.display = 'none';
 
-updateWhiteboardContent(imageContent) {
-    // Clear the math display and annotation text elements
-    this.elements.mathDisplay.style.display = 'none';
-    this.elements.mathAnnotation.style.display = 'none';
+        // Get the whiteboard content container
+        const whiteboardContent = document.getElementById('whiteboard-content');
+        
+        // Create or update the title inside the whiteboard
+        this.updateWhiteboardTitle();
+        
+        // Get or create the example-display div (the centered container)
+        let exampleDisplay = document.getElementById('example-display');
+        if (!exampleDisplay) {
+            exampleDisplay = document.createElement('div');
+            exampleDisplay.id = 'example-display';
+            whiteboardContent.appendChild(exampleDisplay);
+        }
+        
+        // Check if there's an existing image to animate out
+        const existingImage = exampleDisplay.querySelector('#step-image');
+        
+        // Create new image element
+        const imageElement = document.createElement('img');
+        imageElement.id = 'step-image-new'; // Temporary ID
+        imageElement.style.width = 'auto';
+        imageElement.style.height = 'auto';
+        imageElement.style.maxWidth = '600px';
+        imageElement.style.maxHeight = '450px';
+        imageElement.style.objectFit = 'contain';
+        imageElement.style.display = 'block';
+        imageElement.style.position = 'absolute';
+        imageElement.style.top = '0';
+        imageElement.style.left = '0';
+        imageElement.style.right = '0';
+        imageElement.style.bottom = '0';
+        imageElement.style.margin = 'auto';
 
-    // Get or create image element
-    let imageElement = document.getElementById('step-image');
-    if (!imageElement) {
-            imageElement = document.createElement('img');
-            imageElement.id = 'step-image';
-            imageElement.className = 'max-w-full max-h-full object-contain rounded-md';
+        // Set the image source
+        const stepNumber = this.currentStep;
+        const exampleNumber = this.currentExample;
 
-            // Add image to the whiteboard content container
-            const whiteboardContent = document.getElementById('whiteboard-content');
-            // Clear existing content first
-            whiteboardContent.innerHTML = '';
-            whiteboardContent.appendChild(imageElement);
-    }
-
-    // Set the image source based on current step and example
-    const stepNumber = this.currentStep;
-    const exampleNumber = this.currentExample;
-
-    // Use the same naming convention as your practice pages
-    let imagePath;
-    if (exampleNumber === 1) {
-            // First example: stage1_1_step1.jpg, stage1_1_step2.jpg, stage1_1_step3.jpg
+        let imagePath;
+        if (exampleNumber === 1) {
             imagePath = `/static/images/stage1_1_step${stepNumber}.jpg`;
-    } else {
-            // Second example: stage1_2_step1.jpg, stage1_2_step2.jpg, stage1_2_step3.jpg  
+        } else {
             imagePath = `/static/images/stage1_2_step${stepNumber}.jpg`;
-    }
+        }
 
-    imageElement.src = imagePath;
-    imageElement.alt = `Step ${stepNumber} - Example ${exampleNumber}`;
-    imageElement.onerror = function() {
+        console.log(`Attempting to load image: ${imagePath}`);
+        imageElement.src = imagePath;
+        imageElement.alt = `Step ${stepNumber} - Example ${exampleNumber}`;
+        
+        imageElement.onload = () => {
+            console.log(`Successfully loaded image: ${imagePath}`);
+            
+            if (existingImage) {
+                // Animate the transition
+                this.animateSlideTransition(exampleDisplay, existingImage, imageElement);
+            } else {
+                // First image, position it correctly and show it
+                imageElement.style.position = 'static'; // Use normal positioning for centering
+                imageElement.style.transform = 'none';
+                imageElement.style.opacity = '1';
+                imageElement.style.transition = 'none';
+                imageElement.id = 'step-image'; // Change to final ID
+                exampleDisplay.appendChild(imageElement);
+            }
+        };
+        
+        imageElement.onerror = () => {
             console.error(`Failed to load image: ${imagePath}`);
             // Fallback: show text if image fails to load
             const fallbackDiv = document.createElement('div');
             fallbackDiv.innerHTML = `
-                    <div class="text-6xl font-bold mb-4">${imageContent.display_text || 'Image not found'}</div>
-                    <div class="text-sm text-red-600">${imageContent.annotation || ''}</div>
+                <div style="font-family: 'Courier New', monospace; font-size: 3rem; font-weight: bold; color: #1f2937; margin-bottom: 1rem;">${imageContent.display_text || 'Image not found'}</div>
+                <div style="font-size: 0.875rem; color: #dc2626; font-weight: 500;">${imageContent.annotation || 'Could not load step image'}</div>
             `;
-            whiteboardContent.innerHTML = '';
-            whiteboardContent.appendChild(fallbackDiv);
-    };
-}
+            exampleDisplay.innerHTML = '';
+            exampleDisplay.appendChild(fallbackDiv);
+        };
 
+        // Start loading the new image
+        if (!existingImage) {
+            // For first load, use normal positioning
+            imageElement.style.position = 'static';
+            imageElement.style.transform = 'none';
+            imageElement.style.opacity = '1';
+            imageElement.style.transition = 'none';
+            exampleDisplay.appendChild(imageElement);
+        } else {
+            // Position new image off-screen initially (it will slide in after onload)
+            imageElement.style.transform = 'translateY(100%)';
+            imageElement.style.opacity = '0';
+            imageElement.style.transition = 'transform 0.5s ease-in-out, opacity 0.5s ease-in-out';
+            exampleDisplay.appendChild(imageElement);
+        }
+    }
+    
+    updateWhiteboardTitle() {
+        const whiteboardContent = document.getElementById('whiteboard-content');
+        
+        // Get or create the title container
+        let titleContainer = document.getElementById('whiteboard-title');
+        if (!titleContainer) {
+            titleContainer = document.createElement('div');
+            titleContainer.id = 'whiteboard-title';
+            whiteboardContent.appendChild(titleContainer);
+        }
+        
+        // Update the title content
+        const exampleTitle = `Example ${this.currentExample}`;
+        const questionText = this.exampleData ? this.exampleData.question_text : '';
+        
+        titleContainer.innerHTML = `
+            <h2>${exampleTitle}</h2>
+            <p>${questionText}</p>
+        `;
+    }
+    
+    animateSlideTransition(container, oldImage, newImage) {
+        // Set up the transition
+        oldImage.style.transition = 'transform 0.5s ease-in-out, opacity 0.5s ease-in-out';
+        newImage.style.transition = 'transform 0.5s ease-in-out, opacity 0.5s ease-in-out';
+        
+        // Force a reflow to ensure initial styles are applied
+        container.offsetHeight;
+        
+        // Animate old image out (slide up)
+        oldImage.style.transform = 'translateY(-100%)';
+        oldImage.style.opacity = '0';
+        
+        // Animate new image in (slide up from bottom)
+        newImage.style.transform = 'translateY(0)';
+        newImage.style.opacity = '1';
+        
+        // Clean up after animation completes
+        setTimeout(() => {
+            if (oldImage && oldImage.parentNode) {
+                oldImage.parentNode.removeChild(oldImage);
+            }
+            newImage.id = 'step-image'; // Change to final ID
+            newImage.style.position = 'static'; // Reset positioning
+            newImage.style.transition = 'none'; // Remove transition for future updates
+        }, 500); // Match the transition duration
+    }
     
     applyHighlighting(highlightPosition) {
         // Remove previous highlighting
@@ -277,20 +369,8 @@ updateWhiteboardContent(imageContent) {
         typeNextCharacter();
     }
     
-    skipTypewriter() {
-        this.isTypewriting = false;
-        // Get the full text from current step
-        if (this.exampleData && this.exampleData.steps[this.currentStep - 1]) {
-            const fullText = this.exampleData.steps[this.currentStep - 1].text_content;
-            this.elements.typewriterText.textContent = fullText;
-        }
-    }
-    
-    togglePause() {
-        // Toggle typewriter pausing (implementation depends on how you want to handle this)
-        this.isTypewriting = !this.isTypewriting;
-        this.elements.pauseButton.textContent = this.isTypewriting ? '⏸️ Pause' : '▶️ Resume';
-    }
+    // REMOVED: skipTypewriter() method
+    // REMOVED: togglePause() method
     
     nextStep() {
         if (this.currentStep < this.exampleData.total_steps) {

@@ -1,81 +1,4 @@
-#example-title {
-  color: #1f2937;
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-
-#example-question {
-  color: #6b7280;
-  font-size: 1.125rem;
-}
-
-/* Large Landscape Whiteboard */
-#main-whiteboard {
-  background-color: var(--color-white);
-  border: 15px solid red;
-  border-image: url('/static/images/whiteboard_border.jpg') 15;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-  border-radius: 0;
-  flex: 1;
-  min-height: 440px; /* Increased from 400px (10% increase) */
-  aspect-ratio: 16/11; /* Adjusted from 16/10 to make it 10% taller */
-  width: 100%;
-  height: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-#whiteboard-content {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  background-color: var(--color-white);
-  padding: 0;
-  box-sizing: border-box;
-  overflow: hidden;
-  position: relative; /* Add positioning context */
-}
-
-#example-display {
-  position: absolute; /* Force absolute centering */
-  top: 45%; /* Moved up from 50% to push image higher */
-  left: 50%;
-  transform: translate(-50%, -50%); /* Perfect center positioning */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  width: auto; /* Let content determine width */
-}
-
-/* Math display styling */
-#math-display {
-  font-family: 'Courier New', monospace;
-  font-size: clamp(3rem, 6vw, 4rem);
-  font-weight: bold;
-  color: #1f2937;
-  letter-spacing: 0.1em;
-  text-align: center;
-  width: 100%;
-  margin: 0 auto;
-}
-
-#math-annotation {
-  font-size: 0.875rem;
-  color: #dc2626;
-  font-weight: 500;
-  margin-top: 1rem;
-  text-align: center;
-  width: 100%;
-  margin: 0.5rem auto 0 auto;
-}/* =======================================
+/* =======================================
  Rounding Tutor - Consolidated CSS
  Author: Rishi Shah (Claude assisted)
  
@@ -96,7 +19,7 @@
 /* =======================================
  1. Variables & Base Styles
  ======================================= */
-:root {
+ :root {
   /* Colors */
   --color-white: #ffffff;
   --color-black: #000000;
@@ -172,11 +95,13 @@ body > .container {
  2. Layout Components
  ======================================= */
 
-/* Title and header area */
+/* Title and header area - MADE 50% BIGGER */
 h1.text-3xl {
   margin-top: 5px;
-  margin-bottom: 20px;
+  margin-bottom: 10px; /* Reduced from 20px to bring line closer */
   text-align: center;
+  font-size: 2.8125rem; /* 50% bigger than default text-3xl (1.875rem) */
+  line-height: 1.2; /* Adjust line height for better spacing */
 }
 
 /* Reset button positioning */
@@ -679,6 +604,18 @@ button:hover {
  8. Redesigned Examples Page Layout
  ======================================= */
 
+#example-title {
+  color: #1f2937;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+#example-question {
+  color: #6b7280;
+  font-size: 1.125rem;
+}
+
 /* Main container height adjustment */
 #content {
   height: calc(100vh - 100px);
@@ -738,6 +675,7 @@ button:hover {
 /* Navigation buttons */
 #prev-step, #next-step {
   transition: all 0.2s ease;
+  width: 155px; /* Set both buttons to same width */
 }
 
 #next-step:hover {
@@ -754,21 +692,9 @@ button:hover {
   height: 100%;
 }
 
+/* Hide the example info that appears above the whiteboard */
 #example-info {
-  flex-shrink: 0;
-  margin-bottom: 1rem;
-}
-
-#example-title {
-  color: #1f2937;
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-
-#example-question {
-  color: #6b7280;
-  font-size: 1.125rem;
+  display: none;
 }
 
 /* Large Landscape Whiteboard */
@@ -787,6 +713,8 @@ button:hover {
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  padding: 0; /* Remove any padding that affects centering */
+  margin: 0; /* Remove any margin that affects centering */
 }
 
 #whiteboard-content {
@@ -797,23 +725,51 @@ button:hover {
   justify-content: center;
   text-align: center;
   background-color: var(--color-white);
-  padding: 0;
+  padding: 0; /* Remove any padding that affects centering */
   box-sizing: border-box;
   overflow: hidden;
   position: relative; /* Add positioning context */
+  margin: 0; /* Remove any margin that affects centering */
+}
+
+/* In-whiteboard title and question positioning */
+#whiteboard-title {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 10;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 10px 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-width: 300px;
+}
+
+#whiteboard-title h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 5px 0;
+}
+
+#whiteboard-title p {
+  font-size: 1rem;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.4;
 }
 
 #example-display {
+  position: absolute; /* Force absolute centering */
+  top: 50%; /* Perfect center positioning */
+  left: 50%;
+  transform: translate(-50%, -50%); /* Perfect center positioning */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  width: 100%;
-  position: absolute; /* Perfect centering */
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); /* Center both horizontally and vertically */
+  width: auto; /* Let content determine width */
 }
 
 /* Math display styling */
@@ -946,31 +902,9 @@ button:hover {
   font-weight: bold;
 }
 
-/* Text controls */
-#tutor-text + div {
-  margin-top: 1rem;
-  flex-shrink: 0;
-}
-
-#pause-text, #speed-text {
-  font-size: 0.75rem;
-  color: #6b7280;
-  background: none;
-  border: none;
-  cursor: pointer;
-  transition: color 0.2s ease;
-}
-
-#pause-text:hover, #speed-text:hover {
-  color: #374151;
-}
-
-/* Example navigation */
+/* Example navigation - HIDDEN */
 #tutor-sidebar > div:last-child {
-  flex-shrink: 0;
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid #e5e7eb;
+  display: none; /* Hide the entire "Example 1 of 2" section */
 }
 
 #next-example {
@@ -987,7 +921,6 @@ button:hover {
  ======================================= */
 
 #step-image {
-  border: 3px solid red;
   box-sizing: border-box;
   max-width: 60%; /* Decreased from 80% (20% reduction) */
   max-height: 60%; /* Decreased from 80% (20% reduction) */
