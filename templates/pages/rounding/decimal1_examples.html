@@ -4,36 +4,6 @@
 
 {% block header_title %}Rounding to Decimal Places{% endblock %}
 
-{% block extra_css %}
-<style>
-/* Page-specific class for targeting */
-body {
-    overflow: hidden;
-}
-
-/* Ensure this page uses full width layout */
-.container {
-    max-width: none;
-    width: 100%;
-    padding: 0;
-    margin: 0;
-}
-
-.container > .flex {
-    margin-bottom: 0.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 2px solid #e5e7eb;
-}
-
-.flex.w-full.h-full {
-    width: 100vw;
-    padding: 0.5rem 0 0 0;
-    box-sizing: border-box;
-    margin-top: 1rem;
-}
-</style>
-{% endblock %}
-
 {% block header_buttons %}
 <button id="reset-button" class="text-gray-600 hover:text-gray-800 font-medium py-2 px-4 rounded border border-gray-300 shadow-sm transition-all">
     Reset Lesson
@@ -42,7 +12,7 @@ body {
 
 {% block content %}
 <div class="flex w-full h-full gap-4 px-4">
-    <!-- Left Sidebar - Progress Tracker (14%) -->
+    <!-- Progress Sidebar (14%) -->
     <div id="progress-sidebar" class="w-[14%] bg-gray-50 rounded-lg p-4">
         <h3 class="text-lg font-semibold mb-4 text-gray-700">Progress</h3>
         
@@ -80,25 +50,28 @@ body {
         </div>
     </div>
     
-    <!-- Center - Large Landscape Whiteboard (62%) -->
+    <!-- Whiteboard Container (62%) -->
     <div id="whiteboard-container" class="w-[62%] flex flex-col">
+        <!-- Hidden example info (controlled by CSS) -->
         <div id="example-info" class="mb-4">
             <h2 class="text-xl font-semibold text-gray-800" id="example-title">Example 1</h2>
             <p class="text-lg text-gray-600" id="example-question">Round 12.632 to 1 decimal place</p>
         </div>
         
-        <!-- Large Landscape Whiteboard -->
-        <div id="main-whiteboard" class="bg-white border-15 rounded-lg overflow-hidden">
-            <div id="whiteboard-content" class="w-full h-full flex items-center justify-center">
+        <!-- Main Whiteboard -->
+        <div id="main-whiteboard">
+            <div id="whiteboard-content">
+                <!-- Title card will be inserted here by JavaScript -->
+                
                 <!-- Example content will be loaded here -->
-                <div id="example-display" class="text-center">
-                    <div class="text-6xl font-bold mb-4" id="math-display">12.6|32</div>
-                    <div class="text-sm text-red-600" id="math-annotation">1st decimal place</div>
+                <div id="example-display">
+                    <div id="math-display">12.6|32</div>
+                    <div id="math-annotation">1st decimal place</div>
                 </div>
             </div>
         </div>
         
-        <!-- Navigation Buttons - Under whiteboard -->
+        <!-- Navigation Buttons -->
         <div class="mt-4 flex justify-between">
             <button id="prev-step" class="bg-gray-300 text-gray-600 font-medium py-2 px-6 rounded-lg disabled:opacity-50 transition-all" disabled>
                 Previous Step
@@ -109,9 +82,9 @@ body {
         </div>
     </div>
     
-    <!-- Right Sidebar - Tutor Avatar and Speech Bubble (24%) -->
+    <!-- Tutor Sidebar (24%) -->
     <div id="tutor-sidebar" class="w-[24%] flex flex-col">
-        <!-- Tutor Avatar Placeholder -->
+        <!-- Tutor Avatar -->
         <div id="tutor-avatar" class="mb-4 text-center">
             <div class="w-24 h-24 bg-blue-100 rounded-full mx-auto flex items-center justify-center">
                 <span class="text-2xl">👨‍🏫</span>
@@ -120,19 +93,14 @@ body {
         </div>
         
         <!-- Speech Bubble -->
-        <div id="speech-bubble" class="bg-white border-2 border-gray-200 rounded-2xl p-4 relative shadow-lg flex-1">
-            <!-- Speech bubble tail -->
-            <div class="absolute -left-3 top-8 w-0 h-0 border-t-[10px] border-t-transparent border-b-[10px] border-b-transparent border-r-[15px] border-r-white"></div>
-            <div class="absolute -left-4 top-8 w-0 h-0 border-t-[10px] border-t-transparent border-b-[10px] border-b-transparent border-r-[15px] border-r-gray-200"></div>
-            
-            <!-- Text Content -->
-            <div id="tutor-text" class="text-gray-700 leading-relaxed flex-1">
+        <div id="speech-bubble">
+            <div id="tutor-text">
                 <span id="typewriter-text">Identify the digit in the 1st decimal place. This is the first digit after the decimal point. We will call it the "rounding digit".</span>
                 <span id="cursor" class="animate-pulse">|</span>
             </div>
         </div>
         
-        <!-- Example Navigation (hidden by default) -->
+        <!-- Example Navigation (hidden by CSS) -->
         <div class="mt-4">
             <div class="flex justify-between items-center text-sm text-gray-600">
                 <span>Example <span id="current-example">1</span> of <span id="total-examples">2</span></span>
@@ -144,7 +112,7 @@ body {
     </div>
 </div>
 
-<!-- Loading indicator -->
+<!-- Loading Indicator -->
 <div id="loading" class="text-center py-12 hidden">
     <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
     <p class="mt-4">Loading...</p>

@@ -1,29 +1,14 @@
 /* =======================================
  Rounding Tutor - Consolidated CSS
  Author: Rishi Shah (Claude assisted)
- 
- Table of Contents:
- 1. Variables & Base Styles
- 2. Layout Components
- 3. Example Containers
- 4. Practice Elements
- 5. Interactive Elements
- 6. Feedback Styles
- 7. Animation Effects
- 8. Scrollbar Styling
- 9. Redesigned Examples Page Layout
- 10. Debug Styles (for development)
- 11. Responsive Adjustments
  ======================================= */
 
 /* =======================================
- 1. Variables & Base Styles
+ 1. CSS Variables & Base Styles
  ======================================= */
  :root {
-  /* Colors */
   --color-white: #ffffff;
   --color-black: #000000;
-  
   --color-gray-50: #f9fafb;
   --color-gray-100: #f3f4f6;
   --color-gray-200: #e5e7eb;
@@ -31,35 +16,39 @@
   --color-gray-400: #9ca3af;
   --color-gray-500: #6b7280;
   --color-gray-600: #4b5563;
-  
   --color-blue-50: #eff6ff;
   --color-blue-100: #dbeafe;
   --color-blue-200: #bfdbfe;
   --color-blue-500: #3b82f6;
   --color-blue-600: #2563eb;
   --color-blue-700: #1d4ed8;
-  
   --color-green-25: #f0fdf4;
   --color-green-50: #d1fae5;
   --color-green-200: #94e5c9;
   --color-green-500: #10b981;
   --color-green-600: #059669;
   --color-green-700: #047857;
-  
   --color-red-50: #fee2e2;
   --color-red-500: #ef4444;
   --color-red-600: #dc2626;
 }
 
+html, body {
+  height: 100%;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
 body {
   background-color: var(--color-white);
   padding: 5px;
-  font-family: system-ui, -apple-system, sans-serif;
 }
 
 .container {
   padding: 5px;
   margin-top: 5px;
+  min-height: calc(100vh - 40px);
+  display: flex;
+  flex-direction: column;
 }
 
 .container:after {
@@ -68,81 +57,28 @@ body {
   clear: both;
 }
 
-/* Make height propagate properly */
-html, body {
-  height: 100%;
-}
-
-body > .container {
-  min-height: calc(100vh - 40px);
-  display: flex;
-  flex-direction: column;
-}
-
 .container > .flex {
-  flex-shrink: 0; /* Don't let the header shrink */
+  flex-shrink: 0;
 }
 
-/* This targets the content block */
 .container > :not(.flex) {
-  flex-grow: 1; /* Let the content take remaining space */
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
 }
 
 /* =======================================
- 2. Layout Components
+ 2. Typography & Headers
  ======================================= */
-
-/* Title and header area - MADE 50% BIGGER */
 h1.text-3xl {
   margin-top: 5px;
-  margin-bottom: 10px; /* Reduced from 20px to bring line closer */
+  margin-bottom: 10px;
   text-align: center;
-  font-size: 2.8125rem; /* 50% bigger than default text-3xl (1.875rem) */
-  line-height: 1.2; /* Adjust line height for better spacing */
+  font-size: 2.8125rem;
+  line-height: 1.2;
 }
 
-/* Reset button positioning */
-#reset-button {
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin: 1rem;
-}
-
-/* Main column layouts */
-#first-example-column,
-#second-example-column,
-#examples-column,
-#practice-column {
-  width: 48%;
-  margin: 0;
-  padding: 0;
-}
-
-/* Main containers */
-#first-example-container,
-#second-example-container,
-#examples-container {
-  height: 725px;
-  margin: 0;
-  box-sizing: border-box;
-  padding: 24px;
-  border-radius: 0.5rem;
-  box-shadow: none;
-  overflow: hidden;
-  background-color: var(--color-white);
-}
-
-#examples-container {
-  background-color: var(--color-blue-50);
-  border: 3px solid var(--color-blue-200);
-  padding: 15px;
-}
-
-/* Headings */
 h2, h3 {
   font-weight: 600;
 }
@@ -157,211 +93,363 @@ h3 {
   margin-bottom: 0.5rem;
 }
 
-/* Practice container headings */
-#practice-container h2 {
-  padding-left: 0;
-  margin-top: 0;
-  margin-bottom: 8px;
-  font-size: 1.25rem;
+/* =======================================
+ 3. Layout Components
+ ======================================= */
+#reset-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 1rem;
 }
 
-/* Example container headings */
-#examples-container h2 {
-  padding-left: 0;
-  margin-top: 0;
-  margin-bottom: 1px;
-  font-size: 1.25rem;
+/* Practice and Example Columns */
+#first-example-column,
+#second-example-column,
+#examples-column,
+#practice-column {
+  width: 48%;
+  margin: 0;
+  padding: 0;
 }
 
-/* Example heading sizes */
-#examples-container h3,
-#examples-sidebar h3,
-.mb-6 h3,
-div.mb-6 > h3 {
-  font-size: 0.95rem;
-  margin-bottom: 0.25rem;
-  font-weight: 600;
+/* Main Containers */
+#first-example-container,
+#second-example-container,
+#examples-container {
+  height: 725px;
+  margin: 0;
+  box-sizing: border-box;
+  padding: 24px;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background-color: var(--color-white);
 }
 
-.text-lg.font-semibold.mb-2 {
-  font-size: 0.85rem;
+#examples-container {
+  background-color: var(--color-blue-50);
+  border: 3px solid var(--color-blue-200);
+  padding: 15px;
 }
 
-/* Target both example containers */
-#examples-container .mb-6,
-#examples-container > div:not(.mb-6) {
-  width: 100%;
-  max-width: 550px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* Target both step containers */
-#example1-steps,
-#example2-steps,
-.bg-white.rounded-md.p-4.mb-4,
-.bg-white.rounded-md.p-4 {
-  width: 100%;
-  max-width: 550px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 0.25rem;
-}
-
-/* Target your specific container */
-.max-w-2xl.mx-auto.bg-white.rounded-lg.shadow-md {
-  height: 500px;
-  max-height: 60vh;
+#practice-container {
+  position: relative;
+  height: 725px;
+  max-height: 725px;
+  margin: 0;
+  box-sizing: border-box;
+  padding: 24px;
+  padding-top: 15px;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
+  overflow-x: hidden;
+  background-color: var(--color-green-25);
+  border: 3px solid var(--color-green-200);
 }
 
 /* =======================================
- 3. Example Containers
+ 4. Examples Page Layout (3-Column)
  ======================================= */
-
-/* Example content wrappers */
-#first-example-content,
-#second-example-content {
-  display: flex;
-  flex-direction: column;
-  height: calc(100% - 60px);
-}
-
-.steps-container,
-#steps-container-1,
-#steps-container-2 {
-  background-color: var(--color-white);
-  border: 15px solid red;
-  border-image: url('/static/images/whiteboard_border.jpg') 10;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  border-radius: 0;
-  padding: 0.75rem;
-  height: 550px;
-  max-height: 550px;
-  overflow-y: auto;
-  transition: scrollbar-color 0.3s ease;
-  scrollbar-width: thin;
-  scrollbar-color: transparent transparent;
-}
-
-/* Special height for example containers in practice section */
-#example1-steps,
-#example2-steps {
-  background-color: var(--color-white);
-  border: 8px solid transparent;
-  border-image: url('static/images/whiteboard_border.jpg') 8 repeat;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
-  border-radius: 0;
-  padding: 0;
-  padding-right: 0;
-  height: 250px;
-  max-height: 250px;
-  width: 100%;
-  margin: 0;
-  overflow-y: auto;
-  transition: scrollbar-color 0.3s ease;
-  scrollbar-width: thin;
-  scrollbar-color: transparent transparent;
-  box-sizing: border-box;
-}
-
-/* Step styling */
-.step {
-  margin-bottom: 1rem;
+.flex.w-full.h-full {
+  height: calc(100vh - 100px);
+  min-height: 700px;
   overflow: hidden;
 }
 
-.step:last-child {
-  margin-bottom: 0;
+/* Progress Sidebar (14%) */
+#progress-sidebar {
+  flex: 0 0 14%;
+  min-width: 150px;
+  background-color: var(--color-gray-50);
+  border: 1px solid var(--color-gray-200);
+  min-height: 100%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Override specifically for examples sidebar */
-#examples-sidebar .step {
-  margin-bottom: 0.5rem;
-  padding: 0;
-}
-
-/* Add horizontal lines between steps */
-#examples-sidebar .step:not(:last-child),
-#example1-steps .step:not(:last-child),
-#example2-steps .step:not(:last-child),
-#examples-sidebar .mb-4:not(:last-child) {
-  border-bottom: 2px solid var(--color-gray-300);
-  margin-bottom: 12px;
-  padding-bottom: 12px;
-}
-
-/* Step text styling */
-#examples-sidebar .step-number,
-#examples-sidebar .step > div:first-child,
-#examples-sidebar .step h4 {
-  color: #4361ee;
+#progress-sidebar h3 {
+  color: #374151;
+  font-size: 1.125rem;
   font-weight: 600;
-  font-size: 1.1rem;
-  margin: 0;
-  padding: 0;
-}
-
-#examples-sidebar .step h4 {
-  font-size: 0.95rem;
-}
-
-#examples-sidebar .step .flex,
-#examples-sidebar .step .flex > div {
-  padding: 0;
-}
-
-/* Remove blue left border from examples sidebar and practice examples */
-#examples-sidebar .border-l-4,
-#example1-steps .border-l-4,
-#example2-steps .border-l-4 {
-  border-left-width: 0;
-  padding-left: 0;
-}
-
-/* Step heading */
-.step h4 {
-  color: var(--color-blue-600);
-  font-weight: 600;
-  margin-bottom: 0.75rem;
-  font-size: 1rem;
-}
-
-/* Step images */
-.step-image {
-  max-width: 100%;
-  max-height: 180px;
-  margin: 0.5rem auto;
-  border-radius: 0.25rem;
-  display: block;
-}
-
-/* Step images for examples sidebar */
-#examples-sidebar .step-image,
-#example1-steps .step-image,
-#example2-steps .step-image {
-  max-width: 100%;
-  max-height: 100px;
-  margin: 0.25rem auto;
-  border-radius: 0.25rem;
-  display: block;
-}
-
-/* White backgrounds */
-.bg-white {
-  background-color: var(--color-white);
-  border-radius: 0.375rem;
-  padding: 0.5rem;
   margin-bottom: 1rem;
+}
+
+#progress-bar {
+  transition: width 0.5s ease-in-out;
+}
+
+.step-item {
+  padding: 0.5rem 0;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease;
+}
+
+.step-item.active {
+  background-color: rgba(59, 130, 246, 0.1);
+  padding: 0.5rem;
+  margin: 0 -0.5rem;
+}
+
+.step-item.completed .step-indicator {
+  background-color: var(--color-green-500);
+}
+
+.step-item.active .step-indicator {
+  background-color: var(--color-blue-500);
+}
+
+/* Whiteboard Container (60%) */
+#whiteboard-container {
+  flex: 0 0 60%;
+  min-width: 400px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 700px;
+}
+
+#example-info {
+  display: none !important;
+}
+
+/* Main Whiteboard */
+#main-whiteboard {
+  background-color: var(--color-white);
+  border: 15px solid red;
+  border-image: url('/static/images/whiteboard_border.jpg') 15;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  border-radius: 0;
+  flex: 1;
+  min-height: 400px;
+  max-height: none !important;
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0;
+  margin: 0 auto;
+  position: relative;
+}
+
+#whiteboard-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: var(--color-white);
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
+  margin: 0;
+}
+
+#whiteboard-title {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 10;
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 12px 18px;
+  border-radius: 0px;
+  max-width: 300px;
+  display: block;
+}
+
+#whiteboard-title h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 4px 0;
+  line-height: 1.2;
+}
+
+#whiteboard-title p {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.3;
+  word-wrap: break-word;
+}
+
+#example-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: auto;
+  z-index: 5;
+}
+
+#step-image {
+  box-sizing: border-box;
+  max-width: 600px;
+  max-height: 450px;
+  object-fit: contain;
+  display: block;
+  width: auto;
+  height: auto;
+}
+
+#math-display {
+  font-family: 'Courier New', monospace;
+  font-size: clamp(3rem, 6vw, 4rem);
+  font-weight: bold;
+  color: #1f2937;
+  letter-spacing: 0.1em;
+  text-align: center;
+  width: 100%;
+  margin: 0 auto;
+}
+
+#math-annotation {
+  font-size: 0.875rem;
+  color: #dc2626;
+  font-weight: 500;
+  margin-top: 1rem;
+  text-align: center;
+  width: 100%;
+  margin: 0.5rem auto 0 auto;
+}
+
+/* Tutor Sidebar (24%) */
+#tutor-sidebar {
+  flex: 0 0 24%;
+  min-width: 300px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+#tutor-avatar {
+  flex-shrink: 0;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+#tutor-avatar > div {
+  width: 6rem;
+  height: 6rem;
+  background-color: var(--color-blue-100);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  border: 3px solid var(--color-blue-500);
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.2);
+}
+
+#tutor-avatar span {
+  font-size: 2rem;
+}
+
+#tutor-avatar p {
+  font-size: 0.875rem;
+  color: var(--color-gray-500);
+  margin-top: 0.5rem;
+  font-weight: 500;
+}
+
+#speech-bubble {
+  background-color: var(--color-white);
+  border: 2px solid var(--color-gray-200);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  min-height: 300px;
   max-height: 400px;
+  width: 100%;
+  box-sizing: border-box;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+#speech-bubble::before {
+  content: '';
+  position: absolute;
+  left: -12px;
+  top: 32px;
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 15px solid var(--color-gray-200);
+  z-index: 1;
+}
+
+#speech-bubble::after {
+  content: '';
+  position: absolute;
+  left: -10px;
+  top: 32px;
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 15px solid var(--color-white);
+  z-index: 2;
+}
+
+#tutor-text {
+  color: #374151;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  flex: 1;
+  overflow-y: auto;
+  width: 100%;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+#typewriter-text {
+  display: inline;
+}
+
+#cursor {
+  display: inline;
+  color: var(--color-blue-500);
+  font-weight: bold;
+}
+
+#tutor-sidebar > div:last-child {
+  display: none;
 }
 
 /* =======================================
- 4. Practice Elements
+ 5. Navigation Buttons
  ======================================= */
+#prev-step, #next-step {
+  transition: all 0.2s ease;
+  width: 155px;
+}
 
-/* Question container */
+#next-step:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+}
+
+#next-example {
+  transition: all 0.2s ease;
+}
+
+#next-example:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(34, 197, 94, 0.3);
+}
+
+/* =======================================
+ 6. Practice Elements
+ ======================================= */
 #question-container {
   margin-bottom: 1.5rem;
   display: block;
@@ -374,13 +462,11 @@ div.mb-6 > h3 {
   line-height: 1.4;
 }
 
-/* Submit button container */
 #submit-button-container {
   display: flex;
   justify-content: flex-start;
 }
 
-/* Choice items */
 .choice-item {
   transition: all 0.2s ease;
   cursor: pointer;
@@ -411,7 +497,6 @@ div.mb-6 > h3 {
   background-color: var(--color-red-50);
 }
 
-/* Feedback container */
 #feedback-container {
   margin-bottom: 1.5rem;
   padding: 1rem;
@@ -430,7 +515,6 @@ div.mb-6 > h3 {
   border-left: 4px solid var(--color-red-500);
 }
 
-/* Navigation container */
 #navigation {
   position: absolute;
   top: 395px;
@@ -438,28 +522,9 @@ div.mb-6 > h3 {
   z-index: 10;
 }
 
-/* Practice container with fixed height */
-#practice-container {
-  position: relative;
-  height: 725px;
-  max-height: 725px;
-  margin: 0;
-  box-sizing: border-box;
-  padding: 24px 24px 24px 24px;
-  padding-top: 15px;
-  border-radius: 0.5rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  overflow-y: auto;
-  overflow-x: hidden;
-  background-color: var(--color-green-25);
-  border: 3px solid var(--color-green-200);
-}
-
 /* =======================================
- 5. Interactive Elements
+ 7. Interactive Elements & Buttons
  ======================================= */
-
-/* Buttons */
 button {
   transition: all 0.2s ease;
 }
@@ -488,7 +553,6 @@ button:hover {
   margin-top: 1rem;
 }
 
-/* Blue button */
 .bg-blue-600,
 #submit-answer {
   background-color: var(--color-blue-600);
@@ -500,7 +564,6 @@ button:hover {
   background-color: var(--color-blue-700);
 }
 
-/* Green button */
 .bg-green-600,
 #next-button {
   background-color: var(--color-green-600);
@@ -512,16 +575,146 @@ button:hover {
   background-color: var(--color-green-700);
 }
 
-/* Loading indicator */
 #loading {
   text-align: center;
   padding: 3rem 0;
 }
 
 /* =======================================
- 6. Animation Effects
+ 8. Step Containers & Images
  ======================================= */
+.steps-container,
+#steps-container-1,
+#steps-container-2 {
+  background-color: var(--color-white);
+  border: 15px solid red;
+  border-image: url('/static/images/whiteboard_border.jpg') 10;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  border-radius: 0;
+  padding: 0.75rem;
+  height: 550px;
+  max-height: 550px;
+  overflow-y: auto;
+  transition: scrollbar-color 0.3s ease;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
 
+#example1-steps,
+#example2-steps {
+  background-color: var(--color-white);
+  border: 8px solid transparent;
+  border-image: url('static/images/whiteboard_border.jpg') 8 repeat;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+  border-radius: 0;
+  padding: 0;
+  height: 250px;
+  max-height: 250px;
+  width: 100%;
+  margin: 0;
+  overflow-y: auto;
+  transition: scrollbar-color 0.3s ease;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  box-sizing: border-box;
+}
+
+.step {
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+.step:last-child {
+  margin-bottom: 0;
+}
+
+.step h4 {
+  color: var(--color-blue-600);
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+}
+
+.step-image {
+  max-width: 100%;
+  max-height: 180px;
+  margin: 0.5rem auto;
+  border-radius: 0.25rem;
+  display: block;
+}
+
+#examples-sidebar .step-image,
+#example1-steps .step-image,
+#example2-steps .step-image {
+  max-width: 100%;
+  max-height: 100px;
+  margin: 0.25rem auto;
+  border-radius: 0.25rem;
+  display: block;
+}
+
+#examples-sidebar .step:not(:last-child),
+#example1-steps .step:not(:last-child),
+#example2-steps .step:not(:last-child) {
+  border-bottom: 2px solid var(--color-gray-300);
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+}
+
+#examples-sidebar .border-l-4,
+#example1-steps .border-l-4,
+#example2-steps .border-l-4 {
+  border-left-width: 0;
+  padding-left: 0;
+}
+
+/* =======================================
+ 9. Scrollbar Styling
+ ======================================= */
+.steps-container::-webkit-scrollbar,
+#steps-container-1::-webkit-scrollbar,
+#steps-container-2::-webkit-scrollbar,
+#example1-steps::-webkit-scrollbar,
+#example2-steps::-webkit-scrollbar {
+  width: 6px;
+}
+
+.steps-container::-webkit-scrollbar-track,
+#steps-container-1::-webkit-scrollbar-track,
+#steps-container-2::-webkit-scrollbar-track,
+#example1-steps::-webkit-scrollbar-track,
+#example2-steps::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.steps-container::-webkit-scrollbar-thumb,
+#steps-container-1::-webkit-scrollbar-thumb,
+#steps-container-2::-webkit-scrollbar-thumb,
+#example1-steps::-webkit-scrollbar-thumb,
+#example2-steps::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 3px;
+}
+
+.steps-container:hover::-webkit-scrollbar-thumb,
+#steps-container-1:hover::-webkit-scrollbar-thumb,
+#steps-container-2:hover::-webkit-scrollbar-thumb,
+#example1-steps:hover::-webkit-scrollbar-thumb,
+#example2-steps:hover::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.5);
+}
+
+.steps-container:hover::-webkit-scrollbar-thumb:hover,
+#steps-container-1:hover::-webkit-scrollbar-thumb:hover,
+#steps-container-2:hover::-webkit-scrollbar-thumb:hover,
+#example1-steps:hover::-webkit-scrollbar-thumb:hover,
+#example2-steps:hover::-webkit-scrollbar-thumb:hover {
+  background: rgba(107, 114, 128, 0.7);
+}
+
+/* =======================================
+ 10. Animation Effects
+ ======================================= */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
@@ -554,381 +747,48 @@ button:hover {
 }
 
 /* =======================================
- 7. Scrollbar Styling
+ 11. Utility Classes & Overrides
  ======================================= */
-
-.steps-container::-webkit-scrollbar,
-#steps-container-1::-webkit-scrollbar,
-#steps-container-2::-webkit-scrollbar,
-#example1-steps::-webkit-scrollbar,
-#example2-steps::-webkit-scrollbar {
-  width: 6px;
-}
-
-.steps-container::-webkit-scrollbar-track,
-#steps-container-1::-webkit-scrollbar-track,
-#steps-container-2::-webkit-scrollbar-track,
-#example1-steps::-webkit-scrollbar-track,
-#example2-steps::-webkit-scrollbar-track {
-  background: transparent;
-  padding-right: 0;
-  margin-right: 0;
-}
-
-.steps-container::-webkit-scrollbar-thumb,
-#steps-container-1::-webkit-scrollbar-thumb,
-#steps-container-2::-webkit-scrollbar-thumb,
-#example1-steps::-webkit-scrollbar-thumb,
-#example2-steps::-webkit-scrollbar-thumb {
-  background: transparent;
-  border-radius: 3px;
-}
-
-.steps-container:hover::-webkit-scrollbar-thumb,
-#steps-container-1:hover::-webkit-scrollbar-thumb,
-#steps-container-2:hover::-webkit-scrollbar-thumb,
-#example1-steps:hover::-webkit-scrollbar-thumb,
-#example2-steps:hover::-webkit-scrollbar-thumb {
-  background: rgba(156, 163, 175, 0.5);
-}
-
-.steps-container:hover::-webkit-scrollbar-thumb:hover,
-#steps-container-1:hover::-webkit-scrollbar-thumb:hover,
-#steps-container-2:hover::-webkit-scrollbar-thumb:hover,
-#example1-steps:hover::-webkit-scrollbar-thumb:hover,
-#example2-steps:hover::-webkit-scrollbar-thumb:hover {
-  background: rgba(107, 114, 128, 0.7);
-}
-
-/* =======================================
- 8. Redesigned Examples Page Layout
- ======================================= */
-
-#example-title {
-  color: #1f2937;
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-
-#example-question {
-  color: #6b7280;
-  font-size: 1.125rem;
-}
-
-/* Main container height adjustment */
-#content {
-  height: calc(100vh - 100px);
-  overflow: hidden;
-}
-
-/* Three-column layout */
-.flex.w-full.h-full {
-  height: calc(100vh - 120px);
-  min-height: 600px;
-  overflow: hidden;
-}
-
-/* Progress Sidebar (14%) */
-#progress-sidebar {
-  flex: 0 0 14%;
-  min-width: 150px;
-  background-color: #f9fafb;
-  border: 1px solid #e5e7eb;
-  min-height: 100%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-#progress-sidebar h3 {
-  color: #374151;
-  font-size: 1.125rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
-}
-
-/* Progress bar styling */
-#progress-bar {
-  transition: width 0.5s ease-in-out;
-}
-
-/* Step list styling */
-.step-item {
-  padding: 0.5rem 0;
+.bg-white {
+  background-color: var(--color-white);
   border-radius: 0.375rem;
-  transition: all 0.2s ease;
-}
-
-.step-item.active {
-  background-color: rgba(59, 130, 246, 0.1);
   padding: 0.5rem;
-  margin: 0 -0.5rem;
-}
-
-.step-item.completed .step-indicator {
-  background-color: #10b981;
-}
-
-.step-item.active .step-indicator {
-  background-color: #3b82f6;
-}
-
-/* Navigation buttons */
-#prev-step, #next-step {
-  transition: all 0.2s ease;
-  width: 155px; /* Set both buttons to same width */
-}
-
-#next-step:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
-}
-
-/* Whiteboard Container (60%) */
-#whiteboard-container {
-  flex: 0 0 60%;
-  min-width: 400px;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-/* Hide the example info that appears above the whiteboard */
-#example-info {
-  display: none;
-}
-
-/* Large Landscape Whiteboard */
-#main-whiteboard {
-  background-color: var(--color-white);
-  border: 15px solid red;
-  border-image: url('/static/images/whiteboard_border.jpg') 15;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-  border-radius: 0;
-  flex: 1;
-  min-height: 440px; /* Increased from 400px (10% increase) */
-  aspect-ratio: 16/11; /* Adjusted from 16/10 to make it 10% taller */
-  width: 100%;
-  height: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  padding: 0; /* Remove any padding that affects centering */
-  margin: 0; /* Remove any margin that affects centering */
-}
-
-#whiteboard-content {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  background-color: var(--color-white);
-  padding: 0; /* Remove any padding that affects centering */
-  box-sizing: border-box;
-  overflow: hidden;
-  position: relative; /* Add positioning context */
-  margin: 0; /* Remove any margin that affects centering */
-}
-
-/* In-whiteboard title and question positioning */
-#whiteboard-title {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  z-index: 10;
-  background-color: rgba(255, 255, 255, 0.9);
-  padding: 10px 15px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  max-width: 300px;
-}
-
-#whiteboard-title h2 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #1f2937;
-  margin: 0 0 5px 0;
-}
-
-#whiteboard-title p {
-  font-size: 1rem;
-  color: #6b7280;
-  margin: 0;
-  line-height: 1.4;
-}
-
-#example-display {
-  position: absolute; /* Force absolute centering */
-  top: 50%; /* Perfect center positioning */
-  left: 50%;
-  transform: translate(-50%, -50%); /* Perfect center positioning */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  width: auto; /* Let content determine width */
-}
-
-/* Math display styling */
-#math-display {
-  font-family: 'Courier New', monospace;
-  font-size: clamp(3rem, 6vw, 4rem);
-  font-weight: bold;
-  color: #1f2937;
-  letter-spacing: 0.1em;
-  text-align: center;
-  width: 100%;
-  margin: 0 auto;
-}
-
-#math-annotation {
-  font-size: 0.875rem;
-  color: #dc2626;
-  font-weight: 500;
-  margin-top: 1rem;
-  text-align: center;
-  width: 100%;
-  margin: 0.5rem auto 0 auto;
-}
-
-/* Tutor Sidebar (24%) */
-#tutor-sidebar {
-  flex: 0 0 24%;
-  min-width: 300px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Tutor Avatar */
-#tutor-avatar {
-  flex-shrink: 0;
-  text-align: center;
   margin-bottom: 1rem;
-}
-
-#tutor-avatar > div {
-  width: 6rem;
-  height: 6rem;
-  background-color: #dbeafe;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
-  border: 3px solid #3b82f6;
-  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.2);
-}
-
-#tutor-avatar span {
-  font-size: 2rem;
-}
-
-#tutor-avatar p {
-  font-size: 0.875rem;
-  color: #6b7280;
-  margin-top: 0.5rem;
-  font-weight: 500;
-}
-
-/* Speech Bubble */
-#speech-bubble {
-  background-color: var(--color-white);
-  border: 2px solid #e5e7eb;
-  border-radius: 1rem;
-  padding: 1.5rem;
-  position: relative;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  flex: 1;
-  min-height: 300px;
   max-height: 400px;
-  width: 100%;
-  box-sizing: border-box;
   overflow-y: auto;
-  display: flex;
-  flex-direction: column;
 }
 
-/* Speech bubble tail (pointing to avatar) */
-#speech-bubble::before {
-  content: '';
-  position: absolute;
-  left: -12px;
-  top: 32px;
-  width: 0;
-  height: 0;
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  border-right: 15px solid #e5e7eb;
-  z-index: 1;
+.text-lg.font-semibold.mb-2 {
+  font-size: 0.85rem;
 }
 
-#speech-bubble::after {
-  content: '';
-  position: absolute;
-  left: -10px;
-  top: 32px;
-  width: 0;
-  height: 0;
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  border-right: 15px solid var(--color-white);
-  z-index: 2;
-}
-
-/* Typewriter text */
-#tutor-text {
-  color: #374151;
-  line-height: 1.6;
-  font-size: 0.95rem;
-  flex: 1;
+.max-w-2xl.mx-auto.bg-white.rounded-lg.shadow-md {
+  height: 500px;
+  max-height: 60vh;
   overflow-y: auto;
+}
+
+/* Example container specific targeting */
+#examples-container .mb-6,
+#examples-container > div:not(.mb-6) {
   width: 100%;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
+  max-width: 550px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-#typewriter-text {
-  display: inline;
+#example1-steps,
+#example2-steps,
+.bg-white.rounded-md.p-4.mb-4,
+.bg-white.rounded-md.p-4 {
+  width: 100%;
+  max-width: 550px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0.25rem;
 }
 
-#cursor {
-  display: inline;
-  color: #3b82f6;
-  font-weight: bold;
-}
-
-/* Example navigation - HIDDEN */
-#tutor-sidebar > div:last-child {
-  display: none; /* Hide the entire "Example 1 of 2" section */
-}
-
-#next-example {
-  transition: all 0.2s ease;
-}
-
-#next-example:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 2px 4px rgba(34, 197, 94, 0.3);
-}
-
-/* =======================================
- 9. Debug Styles (for development)
- ======================================= */
-
-#step-image {
-  box-sizing: border-box;
-  max-width: 60%; /* Decreased from 80% (20% reduction) */
-  max-height: 60%; /* Decreased from 80% (20% reduction) */
-  object-fit: contain;
-  display: block;
-}
-
-/* Override for full width layout on examples page */
+/* Examples page specific overrides */
 .decimal1-examples .container {
   max-width: none;
   width: 100%;
@@ -936,14 +796,12 @@ button:hover {
   margin: 0;
 }
 
-/* Add spacing after header and separator line */
 .decimal1-examples .container > .flex {
   margin-bottom: 0.5rem;
   padding-bottom: 1rem;
-  border-bottom: 2px solid #e5e7eb;
+  border-bottom: 2px solid var(--color-gray-200);
 }
 
-/* Fixed width layout to prevent resizing */
 .decimal1-examples .flex.w-full.h-full {
   width: 100vw;
   padding: 0.5rem 0 0 0;
@@ -952,51 +810,50 @@ button:hover {
 }
 
 /* =======================================
- 10. Responsive Adjustments
+ 12. Responsive Design
  ======================================= */
-
 @media (max-width: 1024px) {
   #first-example-column,
   #second-example-column,
   #examples-column,
   #practice-column {
-      width: 100%;
+    width: 100%;
   }
 
   #first-example-container,
   #second-example-container,
   #examples-container,
   #practice-container {
-      height: auto;
-      min-height: 400px;
-      margin-bottom: 20px;
+    height: auto;
+    min-height: 400px;
+    margin-bottom: 20px;
   }
 
   #reset-button {
-      position: static;
-      margin: 0;
+    position: static;
+    margin: 0;
   }
 }
 
 @media (max-width: 1200px) {
   .flex.w-full.h-full {
-      flex-direction: column;
-      height: auto;
+    flex-direction: column;
+    height: auto;
   }
 
   #progress-sidebar,
   #whiteboard-container,
   #tutor-sidebar {
-      width: 100%;
-      margin-bottom: 1rem;
+    width: 100%;
+    margin-bottom: 1rem;
   }
 
   #main-whiteboard {
-      aspect-ratio: 4/3;
-      min-height: 300px;
+    aspect-ratio: 4/3;
+    min-height: 300px;
   }
 
   #math-display {
-      font-size: 2.5rem;
+    font-size: 2.5rem;
   }
 }
