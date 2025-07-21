@@ -1,5 +1,5 @@
 /**
- * Redesigned Decimal1 Examples Page with Separated Content
+ * Redesigned Decimal1 Examples Page with Separated Content - REVERTED + FIXED
  * File: static/js/pages/decimal1_examples_redesigned.js
  */
 
@@ -10,6 +10,8 @@ class RedesignedExamplePage {
         this.totalExamples = 2;
         this.exampleData = null;
         this.isTypewriting = false;
+        this.typewriterTimeout = null;
+        this.lastStep = 1; // Track previous step for animation direction
         
         this.initializeElements();
         this.initializeEventListeners();
@@ -108,9 +110,56 @@ class RedesignedExamplePage {
         
         this.updateProgress();
         this.updateWhiteboardContent(stepData.image_content);
-        this.startTypewriter(stepData.text_content);
+        
+        // Clean and validate text before starting typewriter
+        const cleanText = this.cleanAndValidateText(stepData.text_content);
+        this.startTypewriter(cleanText);
+        
         this.updateNavigationButtons();
         this.updateWhiteboardTitle();
+        
+        // Update lastStep for next transition
+        this.lastStep = this.currentStep;
+    }
+    
+    // Clean and validate text function
+    cleanAndValidateText(text) {
+        if (!text || typeof text !== 'string') {
+            console.warn('Invalid text provided to typewriter:', text);
+            return 'Step explanation loading...';
+        }
+        
+        // Remove any null characters, control characters, or other problematic characters
+        let cleanText = text.replace(/[\x00-\x08\x0E-\x1F\x7F]/g, '');
+        
+        // Ensure the text is properly encoded
+        try {
+            // Decode any HTML entities
+            const tempElement = document.createElement('div');
+            tempElement.innerHTML = cleanText;
+            cleanText = tempElement.textContent || tempElement.innerText || cleanText;
+        } catch (e) {
+            console.warn('Could not decode HTML entities:', e);
+        }
+        
+        // Fallback text if cleaning resulted in empty or very short text
+        if (!cleanText || cleanText.trim().length < 5) {
+            console.warn('Text too short after cleaning, using fallback');
+            return this.getFallbackText(this.currentStep);
+        }
+        
+        return cleanText.trim();
+    }
+    
+    // Fallback text for each step
+    getFallbackText(stepNumber) {
+        const fallbackTexts = {
+            1: "Identify the digit in the 1st decimal place. This is the first digit after the decimal point. We will call it the \"rounding digit\".",
+            2: "Check the digit to the right of the \"cut off\" line. If this digit is less than 5 we keep our rounding digit the same.",
+            3: "Remove all digits after the \"cut off\" line. We have now rounded the number to 1 decimal place."
+        };
+        
+        return fallbackTexts[stepNumber] || "Step explanation is loading...";
     }
     
     updateWhiteboardContent(imageContent) {
@@ -141,9 +190,12 @@ class RedesignedExamplePage {
         imageElement.src = imagePath;
         imageElement.alt = `Step ${this.currentStep} - Example ${this.currentExample}`;
         
+        // Determine animation direction based on step movement
+        const goingForward = this.currentStep > this.lastStep;
+        
         imageElement.onload = () => {
             if (existingImage) {
-                this.animateImageTransition(container, existingImage, imageElement);
+                this.animateImageTransition(container, existingImage, imageElement, goingForward);
             } else {
                 imageElement.id = 'step-image';
                 this.resetImageStyles(imageElement);
@@ -158,7 +210,7 @@ class RedesignedExamplePage {
         
         // Start loading
         if (existingImage) {
-            this.prepareImageForTransition(imageElement);
+            this.prepareImageForTransition(imageElement, goingForward);
             container.appendChild(imageElement);
         } else {
             container.appendChild(imageElement);
@@ -178,8 +230,12 @@ class RedesignedExamplePage {
         return img;
     }
     
-    prepareImageForTransition(imageElement) {
+    prepareImageForTransition(imageElement, goingForward) {
         imageElement.id = 'step-image-new';
+        
+        // Set initial position based on direction BEFORE adding transition
+        const initialTransform = goingForward ? 'translateY(100%)' : 'translateY(-100%)';
+        
         Object.assign(imageElement.style, {
             position: 'absolute',
             top: '0',
@@ -187,7 +243,7 @@ class RedesignedExamplePage {
             right: '0',
             bottom: '0',
             margin: 'auto',
-            transform: 'translateY(100%)',
+            transform: initialTransform,
             opacity: '0',
             transition: 'transform 0.5s ease-in-out, opacity 0.5s ease-in-out'
         });
@@ -202,16 +258,22 @@ class RedesignedExamplePage {
         });
     }
     
-    animateImageTransition(container, oldImage, newImage) {
+    animateImageTransition(container, oldImage, newImage, goingForward = true) {
         oldImage.style.transition = 'transform 0.5s ease-in-out, opacity 0.5s ease-in-out';
         
-        // Force reflow
+        // Force reflow to ensure initial position is set
         container.offsetHeight;
         
-        // Animate out old, in new
-        oldImage.style.transform = 'translateY(-100%)';
+        // Animate: old image exits in correct direction, new image enters
+        if (goingForward) {
+            oldImage.style.transform = 'translateY(-100%)'; // Exit upward
+            newImage.style.transform = 'translateY(0)'; // Enter from bottom
+        } else {
+            oldImage.style.transform = 'translateY(100%)'; // Exit downward  
+            newImage.style.transform = 'translateY(0)'; // Enter from top
+        }
+        
         oldImage.style.opacity = '0';
-        newImage.style.transform = 'translateY(0)';
         newImage.style.opacity = '1';
         
         // Cleanup after animation
@@ -313,10 +375,14 @@ class RedesignedExamplePage {
     }
     
     updateNavigationButtons() {
+        // Update Previous button - allow going back to previous example
         if (this.elements.prevButton) {
-            this.elements.prevButton.disabled = this.currentStep === 1;
+            // Disable only if we're at step 1 of the first example
+            const isAtVeryBeginning = (this.currentStep === 1 && this.currentExample === 1);
+            this.elements.prevButton.disabled = isAtVeryBeginning;
         }
         
+        // Update Next button and Next Example button
         if (this.currentStep >= this.exampleData.total_steps) {
             if (this.currentExample < this.totalExamples) {
                 this.elements.nextExampleButton?.classList.remove('hidden');
@@ -331,7 +397,22 @@ class RedesignedExamplePage {
     }
     
     startTypewriter(text) {
-        if (!this.elements.typewriterText || !this.elements.cursor) return;
+        if (!this.elements.typewriterText || !this.elements.cursor) {
+            console.warn('Typewriter elements not found');
+            return;
+        }
+        
+        // Stop any existing typewriter
+        this.stopTypewriter();
+        
+        // Validate and clean text one more time
+        const finalText = this.cleanAndValidateText(text);
+        if (!finalText) {
+            console.error('No valid text for typewriter');
+            return;
+        }
+        
+        console.log('Starting typewriter with text:', finalText.substring(0, 50) + '...');
         
         this.elements.typewriterText.textContent = '';
         this.isTypewriting = true;
@@ -341,21 +422,36 @@ class RedesignedExamplePage {
         const speed = 50;
         
         const typeNextCharacter = () => {
-            if (index < text.length && this.isTypewriting) {
-                this.elements.typewriterText.textContent += text.charAt(index);
+            if (index < finalText.length && this.isTypewriting) {
+                // Get the character and ensure it's valid
+                const char = finalText.charAt(index);
+                if (char) {
+                    this.elements.typewriterText.textContent += char;
+                }
                 index++;
-                setTimeout(typeNextCharacter, speed);
+                this.typewriterTimeout = setTimeout(typeNextCharacter, speed);
             } else {
                 this.isTypewriting = false;
                 this.elements.cursor.style.display = 'inline';
+                console.log('Typewriter completed');
             }
         };
         
         typeNextCharacter();
     }
     
+    // Stop typewriter function
+    stopTypewriter() {
+        this.isTypewriting = false;
+        if (this.typewriterTimeout) {
+            clearTimeout(this.typewriterTimeout);
+            this.typewriterTimeout = null;
+        }
+    }
+    
     // Navigation methods
     nextStep() {
+        this.lastStep = this.currentStep; // Track where we came from
         if (this.currentStep < this.exampleData.total_steps) {
             this.currentStep++;
             this.loadCurrentStep();
@@ -367,16 +463,50 @@ class RedesignedExamplePage {
     }
     
     prevStep() {
+        this.lastStep = this.currentStep; // Track where we came from
         if (this.currentStep > 1) {
+            // Go back one step within current example
             this.currentStep--;
             this.loadCurrentStep();
+        } else if (this.currentExample > 1) {
+            // Go back to previous example (last step)
+            this.currentExample--;
+            this.loadPreviousExample();
         }
+        // If we're at step 1 of example 1, button will be disabled
     }
     
     nextExample() {
         if (this.currentExample < this.totalExamples) {
             this.currentExample++;
             this.loadCurrentExample();
+        }
+    }
+    
+    async loadPreviousExample() {
+        try {
+            this.showLoading();
+            
+            const apiEndpoint = this.currentExample === 1 ? 'first' : 'second';
+            const response = await fetch(`/api/decimal1/examples/${apiEndpoint}`);
+            const data = await response.json();
+            
+            if (data.error) throw new Error(data.error);
+            
+            this.exampleData = data;
+            this.updateExampleInfo();
+            this.updateWhiteboardTitle();
+            
+            // Go to the last step of the previous example
+            this.lastStep = this.currentStep; // Remember where we came from
+            this.currentStep = this.exampleData.total_steps;
+            this.loadCurrentStep();
+            
+        } catch (error) {
+            console.error('Error loading previous example:', error);
+            this.showError('Failed to load previous example. Please try again.');
+        } finally {
+            this.hideLoading();
         }
     }
     
@@ -394,6 +524,9 @@ class RedesignedExamplePage {
     }
     
     resetLesson() {
+        // Stop typewriter before resetting
+        this.stopTypewriter();
+        
         fetch('/api/reset', { method: 'POST' })
             .then(response => response.json())
             .then(data => {
