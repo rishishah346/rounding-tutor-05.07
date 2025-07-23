@@ -1,7 +1,7 @@
 /* =======================================
  Rounding Tutor - Consolidated CSS
  Author: Rishi Shah (Claude assisted)
- Phase 1-4: Complete Layout with Whiteboard Title Border Removed
+ Phase 1-4: Complete Layout with Image Effects Removed
  ======================================= */
 
 /* =======================================
@@ -319,15 +319,7 @@ body.decimal1-examples #step-image {
   width: auto;
   height: auto;
   margin: 0 auto;
-  border-radius: 0.75rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   transform: translateZ(0);
-}
-
-body.decimal1-examples #step-image:hover {
-  transform: scale(1.02) translateZ(0);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 body.decimal1-examples #math-display {
@@ -519,7 +511,7 @@ body.decimal1-examples .tutor-container .flex-shrink-0 {
 body.decimal1-examples #prev-step, 
 body.decimal1-examples #next-step {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  width: 155px;
+  width: 180px;
   position: relative;
   overflow: hidden;
   transform: translateZ(0);
@@ -692,8 +684,7 @@ body.decimal1-examples .progress-container,
 body.decimal1-examples .whiteboard-container,
 body.decimal1-examples .tutor-container,
 body.decimal1-examples #speech-bubble,
-body.decimal1-examples #math-annotation,
-body.decimal1-examples #step-image {
+body.decimal1-examples #math-annotation {
   border-radius: 0.75rem;
 }
 
@@ -1107,7 +1098,6 @@ body.decimal1-examples #progress-bar,
 body.decimal1-examples .step-item,
 body.decimal1-examples button,
 body.decimal1-examples #math-display,
-body.decimal1-examples #step-image,
 body.decimal1-examples #cursor {
   will-change: transform;
 }
@@ -1449,7 +1439,6 @@ body:not(.decimal1-examples) .container > :not(.flex) {
   max-width: 100%;
   max-height: 180px;
   margin: 0.5rem auto;
-  border-radius: 0.25rem;
   display: block;
 }
 
@@ -1459,7 +1448,6 @@ body:not(.decimal1-examples) .container > :not(.flex) {
   max-width: 100%;
   max-height: 100px;
   margin: 0.25rem auto;
-  border-radius: 0.25rem;
   display: block;
 }
 
