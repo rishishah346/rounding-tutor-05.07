@@ -1,0 +1,1258 @@
+/* =======================================
+ Decimal1 Examples Page - Complete CSS
+ Includes Title Card Animation Styles
+ ======================================= */
+
+/* =======================================
+ 1. CSS Variables & Base Styles
+ ======================================= */
+ :root {
+    --color-white: #ffffff;
+    --color-black: #000000;
+    --color-gray-50: #f9fafb;
+    --color-gray-100: #f3f4f6;
+    --color-gray-200: #e5e7eb;
+    --color-gray-300: #d1d5db;
+    --color-gray-400: #9ca3af;
+    --color-gray-500: #6b7280;
+    --color-gray-600: #4b5563;
+    --color-blue-50: #eff6ff;
+    --color-blue-100: #dbeafe;
+    --color-blue-200: #bfdbfe;
+    --color-blue-500: #3b82f6;
+    --color-blue-600: #2563eb;
+    --color-blue-700: #1d4ed8;
+    --color-green-25: #f0fdf4;
+    --color-green-50: #d1fae5;
+    --color-green-200: #94e5c9;
+    --color-green-500: #10b981;
+    --color-green-600: #059669;
+    --color-green-700: #047857;
+    --color-red-50: #fee2e2;
+    --color-red-500: #ef4444;
+    --color-red-600: #dc2626;
+  }
+  
+  html, body {
+    height: 100%;
+    font-family: system-ui, -apple-system, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    background-color: var(--color-gray-100);
+  }
+  
+  /* =======================================
+   2. Full-Height Layout Structure
+   ======================================= */
+  
+  /* Reset any existing container styles for examples page */
+  body.decimal1-examples .container {
+    height: 100vh !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    max-width: none !important;
+    width: 100% !important;
+  }
+  
+  /* Top header section - fixed height with separator */
+  body.decimal1-examples .header-section {
+    flex-shrink: 0;
+    padding: 1rem 2rem;
+    border-bottom: 2px solid var(--color-gray-200);
+    background-color: var(--color-white);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    height: auto;
+  }
+  
+  /* Main content area - fills remaining height */
+  body.decimal1-examples .main-content {
+    flex: 1;
+    display: flex !important;
+    padding: 1rem;
+    gap: 1rem;
+    min-height: 0;
+    overflow: hidden;
+    background-color: var(--color-gray-100);
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Individual column containers - EXPLICIT WIDTHS */
+  body.decimal1-examples .progress-column {
+    width: 10% !important;
+    min-width: 150px;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+  }
+  
+  body.decimal1-examples .whiteboard-column {
+    width: 60% !important;
+    min-width: 400px;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+  }
+  
+  body.decimal1-examples .tutor-column {
+    width: 30% !important;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+  }
+  
+  /* Content containers within columns */
+  body.decimal1-examples .progress-container,
+  body.decimal1-examples .whiteboard-container,
+  body.decimal1-examples .tutor-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-white);
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    height: 100%;
+  }
+  
+  /* Ensure minimum heights */
+  body.decimal1-examples .progress-container {
+    min-height: 500px;
+  }
+  
+  body.decimal1-examples .whiteboard-container {
+    min-height: 600px;
+  }
+  
+  body.decimal1-examples .tutor-container {
+    min-height: 500px;
+  }
+  
+  /* =======================================
+   3. Progress Sidebar Content - VERTICAL PROGRESS BAR
+   ======================================= */
+  body.decimal1-examples #progress-sidebar {
+    background-color: var(--color-gray-50);
+    border: 1px solid var(--color-gray-200);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    box-sizing: border-box;
+    overflow-y: auto;
+  }
+  
+  body.decimal1-examples #progress-sidebar h3 {
+    color: #1f2937;
+    font-size: clamp(0.875rem, 2.5vw, 1rem);
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    text-align: center;
+  }
+  
+  /* Vertical Progress Bar Container */
+  body.decimal1-examples .progress-bar-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+  }
+  
+  /* Vertical Progress Bar Track */
+  body.decimal1-examples .progress-bar-track {
+    width: 20px;
+    height: 70%;
+    background-color: var(--color-gray-200);
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Vertical Progress Bar Fill */
+  body.decimal1-examples #progress-bar {
+    width: 100%;
+    height: 0%; /* Start at 0, will be updated by JavaScript */
+    background: linear-gradient(to top, var(--color-blue-500), var(--color-blue-400));
+    border-radius: 10px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transition: height 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 -2px 8px rgba(59, 130, 246, 0.3);
+  }
+  
+  /* Progress Bar Shimmer Effect */
+  body.decimal1-examples #progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    animation: shimmerVertical 2s infinite;
+  }
+  
+  /* Stretch Mode Pulse Animation */
+  body.decimal1-examples #progress-bar.stretch-pulse {
+    animation: stretchPulse 1.5s ease-in-out infinite;
+  }
+  
+  /* Progress Percentage Display */
+  body.decimal1-examples #progress-percentage {
+    font-weight: 700;
+    font-size: clamp(1rem, 3vw, 1.25rem);
+    color: var(--color-blue-600);
+    margin-top: 1rem;
+    text-align: center;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Remove old horizontal progress bar styles */
+  body.decimal1-examples .step-item,
+  body.decimal1-examples .step-indicator,
+  body.decimal1-examples #step-list {
+    display: none;
+  }
+  
+  /* =======================================
+   4. Whiteboard Styling
+   ======================================= */
+  body.decimal1-examples #main-whiteboard {
+    background-color: var(--color-white);
+    border: 15px solid red;
+    border-image: url('/static/images/whiteboard_border.jpg') 15;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    border-radius: 0;
+    flex: 1;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 1rem;
+    margin: 0;
+    position: relative;
+    min-height: 400px;
+  }
+  
+  body.decimal1-examples #whiteboard-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: var(--color-white);
+    padding: 1rem;
+    box-sizing: border-box;
+    overflow: hidden;
+    position: relative;
+    margin: 0;
+  }
+  
+  /* =======================================
+   5. WHITEBOARD TITLE CARD ANIMATION STYLES
+   ======================================= */
+  body.decimal1-examples #whiteboard-title, 
+  body.decimal1-examples #whiteboard-title-new {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    z-index: 10;
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 0.75rem 1rem;
+    max-width: calc(100% - 2rem);
+    display: block;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+    overflow: hidden; /* Prevent text from showing during slide animation */
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  body.decimal1-examples #whiteboard-title h2, 
+  body.decimal1-examples #whiteboard-title-new h2 {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0 0 0.25rem 0;
+    line-height: 1.2;
+  }
+  
+  body.decimal1-examples #whiteboard-title p, 
+  body.decimal1-examples #whiteboard-title-new p {
+    font-size: clamp(0.875rem, 1.5vw, 1rem);
+    color: #6b7280;
+    margin: 0;
+    line-height: 1.3;
+    word-wrap: break-word;
+  }
+  
+  /* Animation keyframes for title transitions */
+  @keyframes slideOutDown {
+    from {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+  }
+  
+  @keyframes slideInUp {
+    from {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  /* Classes for JavaScript to apply */
+  body.decimal1-examples .title-slide-out {
+    animation: slideOutDown 0.4s ease-out forwards;
+  }
+  
+  body.decimal1-examples .title-slide-in {
+    animation: slideInUp 0.4s ease-out forwards;
+  }
+  
+  /* =======================================
+   6. Whiteboard Content Elements
+   ======================================= */
+  body.decimal1-examples #example-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    padding: 2rem;
+    box-sizing: border-box;
+  }
+  
+  body.decimal1-examples #step-image {
+    box-sizing: border-box;
+    max-width: 90%;
+    max-height: 70%;
+    object-fit: contain;
+    display: block;
+    width: auto;
+    height: auto;
+    margin: 0 auto;
+    transform: translateZ(0);
+  }
+  
+  body.decimal1-examples #math-display {
+    font-family: 'Courier New', monospace;
+    font-size: clamp(2rem, 8vw, 5rem);
+    font-weight: bold;
+    color: #1f2937;
+    letter-spacing: 0.1em;
+    text-align: center;
+    width: 100%;
+    margin: 0 auto 1rem auto;
+    line-height: 1.2;
+    word-break: break-all;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateZ(0);
+    min-height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  body.decimal1-examples #math-annotation {
+    font-size: clamp(0.75rem, 2vw, 1rem);
+    color: #dc2626;
+    font-weight: 500;
+    text-align: center;
+    width: 100%;
+    margin: 0 auto;
+    line-height: 1.4;
+    padding: 0.5rem;
+    background-color: rgba(220, 38, 38, 0.1);
+    border-radius: 0.75rem;
+    border: 1px solid rgba(220, 38, 38, 0.2);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateZ(0);
+  }
+  
+  /* Whiteboard navigation buttons - better fitting */
+  body.decimal1-examples .whiteboard-container .flex-shrink-0 {
+    padding: 1rem;
+    border-top: 1px solid var(--color-gray-200);
+    background-color: var(--color-gray-50);
+  }
+  
+  body.decimal1-examples .whiteboard-container .flex-shrink-0 .flex {
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  /* =======================================
+   7. Tutor Sidebar Content Fitting
+   ======================================= */
+  body.decimal1-examples #tutor-avatar {
+    text-align: center;
+    padding: 0.5rem;
+  }
+  
+  body.decimal1-examples #tutor-avatar > div {
+    width: clamp(3rem, 8vw, 4rem);
+    height: clamp(3rem, 8vw, 4rem);
+    background-color: var(--color-blue-100);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    border: 3px solid var(--color-blue-500);
+    box-shadow: 0 4px 8px rgba(59, 130, 246, 0.2);
+  }
+  
+  body.decimal1-examples #tutor-avatar span {
+    font-size: clamp(1rem, 3vw, 1.5rem);
+  }
+  
+  body.decimal1-examples #tutor-avatar p {
+    font-size: clamp(0.75rem, 2vw, 0.875rem);
+    color: var(--color-gray-500);
+    margin-top: 0.5rem;
+    font-weight: 500;
+  }
+  
+  body.decimal1-examples #speech-bubble {
+    background-color: var(--color-white);
+    border: 2px solid var(--color-gray-200);
+    border-radius: 0.75rem;
+    position: relative;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateZ(0);
+  }
+  
+  body.decimal1-examples #speech-bubble:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transform: translateY(-1px) translateZ(0);
+  }
+  
+  body.decimal1-examples #speech-bubble::before {
+    content: '';
+    position: absolute;
+    left: -12px;
+    top: 32px;
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-right: 15px solid var(--color-gray-200);
+    z-index: 1;
+  }
+  
+  body.decimal1-examples #speech-bubble::after {
+    content: '';
+    position: absolute;
+    left: -10px;
+    top: 32px;
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-right: 15px solid var(--color-white);
+    z-index: 2;
+  }
+  
+  body.decimal1-examples #tutor-text {
+    color: #374151;
+    line-height: 1.6;
+    font-size: clamp(0.875rem, 2vw, 1rem);
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 100%;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    padding: 1rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-gray-300) transparent;
+    hyphens: auto;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+  
+  /* Custom scrollbar for tutor text */
+  body.decimal1-examples #tutor-text::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  body.decimal1-examples #tutor-text::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  body.decimal1-examples #tutor-text::-webkit-scrollbar-thumb {
+    background-color: var(--color-gray-300);
+    border-radius: 3px;
+  }
+  
+  body.decimal1-examples #tutor-text::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-gray-400);
+  }
+  
+  body.decimal1-examples #typewriter-text {
+    display: inline;
+  }
+  
+  body.decimal1-examples #cursor {
+    display: inline;
+    color: var(--color-blue-500);
+    font-weight: bold;
+    animation: blinkSmooth 1.2s ease-in-out infinite;
+    transform: translateZ(0);
+  }
+  
+  /* Bottom navigation for tutor section */
+  body.decimal1-examples .tutor-container .flex-shrink-0 {
+    padding: 1rem;
+    border-top: 1px solid var(--color-gray-200);
+    background-color: var(--color-gray-50);
+  }
+  
+  /* =======================================
+   8. Navigation Buttons & Interactive Elements
+   ======================================= */
+  body.decimal1-examples #prev-step, 
+  body.decimal1-examples #next-step {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 180px;
+    position: relative;
+    overflow: hidden;
+    transform: translateZ(0);
+  }
+  
+  body.decimal1-examples #prev-step:hover:not(:disabled), 
+  body.decimal1-examples #next-step:hover {
+    transform: translateY(-2px) translateZ(0);
+    box-shadow: 0 8px 16px rgba(59, 130, 246, 0.3);
+  }
+  
+  body.decimal1-examples #prev-step:active:not(:disabled), 
+  body.decimal1-examples #next-step:active {
+    transform: translateY(0) translateZ(0);
+    transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  body.decimal1-examples #prev-step:focus, 
+  body.decimal1-examples #next-step:focus {
+    outline: 3px solid rgba(59, 130, 246, 0.5);
+    outline-offset: 2px;
+  }
+  
+  body.decimal1-examples #prev-step:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+  
+  body.decimal1-examples #next-example {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateZ(0);
+  }
+  
+  body.decimal1-examples #next-example:hover {
+    transform: translateY(-2px) scale(1.05) translateZ(0);
+    box-shadow: 0 6px 12px rgba(34, 197, 94, 0.3);
+  }
+  
+  body.decimal1-examples #next-example:focus {
+    outline: 3px solid rgba(34, 197, 94, 0.5);
+    outline-offset: 2px;
+  }
+  
+  /* Button loading states */
+  body.decimal1-examples button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    transform: none !important;
+  }
+  
+  body.decimal1-examples button.loading {
+    position: relative;
+    color: transparent;
+  }
+  
+  body.decimal1-examples button.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid transparent;
+    border-top: 2px solid currentColor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  
+  /* =======================================
+   9. Typography & Headers
+   ======================================= */
+  h1.text-3xl {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 2.8125rem;
+    line-height: 1.2;
+  }
+  
+  h2, h3 {
+    font-weight: 600;
+  }
+  
+  h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+  
+  h3 {
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* =======================================
+   10. Interactive Elements & Buttons
+   ======================================= */
+  button {
+    transition: all 0.2s ease;
+  }
+  
+  button:hover {
+    transform: translateY(-2px);
+  }
+  
+  .bg-blue-600 {
+    background-color: var(--color-blue-600);
+    color: var(--color-white);
+  }
+  
+  .bg-blue-600:hover {
+    background-color: var(--color-blue-700);
+  }
+  
+  .bg-green-600 {
+    background-color: var(--color-green-600);
+    color: var(--color-white);
+  }
+  
+  .bg-green-600:hover {
+    background-color: var(--color-green-700);
+  }
+  
+  /* Enhanced focus states for accessibility */
+  body.decimal1-examples button:focus-visible,
+  body.decimal1-examples .step-item:focus-visible {
+    outline: 3px solid rgba(59, 130, 246, 0.6);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 6px rgba(59, 130, 246, 0.1);
+  }
+  
+  /* =======================================
+   11. Enhanced Animations & Transitions
+   ======================================= */
+  
+  /* Content container transitions */
+  body.decimal1-examples .progress-container,
+  body.decimal1-examples .whiteboard-container,
+  body.decimal1-examples .tutor-container {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform, box-shadow;
+  }
+  
+  body.decimal1-examples .progress-container:hover,
+  body.decimal1-examples .whiteboard-container:hover,
+  body.decimal1-examples .tutor-container:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+  }
+  
+  /* Loading state improvements */
+  body.decimal1-examples #loading {
+    backdrop-filter: blur(4px);
+    transition: all 0.3s ease;
+  }
+  
+  body.decimal1-examples #loading .inline-block {
+    animation: spinEnhanced 1s linear infinite;
+    filter: drop-shadow(0 2px 4px rgba(59, 130, 246, 0.3));
+  }
+  
+  /* =======================================
+   12. Visual Consistency & Polish
+   ======================================= */
+  
+  /* Consistent border radius throughout */
+  body.decimal1-examples .progress-container,
+  body.decimal1-examples .whiteboard-container,
+  body.decimal1-examples .tutor-container,
+  body.decimal1-examples #speech-bubble,
+  body.decimal1-examples #math-annotation {
+    border-radius: 0.75rem;
+  }
+  
+  body.decimal1-examples .step-item,
+  body.decimal1-examples #progress-bar,
+  body.decimal1-examples button {
+    border-radius: 0.5rem;
+  }
+  
+  /* Consistent shadow depth system */
+  body.decimal1-examples .progress-container,
+  body.decimal1-examples .tutor-container {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+  
+  body.decimal1-examples .whiteboard-container {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+  
+  body.decimal1-examples #speech-bubble {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  }
+  
+  body.decimal1-examples button {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* =======================================
+   13. Edge Case Handling
+   ======================================= */
+  
+  /* Empty state styling */
+  body.decimal1-examples .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--color-gray-500);
+    text-align: center;
+    padding: 2rem;
+  }
+  
+  body.decimal1-examples .empty-state::before {
+    content: '📚';
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+  }
+  
+  /* Error state styling */
+  body.decimal1-examples .error-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--color-red-600);
+    text-align: center;
+    padding: 2rem;
+    background-color: var(--color-red-50);
+    border: 2px solid var(--color-red-200);
+    border-radius: 0.75rem;
+  }
+  
+  body.decimal1-examples .error-state::before {
+    content: '⚠️';
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* Prevent content from being too cramped */
+  body.decimal1-examples .progress-container {
+    min-width: 120px;
+  }
+  
+  body.decimal1-examples .whiteboard-container {
+    min-width: 350px;
+  }
+  
+  body.decimal1-examples .tutor-container {
+    min-width: 250px;
+  }
+  
+  /* =======================================
+   14. Responsive Design & Breakpoints
+   ======================================= */
+  
+  /* Very large screens - adjust max widths to prevent overstretching */
+  @media (min-width: 1800px) {
+    body.decimal1-examples .main-content {
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+  }
+  
+  /* Large screens - standard layout with some adjustments */
+  @media (min-width: 1400px) and (max-width: 1799px) {
+    body.decimal1-examples .progress-column {
+      width: 12% !important;
+    }
+    
+    body.decimal1-examples .whiteboard-column {
+      width: 58% !important;
+    }
+    
+    body.decimal1-examples .tutor-column {
+      width: 30% !important;
+    }
+  }
+  
+  /* Medium-large screens - slight ratio adjustments */
+  @media (min-width: 1200px) and (max-width: 1399px) {
+    body.decimal1-examples .progress-column {
+      width: 10% !important;
+    }
+    
+    body.decimal1-examples .whiteboard-column {
+      width: 60% !important;
+    }
+    
+    body.decimal1-examples .tutor-column {
+      width: 30% !important;
+    }
+  }
+  
+  /* Smaller laptops - maintain columns but adjust padding */
+  @media (min-width: 1000px) and (max-width: 1199px) {
+    body.decimal1-examples .main-content {
+      padding: 0.5rem;
+      gap: 0.5rem;
+    }
+    
+    body.decimal1-examples .progress-column {
+      width: 8% !important;
+      min-width: 120px;
+    }
+    
+    body.decimal1-examples .whiteboard-column {
+      width: 64% !important;
+    }
+    
+    body.decimal1-examples .tutor-column {
+      width: 28% !important;
+      min-width: 280px;
+    }
+    
+    body.decimal1-examples #math-display {
+      font-size: clamp(2rem, 5vw, 3rem);
+    }
+    
+    body.decimal1-examples #tutor-text {
+      font-size: 0.9rem;
+    }
+  }
+  
+  /* Narrow laptops - horizontal scroll if needed */
+  @media (min-width: 900px) and (max-width: 999px) {
+    body.decimal1-examples .main-content {
+      padding: 0.25rem;
+      gap: 0.25rem;
+      min-width: 900px;
+      overflow-x: auto;
+    }
+    
+    body.decimal1-examples .progress-column {
+      width: 100px !important;
+      min-width: 100px;
+      max-width: 100px;
+    }
+    
+    body.decimal1-examples .whiteboard-column {
+      width: 550px !important;
+      min-width: 550px;
+      max-width: 550px;
+    }
+    
+    body.decimal1-examples .tutor-column {
+      width: 240px !important;
+      min-width: 240px;
+      max-width: 240px;
+    }
+    
+    body.decimal1-examples #math-display {
+      font-size: 2.5rem;
+    }
+    
+    body.decimal1-examples #progress-sidebar h3 {
+      font-size: 1rem;
+    }
+    
+    body.decimal1-examples .step-item span {
+      font-size: 0.75rem;
+    }
+  }
+  
+  /* Tablets and smaller - stack vertically */
+  @media (max-width: 899px) {
+    body.decimal1-examples .container {
+      height: auto !important;
+    }
+    
+    body.decimal1-examples .main-content {
+      flex-direction: column;
+      height: auto;
+      padding: 0.5rem;
+      gap: 0.5rem;
+    }
+    
+    body.decimal1-examples .progress-column,
+    body.decimal1-examples .whiteboard-column,
+    body.decimal1-examples .tutor-column {
+      width: 100% !important;
+      min-width: auto;
+      margin-bottom: 0;
+    }
+    
+    body.decimal1-examples .progress-container {
+      min-height: 150px;
+      max-height: 200px;
+    }
+    
+    body.decimal1-examples .whiteboard-container {
+      min-height: 400px;
+      max-height: 500px;
+    }
+    
+    body.decimal1-examples .tutor-container {
+      min-height: 300px;
+      max-height: 400px;
+    }
+    
+    body.decimal1-examples #main-whiteboard {
+      aspect-ratio: 4/3;
+      min-height: 300px;
+    }
+    
+    body.decimal1-examples #math-display {
+      font-size: 2rem;
+    }
+    
+    /* Stack progress bar horizontally on mobile */
+    body.decimal1-examples #step-list {
+      display: flex;
+      gap: 1rem;
+      justify-content: space-around;
+    }
+    
+    body.decimal1-examples .step-item {
+      flex: 1;
+      text-align: center;
+    }
+    
+    body.decimal1-examples .step-item span {
+      display: block;
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+    }
+  }
+  
+  /* Very small screens - optimize for mobile */
+  @media (max-width: 600px) {
+    body.decimal1-examples .header-section {
+      padding: 0.5rem 1rem;
+    }
+    
+    body.decimal1-examples .header-section h1 {
+      font-size: 1.5rem;
+    }
+    
+    body.decimal1-examples .main-content {
+      padding: 0.25rem;
+      gap: 0.25rem;
+    }
+    
+    body.decimal1-examples .progress-container {
+      min-height: 120px;
+      max-height: 150px;
+    }
+    
+    body.decimal1-examples .whiteboard-container {
+      min-height: 300px;
+      max-height: 400px;
+    }
+    
+    body.decimal1-examples .tutor-container {
+      min-height: 250px;
+      max-height: 350px;
+    }
+    
+    body.decimal1-examples #math-display {
+      font-size: 1.5rem;
+    }
+    
+    body.decimal1-examples #tutor-text {
+      font-size: 0.85rem;
+    }
+    
+    body.decimal1-examples #prev-step,
+    body.decimal1-examples #next-step {
+      width: auto;
+      flex: 1;
+      font-size: 0.875rem;
+      padding: 0.5rem;
+    }
+  }
+  
+  /* Handle very wide screens gracefully */
+  @media (min-width: 2000px) {
+    body.decimal1-examples .main-content {
+      max-width: 1800px;
+      margin: 0 auto;
+    }
+    
+    body.decimal1-examples #math-display {
+      font-size: 5rem;
+    }
+  }
+  
+  /* Handle very short screens - ensure minimum usability */
+  @media (max-height: 600px) {
+    body.decimal1-examples .header-section {
+      padding: 0.5rem 1rem;
+    }
+    
+    body.decimal1-examples .main-content {
+      padding: 0.25rem;
+    }
+    
+    body.decimal1-examples .progress-container,
+    body.decimal1-examples .whiteboard-container,
+    body.decimal1-examples .tutor-container {
+      min-height: 300px;
+    }
+  }
+  
+  /* Handle very wide screens gracefully */
+  @media (min-width: 2400px) {
+    body.decimal1-examples .main-content {
+      max-width: 2000px;
+      margin: 0 auto;
+    }
+  }
+  
+  /* Handle very short screens better */
+  @media (max-height: 500px) {
+    body.decimal1-examples .header-section {
+      padding: 0.25rem 1rem;
+    }
+    
+    body.decimal1-examples .main-content {
+      padding: 0.25rem;
+      gap: 0.25rem;
+    }
+    
+    body.decimal1-examples .progress-container,
+    body.decimal1-examples .whiteboard-container,
+    body.decimal1-examples .tutor-container {
+      min-height: 200px;
+    }
+  }
+  
+  /* Landscape tablet adjustments */
+  @media (max-width: 1024px) and (orientation: landscape) {
+    body.decimal1-examples .main-content {
+      flex-direction: row;
+    }
+    
+    body.decimal1-examples .progress-column {
+      width: 15% !important;
+    }
+    
+    body.decimal1-examples .whiteboard-column {
+      width: 55% !important;
+    }
+    
+    body.decimal1-examples .tutor-column {
+      width: 30% !important;
+    }
+  }
+  
+  /* Print styles */
+  @media print {
+    body.decimal1-examples .header-section,
+    body.decimal1-examples #prev-step,
+    body.decimal1-examples #next-step,
+    body.decimal1-examples #next-example {
+      display: none;
+    }
+    
+    body.decimal1-examples .main-content {
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    body.decimal1-examples .progress-container,
+    body.decimal1-examples .whiteboard-container,
+    body.decimal1-examples .tutor-container {
+      break-inside: avoid;
+      box-shadow: none;
+      border: 1px solid #ccc;
+    }
+  }
+  
+  /* =======================================
+   15. Performance Optimizations
+   ======================================= */
+  
+  /* GPU acceleration for animated elements */
+  body.decimal1-examples #progress-bar,
+  body.decimal1-examples .step-item,
+  body.decimal1-examples button,
+  body.decimal1-examples #math-display,
+  body.decimal1-examples #cursor,
+  body.decimal1-examples #whiteboard-title,
+  body.decimal1-examples #whiteboard-title-new {
+    will-change: transform;
+  }
+  
+  /* Reduce repaints during animations */
+  body.decimal1-examples .progress-container:hover,
+  body.decimal1-examples .whiteboard-container:hover,
+  body.decimal1-examples .tutor-container:hover {
+    will-change: transform, box-shadow;
+  }
+  
+  /* Optimize transitions */
+  body.decimal1-examples * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Smooth scrolling */
+  body.decimal1-examples #tutor-text,
+  body.decimal1-examples #progress-sidebar {
+    scroll-behavior: smooth;
+  }
+  
+  /* =======================================
+   16. Utility Animations
+   ======================================= */
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes fadeInRight {
+    from {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  @keyframes spinEnhanced {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  @keyframes shimmerVertical {
+    0% { transform: translateY(100%); }
+    100% { transform: translateY(-100%); }
+  }
+  
+  @keyframes stretchPulse {
+    0%, 100% { 
+      box-shadow: 0 -2px 8px rgba(59, 130, 246, 0.3);
+      filter: brightness(1);
+    }
+    50% { 
+      box-shadow: 0 -4px 16px rgba(59, 130, 246, 0.6), 0 0 20px rgba(59, 130, 246, 0.4);
+      filter: brightness(1.2);
+    }
+  }
+  
+  @keyframes pulseActive {
+    0%, 100% { background-color: rgba(59, 130, 246, 0.1); }
+    50% { background-color: rgba(59, 130, 246, 0.2); }
+  }
+  
+  @keyframes blinkSmooth {
+    0%, 45% { opacity: 1; transform: scaleY(1); }
+    50%, 95% { opacity: 0; transform: scaleY(0.1); }
+    100% { opacity: 1; transform: scaleY(1); }
+  }
+  
+  /* Animation classes for JavaScript to use */
+  body.decimal1-examples .animate-fade-in-up {
+    animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  body.decimal1-examples .animate-fade-in-left {
+    animation: fadeInLeft 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  body.decimal1-examples .animate-fade-in-right {
+    animation: fadeInRight 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* Stagger animation delays for child elements */
+  body.decimal1-examples .animate-stagger > *:nth-child(1) { animation-delay: 0.1s; }
+  body.decimal1-examples .animate-stagger > *:nth-child(2) { animation-delay: 0.2s; }
+  body.decimal1-examples .animate-stagger > *:nth-child(3) { animation-delay: 0.3s; }
+  body.decimal1-examples .animate-stagger > *:nth-child(4) { animation-delay: 0.4s; }
