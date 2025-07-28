@@ -1,10 +1,10 @@
 /* =======================================
- Decimal1 Practice Page - Complete CSS with Stage 3 Practice Functionality
- Based on Examples Page Layout
+ Decimal1 Practice Page - Stage 6: Polish & Test Complete CSS
+ Enhanced with accessibility, animations, and robust error handling
  ======================================= */
 
 /* =======================================
- 1. CSS Variables & Base Styles
+ 1. CSS Variables & Enhanced Base Styles
  ======================================= */
  :root {
     --color-white: #ffffff;
@@ -36,25 +36,57 @@
     --color-red-50: #fee2e2;
     --color-red-500: #ef4444;
     --color-red-600: #dc2626;
-  }
-  
-  html, body {
+    --color-yellow-50: #fefce8;
+    --color-yellow-200: #fde047;
+    --color-yellow-400: #facc15;
+    
+    /* NEW: Enhanced spacing and timing variables */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    
+    --transition-fast: 150ms ease-in-out;
+    --transition-normal: 300ms ease-in-out;
+    --transition-slow: 500ms ease-in-out;
+    
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    
+    /* NEW: Focus ring for accessibility */
+    --focus-ring: 0 0 0 3px rgba(59, 130, 246, 0.5);
+}
+
+html, body {
     height: 100%;
     font-family: system-ui, -apple-system, sans-serif;
     margin: 0;
     padding: 0;
-  }
-  
-  body {
+}
+
+body {
     background-color: var(--color-gray-100);
-  }
-  
-  /* =======================================
-   2. Full-Height Layout Structure
-   ======================================= */
-  
-  /* Apply layout to decimal1-practice pages */
-  body.decimal1-practice .container {
+}
+
+/* NEW: Screen reader only content */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* =======================================
+ 2. Enhanced Layout Structure
+ ======================================= */
+body.decimal1-practice .container {
     height: 100vh !important;
     padding: 0 !important;
     margin: 0 !important;
@@ -63,119 +95,121 @@
     overflow: hidden !important;
     max-width: none !important;
     width: 100% !important;
-  }
-  
-  /* Top header section - fixed height with separator */
-  body.decimal1-practice .header-section {
+}
+
+body.decimal1-practice .header-section {
     flex-shrink: 0;
-    padding: 1rem 2rem;
+    padding: var(--spacing-md) var(--spacing-xl);
     border-bottom: 2px solid var(--color-gray-200);
     background-color: var(--color-white);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-sm);
     z-index: 10;
     height: auto;
-  }
-  
-  /* Main content area - fills remaining height */
-  body.decimal1-practice .main-content {
+}
+
+body.decimal1-practice .main-content {
     flex: 1;
     display: flex !important;
-    padding: 1rem;
-    gap: 1rem;
+    padding: var(--spacing-md);
+    gap: var(--spacing-md);
     min-height: 0;
     overflow: hidden;
     background-color: var(--color-gray-100);
     width: 100%;
     box-sizing: border-box;
-  }
-  
-  /* Individual column containers - EXPLICIT WIDTHS */
-  body.decimal1-practice .progress-column {
+}
+
+body.decimal1-practice .progress-column {
     width: 10% !important;
     min-width: 150px;
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
-  }
-  
-  body.decimal1-practice .whiteboard-column {
+}
+
+body.decimal1-practice .whiteboard-column {
     width: 60% !important;
     min-width: 400px;
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
-  }
-  
-  body.decimal1-practice .tutor-column {
+}
+
+body.decimal1-practice .tutor-column {
     width: 30% !important;
     min-width: 300px;
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
-  }
-  
-  /* Content containers within columns */
-  body.decimal1-practice .progress-container,
-  body.decimal1-practice .whiteboard-container,
-  body.decimal1-practice .tutor-container {
+}
+
+body.decimal1-practice .progress-container,
+body.decimal1-practice .whiteboard-container,
+body.decimal1-practice .tutor-container {
     flex: 1;
     display: flex;
     flex-direction: column;
     background-color: var(--color-white);
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border-radius: 0.75rem;
+    box-shadow: var(--shadow-md);
     overflow: hidden;
     height: 100%;
-  }
-  
-  /* Ensure minimum heights */
-  body.decimal1-practice .progress-container {
+    transition: box-shadow var(--transition-normal);
+}
+
+/* NEW: Enhanced hover effects */
+body.decimal1-practice .progress-container:hover,
+body.decimal1-practice .whiteboard-container:hover,
+body.decimal1-practice .tutor-container:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-1px);
+}
+
+body.decimal1-practice .progress-container {
     min-height: 500px;
-  }
-  
-  body.decimal1-practice .whiteboard-container {
+}
+
+body.decimal1-practice .whiteboard-container {
     min-height: 600px;
-  }
-  
-  body.decimal1-practice .tutor-container {
+}
+
+body.decimal1-practice .tutor-container {
     min-height: 500px;
-  }
-  
-  /* =======================================
-   3. Progress Sidebar - VERTICAL PROGRESS BAR
-   ======================================= */
-  body.decimal1-practice #progress-sidebar {
+}
+
+/* =======================================
+ 3. Enhanced Progress Sidebar
+ ======================================= */
+body.decimal1-practice #progress-sidebar {
     background-color: var(--color-gray-50);
     border: 1px solid var(--color-gray-200);
     height: 100%;
     display: flex;
     flex-direction: column;
-    padding: 1rem;
+    padding: var(--spacing-md);
     box-sizing: border-box;
     overflow-y: auto;
-  }
-  
-  body.decimal1-practice #progress-sidebar h3 {
+}
+
+body.decimal1-practice #progress-sidebar h3 {
     color: #1f2937;
     font-size: clamp(0.875rem, 2.5vw, 1rem);
     font-weight: 700;
-    margin-bottom: 1.5rem;
+    margin-bottom: var(--spacing-lg);
     line-height: 1.2;
     text-align: center;
-  }
-  
-  /* Vertical Progress Bar Container */
-  body.decimal1-practice .progress-bar-container {
+}
+
+body.decimal1-practice .progress-bar-container {
     flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     min-height: 200px;
-  }
-  
-  /* Vertical Progress Bar Track */
-  body.decimal1-practice .progress-bar-track {
+}
+
+body.decimal1-practice .progress-bar-track {
     width: 20px;
     height: 70%;
     background-color: var(--color-gray-200);
@@ -183,23 +217,22 @@
     position: relative;
     overflow: hidden;
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Vertical Progress Bar Fill */
-  body.decimal1-practice #progress-bar {
+}
+
+body.decimal1-practice #progress-bar {
     width: 100%;
-    height: 20%; /* Start at 20% since examples 1.1 and 1.2 are complete */
+    height: 20%;
     background: linear-gradient(to top, var(--color-blue-500), var(--color-blue-400));
     border-radius: 10px;
     position: absolute;
     bottom: 0;
     left: 0;
-    transition: height 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: height var(--transition-slow) cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 -2px 8px rgba(59, 130, 246, 0.3);
-  }
-  
-  /* Progress Bar Shimmer Effect */
-  body.decimal1-practice #progress-bar::after {
+}
+
+/* NEW: Enhanced shimmer effect */
+body.decimal1-practice #progress-bar::after {
     content: '';
     position: absolute;
     top: 0;
@@ -208,31 +241,29 @@
     height: 100%;
     background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
     animation: shimmerVertical 2s infinite;
-  }
-  
-  /* Stretch Mode Pulse Animation */
-  body.decimal1-practice #progress-bar.stretch-pulse {
+}
+
+body.decimal1-practice #progress-bar.stretch-pulse {
     animation: stretchPulse 1.5s ease-in-out infinite;
-  }
-  
-  /* Progress Percentage Display */
-  body.decimal1-practice #progress-percentage {
+}
+
+body.decimal1-practice #progress-percentage {
     font-weight: 700;
     font-size: clamp(1rem, 3vw, 1.25rem);
     color: var(--color-blue-600);
-    margin-top: 1rem;
+    margin-top: var(--spacing-md);
     text-align: center;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* =======================================
-   4. Whiteboard Styling with Split Layout
-   ======================================= */
-  body.decimal1-practice #main-whiteboard {
+}
+
+/* =======================================
+ 4. Enhanced Split Whiteboard Layout
+ ======================================= */
+body.decimal1-practice #main-whiteboard {
     background-color: var(--color-white);
     border: 15px solid red;
     border-image: url('/static/images/whiteboard_border.jpg') 15;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--shadow-lg);
     border-radius: 0;
     flex: 1;
     width: 100%;
@@ -241,113 +272,114 @@
     margin: 0;
     position: relative;
     min-height: 400px;
-  }
-  
-  /* Split whiteboard into two halves */
-  body.decimal1-practice .whiteboard-left {
+}
+
+body.decimal1-practice .whiteboard-left {
     width: 50%;
     height: 100%;
     overflow-y: auto;
-    padding: 1rem;
+    padding: var(--spacing-md);
     background-color: var(--color-blue-25);
     border-right: 3px solid var(--color-gray-400);
     position: relative;
     display: flex;
     flex-direction: column;
-  }
-  
-  body.decimal1-practice .whiteboard-right {
+}
+
+body.decimal1-practice .whiteboard-right {
     width: 50%;
     height: 100%;
     overflow-y: auto;
-    padding: 1rem;
+    padding: var(--spacing-md);
     background-color: var(--color-green-25);
     position: relative;
     display: flex;
     flex-direction: column;
-  }
-  
-  /* Section headers for each half */
-  body.decimal1-practice .section-header {
-    background-color: rgba(255, 255, 255, 0.9);
-    padding: 0.75rem 1rem;
+}
+
+/* NEW: Enhanced section headers */
+body.decimal1-practice .section-header {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
+    padding: 0.75rem var(--spacing-md);
     border-radius: 0.5rem;
-    margin-bottom: 1rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: var(--spacing-md);
+    box-shadow: var(--shadow-sm);
     border-left: 4px solid var(--color-blue-500);
     position: sticky;
     top: 0;
     z-index: 5;
-  }
-  
-  body.decimal1-practice .whiteboard-right .section-header {
+    backdrop-filter: blur(8px);
+}
+
+body.decimal1-practice .whiteboard-right .section-header {
     border-left-color: var(--color-green-500);
-  }
-  
-  body.decimal1-practice .section-header h3 {
+}
+
+body.decimal1-practice .section-header h3 {
     margin: 0;
     font-size: 1.125rem;
     font-weight: 600;
     color: #1f2937;
-  }
-  
-  body.decimal1-practice .section-header p {
+}
+
+body.decimal1-practice .section-header p {
     margin: 0.25rem 0 0 0;
     font-size: 0.875rem;
     color: #6b7280;
-  }
-  
-  /* Content areas within each half */
-  body.decimal1-practice .examples-content,
-  body.decimal1-practice .practice-content {
+}
+
+body.decimal1-practice .examples-content,
+body.decimal1-practice .practice-content {
     flex: 1;
-    padding: 0.5rem;
+    padding: var(--spacing-sm);
     background-color: var(--color-white);
     border-radius: 0.5rem;
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
-  }
-  
-  /* Custom scrollbars for whiteboard halves */
-  body.decimal1-practice .whiteboard-left::-webkit-scrollbar,
-  body.decimal1-practice .whiteboard-right::-webkit-scrollbar,
-  body.decimal1-practice .examples-content::-webkit-scrollbar,
-  body.decimal1-practice .practice-content::-webkit-scrollbar {
+}
+
+/* NEW: Enhanced custom scrollbars */
+body.decimal1-practice .whiteboard-left::-webkit-scrollbar,
+body.decimal1-practice .whiteboard-right::-webkit-scrollbar,
+body.decimal1-practice .examples-content::-webkit-scrollbar,
+body.decimal1-practice .practice-content::-webkit-scrollbar {
     width: 8px;
-  }
-  
-  body.decimal1-practice .whiteboard-left::-webkit-scrollbar-track,
-  body.decimal1-practice .whiteboard-right::-webkit-scrollbar-track,
-  body.decimal1-practice .examples-content::-webkit-scrollbar-track,
-  body.decimal1-practice .practice-content::-webkit-scrollbar-track {
+}
+
+body.decimal1-practice .whiteboard-left::-webkit-scrollbar-track,
+body.decimal1-practice .whiteboard-right::-webkit-scrollbar-track,
+body.decimal1-practice .examples-content::-webkit-scrollbar-track,
+body.decimal1-practice .practice-content::-webkit-scrollbar-track {
     background: var(--color-gray-100);
     border-radius: 4px;
-  }
-  
-  body.decimal1-practice .whiteboard-left::-webkit-scrollbar-thumb,
-  body.decimal1-practice .examples-content::-webkit-scrollbar-thumb {
-    background-color: var(--color-blue-300);
+}
+
+body.decimal1-practice .whiteboard-left::-webkit-scrollbar-thumb,
+body.decimal1-practice .examples-content::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, var(--color-blue-300), var(--color-blue-400));
     border-radius: 4px;
-  }
-  
-  body.decimal1-practice .whiteboard-right::-webkit-scrollbar-thumb,
-  body.decimal1-practice .practice-content::-webkit-scrollbar-thumb {
-    background-color: var(--color-green-300);
+    transition: background var(--transition-fast);
+}
+
+body.decimal1-practice .whiteboard-right::-webkit-scrollbar-thumb,
+body.decimal1-practice .practice-content::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, var(--color-green-300), var(--color-green-400));
     border-radius: 4px;
-  }
-  
-  body.decimal1-practice .whiteboard-left::-webkit-scrollbar-thumb:hover,
-  body.decimal1-practice .examples-content::-webkit-scrollbar-thumb:hover {
-    background-color: var(--color-blue-400);
-  }
-  
-  body.decimal1-practice .whiteboard-right::-webkit-scrollbar-thumb:hover,
-  body.decimal1-practice .practice-content::-webkit-scrollbar-thumb:hover {
-    background-color: var(--color-green-400);
-  }
-  
-  /* Enhanced dividing line with shadow effect */
-  body.decimal1-practice .whiteboard-left::after {
+    transition: background var(--transition-fast);
+}
+
+body.decimal1-practice .whiteboard-left::-webkit-scrollbar-thumb:hover,
+body.decimal1-practice .examples-content::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom, var(--color-blue-400), var(--color-blue-500));
+}
+
+body.decimal1-practice .whiteboard-right::-webkit-scrollbar-thumb:hover,
+body.decimal1-practice .practice-content::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom, var(--color-green-400), var(--color-green-500));
+}
+
+/* NEW: Enhanced dividing line with animated shadow */
+body.decimal1-practice .whiteboard-left::after {
     content: '';
     position: absolute;
     top: 0;
@@ -356,62 +388,68 @@
     height: 100%;
     box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
     z-index: 2;
-  }
-  
-  /* =======================================
-   5. Tutor Sidebar Content
-   ======================================= */
-  body.decimal1-practice #tutor-avatar {
+    animation: pulseGlow 3s ease-in-out infinite;
+}
+
+/* =======================================
+ 5. Enhanced Tutor Sidebar
+ ======================================= */
+body.decimal1-practice #tutor-avatar {
     text-align: center;
-    padding: 0.5rem;
-  }
-  
-  body.decimal1-practice #tutor-avatar > div {
+    padding: var(--spacing-sm);
+}
+
+body.decimal1-practice #tutor-avatar > div {
     width: clamp(3rem, 8vw, 4rem);
     height: clamp(3rem, 8vw, 4rem);
-    background-color: var(--color-blue-100);
+    background: linear-gradient(135deg, var(--color-blue-100), var(--color-blue-200));
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto;
     border: 3px solid var(--color-blue-500);
-    box-shadow: 0 4px 8px rgba(59, 130, 246, 0.2);
-  }
-  
-  body.decimal1-practice #tutor-avatar span {
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    transition: transform var(--transition-normal);
+}
+
+body.decimal1-practice #tutor-avatar > div:hover {
+    transform: scale(1.05);
+}
+
+body.decimal1-practice #tutor-avatar span {
     font-size: clamp(1rem, 3vw, 1.5rem);
-  }
-  
-  body.decimal1-practice #tutor-avatar p {
+}
+
+body.decimal1-practice #tutor-avatar p {
     font-size: clamp(0.75rem, 2vw, 0.875rem);
     color: var(--color-gray-500);
-    margin-top: 0.5rem;
+    margin-top: var(--spacing-sm);
     font-weight: 500;
-  }
-  
-  body.decimal1-practice #speech-bubble {
+}
+
+body.decimal1-practice #speech-bubble {
     background-color: var(--color-white);
     border: 2px solid var(--color-gray-200);
     border-radius: 0.75rem;
     position: relative;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-md);
     height: 100%;
     width: 100%;
     box-sizing: border-box;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all var(--transition-normal);
     transform: translateZ(0);
-  }
-  
-  body.decimal1-practice #speech-bubble:hover {
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+body.decimal1-practice #speech-bubble:hover {
+    box-shadow: var(--shadow-lg);
     transform: translateY(-1px) translateZ(0);
-  }
-  
-  body.decimal1-practice #speech-bubble::before {
+}
+
+body.decimal1-practice #speech-bubble::before {
     content: '';
     position: absolute;
     left: -12px;
@@ -422,9 +460,9 @@
     border-bottom: 10px solid transparent;
     border-right: 15px solid var(--color-gray-200);
     z-index: 1;
-  }
-  
-  body.decimal1-practice #speech-bubble::after {
+}
+
+body.decimal1-practice #speech-bubble::after {
     content: '';
     position: absolute;
     left: -10px;
@@ -435,9 +473,9 @@
     border-bottom: 10px solid transparent;
     border-right: 15px solid var(--color-white);
     z-index: 2;
-  }
-  
-  body.decimal1-practice #tutor-text {
+}
+
+body.decimal1-practice #tutor-text {
     color: #374151;
     line-height: 1.6;
     font-size: clamp(0.875rem, 2vw, 1rem);
@@ -448,91 +486,72 @@
     box-sizing: border-box;
     word-wrap: break-word;
     overflow-wrap: break-word;
-    padding: 1rem;
+    padding: var(--spacing-md);
     scrollbar-width: thin;
     scrollbar-color: var(--color-gray-300) transparent;
     hyphens: auto;
     word-break: break-word;
     overflow-wrap: anywhere;
-  }
-  
-  /* Custom scrollbar for tutor text */
-  body.decimal1-practice #tutor-text::-webkit-scrollbar {
-    width: 6px;
-  }
-  
-  body.decimal1-practice #tutor-text::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  
-  body.decimal1-practice #tutor-text::-webkit-scrollbar-thumb {
-    background-color: var(--color-gray-300);
-    border-radius: 3px;
-  }
-  
-  body.decimal1-practice #tutor-text::-webkit-scrollbar-thumb:hover {
-    background-color: var(--color-gray-400);
-  }
-  
-  /* =======================================
-   6. Enhanced Examples Content Styling
-   ======================================= */
-  
-  /* Example detailed containers */
-  body.decimal1-practice .example-detailed {
-    transition: all 0.3s ease;
+}
+
+/* =======================================
+ 6. Enhanced Examples Content Styling
+ ======================================= */
+body.decimal1-practice .example-detailed {
+    transition: all var(--transition-normal);
     overflow: hidden;
-  }
-  
-  body.decimal1-practice .example-detailed:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 0.75rem;
+}
+
+body.decimal1-practice .example-detailed:hover {
+    box-shadow: var(--shadow-lg);
     transform: translateY(-2px);
-  }
-  
-  /* Example headers */
-  body.decimal1-practice .example-header {
+}
+
+body.decimal1-practice .example-header {
     background: linear-gradient(135deg, var(--color-blue-100), var(--color-blue-50));
     border-bottom: 1px solid var(--color-blue-200);
-  }
-  
-  /* Step styling */
-  body.decimal1-practice .step {
-    transition: all 0.3s ease;
+}
+
+body.decimal1-practice .step {
+    transition: all var(--transition-normal);
     border: 1px solid var(--color-blue-100);
-  }
-  
-  body.decimal1-practice .step:hover {
-    box-shadow: 0 4px 8px rgba(59, 130, 246, 0.1);
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+body.decimal1-practice .step:hover {
+    box-shadow: var(--shadow-md);
     transform: translateY(-1px);
-  }
-  
-  /* Step numbers */
-  body.decimal1-practice .step-number {
+    border-color: var(--color-blue-300);
+}
+
+body.decimal1-practice .step-number {
     background: linear-gradient(135deg, var(--color-blue-500), var(--color-blue-600));
-    box-shadow: 0 2px 4px rgba(59, 130, 246, 0.3);
-    transition: all 0.3s ease;
-  }
-  
-  body.decimal1-practice .step:hover .step-number {
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-normal);
+}
+
+body.decimal1-practice .step:hover .step-number {
     transform: scale(1.1);
-    box-shadow: 0 4px 8px rgba(59, 130, 246, 0.4);
-  }
-  
-  /* Math display styling */
-  body.decimal1-practice .math-display {
+    box-shadow: var(--shadow-md);
+}
+
+body.decimal1-practice .math-display {
     font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
     line-height: 1.2;
     letter-spacing: 0.05em;
-  }
-  
-  /* Step visual containers */
-  body.decimal1-practice .step-visual {
-    transition: all 0.3s ease;
+    transition: all var(--transition-normal);
+}
+
+body.decimal1-practice .step-visual {
+    transition: all var(--transition-normal);
     position: relative;
     overflow: hidden;
-  }
-  
-  body.decimal1-practice .step-visual::before {
+}
+
+/* NEW: Enhanced step visual hover effect */
+body.decimal1-practice .step-visual::before {
     content: '';
     position: absolute;
     top: 0;
@@ -540,200 +559,206 @@
     width: 100%;
     height: 100%;
     background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-    transition: left 0.6s ease;
-  }
-  
-  body.decimal1-practice .step:hover .step-visual::before {
+    transition: left var(--transition-slow);
+}
+
+body.decimal1-practice .step:hover .step-visual::before {
     left: 100%;
-  }
-  
-  /* Annotation styling */
-  body.decimal1-practice .annotation {
+}
+
+body.decimal1-practice .annotation {
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-  }
-  
-  /* Reference and tips cards */
-  body.decimal1-practice .reference-card,
-  body.decimal1-practice .tips-card {
-    transition: all 0.3s ease;
+    transition: color var(--transition-fast);
+}
+
+body.decimal1-practice .reference-card,
+body.decimal1-practice .tips-card {
+    transition: all var(--transition-normal);
     position: relative;
     overflow: hidden;
-  }
-  
-  body.decimal1-practice .reference-card:hover,
-  body.decimal1-practice .tips-card:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+body.decimal1-practice .reference-card:hover,
+body.decimal1-practice .tips-card:hover {
+    box-shadow: var(--shadow-md);
     transform: translateY(-2px);
-  }
-  
-  /* Tips card special styling */
-  body.decimal1-practice .tips-card {
+}
+
+body.decimal1-practice .tips-card {
     background: linear-gradient(135deg, #fefce8, #fef3c7);
     border-color: #fbbf24;
-  }
-  
-  /* Scrollable examples content */
-  body.decimal1-practice .examples-content {
-    max-height: 100%;
-    overflow-y: auto;
-    padding-right: 0.5rem;
-  }
-  
-  /* Enhanced scrollbar for examples */
-  body.decimal1-practice .examples-content::-webkit-scrollbar {
-    width: 6px;
-  }
-  
-  body.decimal1-practice .examples-content::-webkit-scrollbar-track {
-    background: var(--color-blue-50);
-    border-radius: 3px;
-  }
-  
-  body.decimal1-practice .examples-content::-webkit-scrollbar-thumb {
-    background: var(--color-blue-300);
-    border-radius: 3px;
-    transition: background 0.3s ease;
-  }
-  
-  body.decimal1-practice .examples-content::-webkit-scrollbar-thumb:hover {
-    background: var(--color-blue-400);
-  }
-  
-  /* Step fade-in animation */
-  body.decimal1-practice .step {
-    animation: stepFadeIn 0.6s ease-out;
-  }
-  
-  /* Stagger animations for steps */
-  body.decimal1-practice .step:nth-child(1) { animation-delay: 0.1s; }
-  body.decimal1-practice .step:nth-child(2) { animation-delay: 0.2s; }
-  body.decimal1-practice .step:nth-child(3) { animation-delay: 0.3s; }
-  
-  /* Color coding for different elements */
-  body.decimal1-practice .step-visual.bg-green-50 {
-    background-color: var(--color-green-50) !important;
-    border-color: var(--color-green-300) !important;
-  }
-  
-  /* Interactive elements in examples */
-  body.decimal1-practice .example-steps {
-    position: relative;
-  }
-  
-  /* Responsive adjustments for examples */
-  @media (max-width: 1200px) {
-    body.decimal1-practice .math-display {
-      font-size: 1.5rem;
-    }
-    
-    body.decimal1-practice .step-visual {
-      padding: 0.75rem;
-    }
-  }
-  
-  @media (max-width: 900px) {
-    body.decimal1-practice .math-display {
-      font-size: 1.25rem;
-    }
-    
-    body.decimal1-practice .step {
-      padding: 0.75rem;
-    }
-    
-    body.decimal1-practice .step-header {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    
-    body.decimal1-practice .step-number {
-      margin-bottom: 0.5rem;
-      margin-right: 0;
-    }
-  }
-  
-  /* =======================================
-   7. Practice Question Styling
-   ======================================= */
-  
-  /* Choice items in practice questions */
-  body.decimal1-practice .choice-item {
-    transition: all 0.2s ease;
+}
+
+/* =======================================
+ 7. Enhanced Practice Question Styling
+ ======================================= */
+body.decimal1-practice .choice-item {
+    transition: all var(--transition-fast);
     cursor: pointer;
     border: 1px solid var(--color-gray-200);
     border-radius: 0.375rem;
     padding: 0.75rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--spacing-sm);
     font-size: 0.875rem;
-  }
-  
-  body.decimal1-practice .choice-item:hover {
+    position: relative;
+    overflow: hidden;
+}
+
+/* NEW: Enhanced choice item interactions */
+body.decimal1-practice .choice-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+    transition: left var(--transition-normal);
+    z-index: 0;
+}
+
+body.decimal1-practice .choice-item:hover::before {
+    left: 100%;
+}
+
+body.decimal1-practice .choice-item:hover {
     transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-sm);
     background-color: var(--color-gray-50);
-  }
-  
-  body.decimal1-practice .choice-item.selected {
+    border-color: var(--color-blue-300);
+}
+
+body.decimal1-practice .choice-item:focus {
+    outline: none;
+    box-shadow: var(--focus-ring);
+    border-color: var(--color-blue-500);
+}
+
+body.decimal1-practice .choice-item.selected {
     border-width: 2px;
     border-color: var(--color-blue-500);
     background-color: var(--color-blue-50);
-  }
-  
-  body.decimal1-practice .choice-item.bg-green-50 {
+    transform: translateY(-1px);
+}
+
+body.decimal1-practice .choice-item.bg-green-50 {
     background-color: var(--color-green-50);
     border-color: var(--color-green-500);
-  }
-  
-  body.decimal1-practice .choice-item.bg-red-50 {
+    border-width: 2px;
+}
+
+body.decimal1-practice .choice-item.bg-red-50 {
     background-color: var(--color-red-50);
     border-color: var(--color-red-500);
-  }
-  
-  /* Practice buttons */
-  body.decimal1-practice #submit-answer,
-  body.decimal1-practice #next-button {
-    transition: all 0.2s ease;
+    border-width: 2px;
+}
+
+/* NEW: Enhanced button styling */
+body.decimal1-practice #submit-answer,
+body.decimal1-practice #next-button {
+    transition: all var(--transition-normal);
     font-weight: 500;
     border-radius: 0.375rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  }
-  
-  body.decimal1-practice #submit-answer:hover:not(:disabled),
-  body.decimal1-practice #next-button:hover {
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    overflow: hidden;
+}
+
+body.decimal1-practice #submit-answer::before,
+body.decimal1-practice #next-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left var(--transition-normal);
+}
+
+body.decimal1-practice #submit-answer:hover:not(:disabled)::before,
+body.decimal1-practice #next-button:hover::before {
+    left: 100%;
+}
+
+body.decimal1-practice #submit-answer:hover:not(:disabled),
+body.decimal1-practice #next-button:hover {
     transform: translateY(-1px);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  body.decimal1-practice #submit-answer:disabled {
+    box-shadow: var(--shadow-md);
+}
+
+body.decimal1-practice #submit-answer:focus,
+body.decimal1-practice #next-button:focus {
+    outline: none;
+    box-shadow: var(--focus-ring);
+}
+
+body.decimal1-practice #submit-answer:disabled {
     opacity: 0.5;
     cursor: not-allowed;
     transform: none;
-  }
-  
-  /* Feedback styling */
-  body.decimal1-practice .feedback-area {
-    transition: all 0.3s ease;
-  }
-  
-  body.decimal1-practice .feedback-area.bg-green-50 {
-    background-color: var(--color-green-50);
-    border-color: var(--color-green-200);
-  }
-  
-  body.decimal1-practice .feedback-area.bg-red-50 {
-    background-color: var(--color-red-50);
-    border-color: var(--color-red-200);
-  }
-  
-  /* Stage indicator styling */
-  body.decimal1-practice .stage-indicator {
-    transition: all 0.3s ease;
+}
+
+/* NEW: Loading button state */
+body.decimal1-practice #submit-answer.loading {
+    position: relative;
+    color: transparent;
+}
+
+body.decimal1-practice #submit-answer.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid transparent;
+    border-top: 2px solid currentColor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* =======================================
+ 8. Enhanced Feedback & States
+ ======================================= */
+body.decimal1-practice .feedback-area {
+    transition: all var(--transition-normal);
+    border-radius: 0.5rem;
     position: relative;
     overflow: hidden;
-  }
-  
-  body.decimal1-practice .stage-indicator::before {
+}
+
+body.decimal1-practice .feedback-area::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: slideInEffect 0.8s ease-out;
+}
+
+body.decimal1-practice .feedback-area.bg-green-50 {
+    background: linear-gradient(135deg, var(--color-green-50), var(--color-green-25));
+    border-color: var(--color-green-200);
+}
+
+body.decimal1-practice .feedback-area.bg-red-50 {
+    background: linear-gradient(135deg, var(--color-red-50), #fef2f2);
+    border-color: var(--color-red-200);
+}
+
+body.decimal1-practice .stage-indicator {
+    transition: all var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+}
+
+body.decimal1-practice .stage-indicator::before {
     content: '';
     position: absolute;
     top: 0;
@@ -742,248 +767,887 @@
     height: 100%;
     background: linear-gradient(90deg, transparent, rgba(34, 197, 94, 0.1), transparent);
     animation: shimmerGreen 2s infinite;
-  }
-  
-  /* Stage completion animation */
-  body.decimal1-practice .stage-indicator.stage-completed {
+}
+
+body.decimal1-practice .stage-indicator.stage-completed {
     background: linear-gradient(135deg, var(--color-green-50), var(--color-green-25));
     border-color: var(--color-green-300);
     transform: scale(1.02);
-  }
-  
-  body.decimal1-practice .stage-indicator.stage-completed::before {
+    box-shadow: var(--shadow-md);
+}
+
+body.decimal1-practice .stage-indicator.stage-completed::before {
     background: linear-gradient(90deg, transparent, rgba(34, 197, 94, 0.3), transparent);
     animation: shimmerGreen 1s ease-out;
-  }
-  
-  /* Transition message styling */
-  body.decimal1-practice .transition-message {
+}
+
+body.decimal1-practice .transition-message {
     animation: transitionSlideIn 0.8s ease-out;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  }
-  
-  body.decimal1-practice .transition-message button {
-    transition: all 0.3s ease;
-  }
-  
-  body.decimal1-practice .transition-message button:hover {
+    box-shadow: var(--shadow-lg);
+}
+
+body.decimal1-practice .transition-message button {
+    transition: all var(--transition-normal);
+}
+
+body.decimal1-practice .transition-message button:hover {
     transform: translateY(-2px) scale(1.05);
-    box-shadow: 0 8px 16px rgba(59, 130, 246, 0.3);
-  }
-  
-  /* Progress info cards */
-  body.decimal1-practice .progress-info {
-    transition: all 0.3s ease;
-  }
-  
-  body.decimal1-practice .progress-info:hover {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-md);
+}
+
+body.decimal1-practice .progress-info {
+    transition: all var(--transition-normal);
+}
+
+body.decimal1-practice .progress-info:hover {
+    box-shadow: var(--shadow-sm);
     transform: translateY(-1px);
-  }
-  
-  /* Question container styling */
-  body.decimal1-practice .question-area {
-    transition: all 0.3s ease;
-    position: relative;
-  }
-  
-  body.decimal1-practice .question-area:hover {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Animation for new questions */
-  body.decimal1-practice .question-fade-in {
-    animation: fadeInUp 0.5s ease-out;
-  }
-  
-  /* =======================================
-   8. Animations
-   ======================================= */
-  
-  @keyframes shimmerVertical {
+}
+
+/* =======================================
+ 9. Error Handling & Status Indicators (NEW)
+ ======================================= */
+
+/* Error container styling */
+#error-container {
+    animation: slideInFromRight 0.5s ease-out;
+}
+
+#error-container .bg-red-50 {
+    backdrop-filter: blur(8px);
+    border: 2px solid var(--color-red-200);
+}
+
+#error-container button {
+    transition: all var(--transition-fast);
+}
+
+#error-container button:hover {
+    transform: scale(1.05);
+}
+
+/* Connection status styling */
+#connection-status {
+    animation: slideInFromLeft 0.5s ease-out;
+}
+
+#connection-status .bg-yellow-50 {
+    backdrop-filter: blur(8px);
+}
+
+#connection-indicator {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* NEW: Toast notifications for better UX */
+.toast-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+    background: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow-lg);
+    padding: var(--spacing-md);
+    max-width: 300px;
+    animation: toastSlideIn 0.3s ease-out;
+}
+
+.toast-notification.success {
+    border-left: 4px solid var(--color-green-500);
+}
+
+.toast-notification.error {
+    border-left: 4px solid var(--color-red-500);
+}
+
+.toast-notification.warning {
+    border-left: 4px solid var(--color-yellow-400);
+}
+
+/* =======================================
+ 10. Enhanced Animations
+ ======================================= */
+@keyframes shimmerVertical {
     0% { transform: translateY(100%); }
     100% { transform: translateY(-100%); }
-  }
-  
-  @keyframes stretchPulse {
+}
+
+@keyframes stretchPulse {
     0%, 100% { 
-      box-shadow: 0 -2px 8px rgba(59, 130, 246, 0.3);
-      filter: brightness(1);
+        box-shadow: 0 -2px 8px rgba(59, 130, 246, 0.3);
+        filter: brightness(1);
     }
     50% { 
-      box-shadow: 0 -4px 16px rgba(59, 130, 246, 0.6), 0 0 20px rgba(59, 130, 246, 0.4);
-      filter: brightness(1.2);
+        box-shadow: 0 -4px 16px rgba(59, 130, 246, 0.6), 0 0 20px rgba(59, 130, 246, 0.4);
+        filter: brightness(1.2);
     }
-  }
-  
-  @keyframes shimmerGreen {
+}
+
+@keyframes shimmerGreen {
     0% { transform: translateX(-100%); }
     100% { transform: translateX(100%); }
-  }
-  
-  @keyframes fadeInUp {
+}
+
+@keyframes fadeInUp {
     from {
-      opacity: 0;
-      transform: translateY(20px);
+        opacity: 0;
+        transform: translateY(20px);
     }
     to {
-      opacity: 1;
-      transform: translateY(0);
+        opacity: 1;
+        transform: translateY(0);
     }
-  }
-  
-  @keyframes stepFadeIn {
+}
+
+@keyframes stepFadeIn {
     from {
-      opacity: 0;
-      transform: translateY(10px) scale(0.98);
+        opacity: 0;
+        transform: translateY(10px) scale(0.98);
     }
     to {
-      opacity: 1;
-      transform: translateY(0) scale(1);
+        opacity: 1;
+        transform: translateY(0) scale(1);
     }
-  }
-  
-  @keyframes transitionSlideIn {
+}
+
+@keyframes transitionSlideIn {
     from {
-      opacity: 0;
-      transform: translateY(30px) scale(0.95);
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
     }
     to {
-      opacity: 1;
-      transform: translateY(0) scale(1);
+        opacity: 1;
+        transform: translateY(0) scale(1);
     }
-  }
-  
-  /* =======================================
-   9. Typography & Interactive Elements
-   ======================================= */
-  h1.text-3xl {
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* NEW: Additional animations */
+@keyframes pulseGlow {
+    0%, 100% { 
+        box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+    }
+    50% { 
+        box-shadow: 2px 0 8px rgba(59, 130, 246, 0.3);
+    }
+}
+
+@keyframes slideInEffect {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+@keyframes slideInFromRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInFromLeft {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes toastSlideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes pulse {
+    0%, 100% { 
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% { 
+        opacity: 0.7;
+        transform: scale(1.1);
+    }
+}
+
+/* NEW: Focus-within effects for better accessibility */
+body.decimal1-practice .choice-item:focus-within,
+body.decimal1-practice button:focus-within {
+    box-shadow: var(--focus-ring);
+}
+
+/* NEW: Reduced motion support for accessibility */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* =======================================
+ 11. Enhanced Typography & Responsiveness
+ ======================================= */
+h1.text-3xl {
     margin-top: 5px;
     margin-bottom: 10px;
     text-align: center;
     font-size: 2.8125rem;
     line-height: 1.2;
-  }
-  
-  h2, h3 {
+}
+
+h2, h3 {
     font-weight: 600;
-  }
-  
-  h2 {
+}
+
+h2 {
     font-size: 1.25rem;
-    margin-bottom: 1rem;
-  }
-  
-  h3 {
+    margin-bottom: var(--spacing-md);
+}
+
+h3 {
     font-size: 1.125rem;
-    margin-bottom: 0.5rem;
-  }
-  
-  button {
-    transition: all 0.2s ease;
-  }
-  
-  button:hover {
+    margin-bottom: var(--spacing-sm);
+}
+
+button {
+    transition: all var(--transition-fast);
+}
+
+button:hover {
     transform: translateY(-2px);
-  }
-  
-  .bg-blue-600 {
+}
+
+.bg-blue-600 {
     background-color: var(--color-blue-600);
     color: var(--color-white);
-  }
-  
-  .bg-blue-600:hover {
+}
+
+.bg-blue-600:hover {
     background-color: var(--color-blue-700);
-  }
-  
-  .bg-green-600 {
+}
+
+.bg-green-600 {
     background-color: var(--color-green-600);
     color: var(--color-white);
-  }
-  
-  .bg-green-600:hover {
+}
+
+.bg-green-600:hover {
     background-color: var(--color-green-700);
-  }
-  
-  /* =======================================
-   10. Responsive Design
-   ======================================= */
-  
-  /* Tablets and smaller - stack vertically */
-  @media (max-width: 899px) {
-    body.decimal1-practice .container {
-      height: auto !important;
+}
+
+/* =======================================
+ 12. Enhanced Responsive Design
+ ======================================= */
+
+/* Large screens - enhanced layout */
+@media (min-width: 1400px) {
+    body.decimal1-practice .progress-column {
+        width: 12% !important;
+    }
+    
+    body.decimal1-practice .whiteboard-column {
+        width: 58% !important;
+    }
+    
+    body.decimal1-practice .tutor-column {
+        width: 30% !important;
     }
     
     body.decimal1-practice .main-content {
-      flex-direction: column;
-      height: auto;
-      padding: 0.5rem;
-      gap: 0.5rem;
+        padding: var(--spacing-lg);
+        gap: var(--spacing-lg);
+    }
+}
+
+/* Medium-large screens */
+@media (min-width: 1200px) and (max-width: 1399px) {
+    body.decimal1-practice .progress-column {
+        width: 10% !important;
+    }
+    
+    body.decimal1-practice .whiteboard-column {
+        width: 60% !important;
+    }
+    
+    body.decimal1-practice .tutor-column {
+        width: 30% !important;
+    }
+}
+
+/* Smaller laptops - maintain columns */
+@media (min-width: 1000px) and (max-width: 1199px) {
+    body.decimal1-practice .main-content {
+        padding: var(--spacing-sm);
+        gap: var(--spacing-sm);
+    }
+    
+    body.decimal1-practice .progress-column {
+        width: 8% !important;
+        min-width: 120px;
+    }
+    
+    body.decimal1-practice .whiteboard-column {
+        width: 64% !important;
+    }
+    
+    body.decimal1-practice .tutor-column {
+        width: 28% !important;
+        min-width: 280px;
+    }
+    
+    body.decimal1-practice .math-display {
+        font-size: 1.5rem;
+    }
+    
+    body.decimal1-practice #tutor-text {
+        font-size: 0.9rem;
+    }
+}
+
+/* Tablets and smaller - enhanced stacking */
+@media (max-width: 899px) {
+    body.decimal1-practice .container {
+        height: auto !important;
+    }
+    
+    body.decimal1-practice .main-content {
+        flex-direction: column;
+        height: auto;
+        padding: var(--spacing-sm);
+        gap: var(--spacing-sm);
     }
     
     body.decimal1-practice .progress-column,
     body.decimal1-practice .whiteboard-column,
     body.decimal1-practice .tutor-column {
-      width: 100% !important;
-      min-width: auto;
-      margin-bottom: 0;
+        width: 100% !important;
+        min-width: auto;
+        margin-bottom: 0;
     }
     
     body.decimal1-practice .progress-container {
-      min-height: 150px;
-      max-height: 200px;
+        min-height: 150px;
+        max-height: 200px;
     }
     
     body.decimal1-practice .whiteboard-container {
-      min-height: 600px;
-      max-height: 700px;
+        min-height: 600px;
+        max-height: 700px;
     }
     
     body.decimal1-practice .tutor-container {
-      min-height: 300px;
-      max-height: 400px;
+        min-height: 300px;
+        max-height: 400px;
     }
     
-    /* Stack whiteboard halves vertically on mobile */
+    /* Enhanced mobile whiteboard layout */
     body.decimal1-practice #main-whiteboard {
-      flex-direction: column;
-      padding: 0.5rem;
+        flex-direction: column;
+        padding: var(--spacing-sm);
     }
     
     body.decimal1-practice .whiteboard-left,
     body.decimal1-practice .whiteboard-right {
-      width: 100%;
-      height: 50%;
-      min-height: 250px;
+        width: 100%;
+        height: 50%;
+        min-height: 250px;
     }
     
     body.decimal1-practice .whiteboard-left {
-      border-right: none;
-      border-bottom: 3px solid var(--color-gray-400);
-      padding-bottom: 1rem;
-      margin-bottom: 0.5rem;
+        border-right: none;
+        border-bottom: 3px solid var(--color-gray-400);
+        padding-bottom: var(--spacing-md);
+        margin-bottom: var(--spacing-sm);
     }
     
     body.decimal1-practice .whiteboard-left::after {
-      display: none;
+        display: none;
     }
     
     body.decimal1-practice .whiteboard-right {
-      padding-top: 0.5rem;
+        padding-top: var(--spacing-sm);
     }
     
-    /* Adjust section headers on mobile */
+    /* Enhanced mobile section headers */
     body.decimal1-practice .section-header {
-      padding: 0.5rem 0.75rem;
-      font-size: 0.9rem;
+        padding: var(--spacing-sm) 0.75rem;
+        font-size: 0.9rem;
     }
     
     body.decimal1-practice .section-header h3 {
-      font-size: 1rem;
+        font-size: 1rem;
     }
     
     body.decimal1-practice .section-header p {
-      font-size: 0.8rem;
+        font-size: 0.8rem;
     }
-  }
+    
+    /* Mobile progress bar - horizontal layout */
+    body.decimal1-practice .progress-bar-container {
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        min-height: 100px;
+    }
+    
+    body.decimal1-practice .progress-bar-track {
+        width: 80%;
+        height: 20px;
+    }
+    
+    body.decimal1-practice #progress-bar {
+        width: 20%;
+        height: 100%;
+        left: 0;
+        bottom: auto;
+        top: 0;
+        background: linear-gradient(to right, var(--color-blue-500), var(--color-blue-400));
+    }
+    
+    body.decimal1-practice #progress-percentage {
+        margin-top: 0;
+        margin-left: var(--spacing-md);
+    }
+}
+
+/* Very small screens - optimized for mobile */
+@media (max-width: 600px) {
+    body.decimal1-practice .header-section {
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+    
+    body.decimal1-practice .header-section h1 {
+        font-size: 1.5rem;
+    }
+    
+    body.decimal1-practice .main-content {
+        padding: var(--spacing-xs);
+        gap: var(--spacing-xs);
+    }
+    
+    body.decimal1-practice .progress-container {
+        min-height: 120px;
+        max-height: 150px;
+    }
+    
+    body.decimal1-practice .whiteboard-container {
+        min-height: 500px;
+        max-height: 600px;
+    }
+    
+    body.decimal1-practice .tutor-container {
+        min-height: 250px;
+        max-height: 350px;
+    }
+    
+    body.decimal1-practice .math-display {
+        font-size: 1.25rem;
+    }
+    
+    body.decimal1-practice #tutor-text {
+        font-size: 0.85rem;
+    }
+    
+    body.decimal1-practice .choice-item {
+        padding: var(--spacing-sm);
+        font-size: 0.8rem;
+    }
+    
+    body.decimal1-practice #submit-answer,
+    body.decimal1-practice #next-button {
+        font-size: 0.875rem;
+        padding: var(--spacing-sm);
+    }
+    
+    /* Enhanced mobile toast notifications */
+    .toast-notification {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+    }
+    
+    /* Enhanced mobile error handling */
+    #error-container {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+    }
+    
+    #connection-status {
+        bottom: 10px;
+        left: 10px;
+        right: 10px;
+    }
+}
+
+/* =======================================
+ 13. Performance Optimizations
+ ======================================= */
+
+/* GPU acceleration for animated elements */
+body.decimal1-practice #progress-bar,
+body.decimal1-practice .step-item,
+body.decimal1-practice button,
+body.decimal1-practice .choice-item,
+body.decimal1-practice .step-visual {
+    will-change: transform;
+    transform: translateZ(0);
+}
+
+/* Reduce repaints during animations */
+body.decimal1-practice .progress-container:hover,
+body.decimal1-practice .whiteboard-container:hover,
+body.decimal1-practice .tutor-container:hover {
+    will-change: transform, box-shadow;
+}
+
+/* Optimize transitions */
+body.decimal1-practice * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Smooth scrolling */
+body.decimal1-practice #tutor-text,
+body.decimal1-practice #progress-sidebar,
+body.decimal1-practice .examples-content,
+body.decimal1-practice .practice-content {
+    scroll-behavior: smooth;
+}
+
+/* =======================================
+ 14. Enhanced Print Styles
+ ======================================= */
+@media print {
+    body.decimal1-practice .header-section,
+    body.decimal1-practice #submit-answer,
+    body.decimal1-practice #next-button,
+    body.decimal1-practice .tutor-container,
+    #error-container,
+    #connection-status {
+        display: none;
+    }
+    
+    body.decimal1-practice .main-content {
+        flex-direction: column;
+        gap: var(--spacing-md);
+        height: auto;
+        overflow: visible;
+    }
+    
+    body.decimal1-practice .progress-container,
+    body.decimal1-practice .whiteboard-container {
+        break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #ccc;
+        height: auto;
+        overflow: visible;
+    }
+    
+    body.decimal1-practice #main-whiteboard {
+        border: 2px solid #000;
+        border-image: none;
+        flex-direction: column;
+    }
+    
+    body.decimal1-practice .whiteboard-left,
+    body.decimal1-practice .whiteboard-right {
+        width: 100%;
+        height: auto;
+        overflow: visible;
+        page-break-inside: avoid;
+    }
+}
+
+/* =======================================
+ 15. Accessibility Enhancements
+ ======================================= */
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    body.decimal1-practice .choice-item {
+        border-width: 2px;
+    }
+    
+    body.decimal1-practice .choice-item:focus {
+        border-width: 3px;
+    }
+    
+    body.decimal1-practice #progress-bar {
+        border: 2px solid var(--color-blue-700);
+    }
+}
+
+/* Color blindness support - enhanced visual indicators */
+body.decimal1-practice .choice-item.bg-green-50::after {
+    content: '✓';
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-green-700);
+    font-weight: bold;
+}
+
+body.decimal1-practice .choice-item.bg-red-50::after {
+    content: '✗';
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-red-700);
+    font-weight: bold;
+}
+
+/* Enhanced focus indicators */
+body.decimal1-practice *:focus-visible {
+    outline: 3px solid var(--color-blue-500);
+    outline-offset: 2px;
+    border-radius: 0.25rem;
+}
+
+/* =======================================
+ 16. Error State Styling
+ ======================================= */
+
+/* Offline indicator */
+.offline-mode {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(135deg, #fee2e2, #fecaca);
+    color: var(--color-red-800);
+    text-align: center;
+    padding: var(--spacing-sm);
+    font-size: 0.875rem;
+    font-weight: 500;
+    z-index: 1000;
+    border-bottom: 2px solid var(--color-red-300);
+}
+
+/* Loading states */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--color-gray-200);
+    border-top: 4px solid var(--color-blue-500);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* Success state animations */
+.success-pulse {
+    animation: successPulse 0.6s ease-out;
+}
+
+@keyframes successPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); background-color: var(--color-green-100); }
+    100% { transform: scale(1); }
+}
+
+/* Retry button styling */
+.retry-button {
+    background: linear-gradient(135deg, var(--color-blue-500), var(--color-blue-600));
+    color: white;
+    border: none;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: 0.375rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+}
+
+.retry-button:hover {
+    background: linear-gradient(135deg, var(--color-blue-600), var(--color-blue-700));
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+/* =======================================
+ 17. Final Polish & Utility Classes
+ ======================================= */
+
+/* Smooth entrance animations for content */
+.fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.fade-in-left {
+    animation: fadeInLeft 0.6s ease-out;
+}
+
+.fade-in-right {
+    animation: fadeInRight 0.6s ease-out;
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Stagger animation delays */
+.animate-stagger > *:nth-child(1) { animation-delay: 0.1s; }
+.animate-stagger > *:nth-child(2) { animation-delay: 0.2s; }
+.animate-stagger > *:nth-child(3) { animation-delay: 0.3s; }
+.animate-stagger > *:nth-child(4) { animation-delay: 0.4s; }
+.animate-stagger > *:nth-child(5) { animation-delay: 0.5s; }
+
+/* Utility for hiding elements accessibly */
+.visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* Enhanced border utilities */
+.border-gradient-blue {
+    border: 2px solid transparent;
+    background: linear-gradient(white, white) padding-box,
+                linear-gradient(135deg, var(--color-blue-400), var(--color-blue-600)) border-box;
+}
+
+.border-gradient-green {
+    border: 2px solid transparent;
+    background: linear-gradient(white, white) padding-box,
+                linear-gradient(135deg, var(--color-green-400), var(--color-green-600)) border-box;
+}
+
+/* Enhanced shadows for depth */
+.shadow-soft {
+    box-shadow: 0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04);
+}
+
+.shadow-crisp {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+/* Interactive states for better feedback */
+.interactive:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.interactive:active {
+    transform: translateY(0);
+    transition: all 0.1s ease-out;
+}
+
+/* Enhanced glassmorphism effect */
+.glass-effect {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Final responsive tweaks for edge cases */
+@media (max-width: 320px) {
+    body.decimal1-practice .main-content {
+        padding: 2px;
+        gap: 2px;
+    }
+    
+    body.decimal1-practice .section-header h3 {
+        font-size: 0.9rem;
+    }
+    
+    body.decimal1-practice .choice-item {
+        padding: 8px;
+        font-size: 0.75rem;
+    }
+}
+
+/* Very wide screen optimizations */
+@media (min-width: 2000px) {
+    body.decimal1-practice .main-content {
+        max-width: 1800px;
+        margin: 0 auto;
+    }
+    
+    body.decimal1-practice .math-display {
+        font-size: 3rem;
+    }
+}
+
+/* Ensure consistent line heights */
+body.decimal1-practice p,
+body.decimal1-practice div,
+body.decimal1-practice span {
+    line-height: 1.5;
+}
+
+/* Final performance optimization */
+body.decimal1-practice *,
+body.decimal1-practice *::before,
+body.decimal1-practice *::after {
+    box-sizing: border-box;
+}
+
+/* Ensure proper z-index stacking */
+body.decimal1-practice .main-content { z-index: 1; }
+body.decimal1-practice .section-header { z-index: 5; }
+body.decimal1-practice .header-section { z-index: 10; }
+body.decimal1-practice #error-container { z-index: 50; }
+body.decimal1-practice #connection-status { z-index: 40; }
+body.decimal1-practice .loading-overlay { z-index: 999; }
+body.decimal1-practice .offline-mode { z-index: 1000; }
