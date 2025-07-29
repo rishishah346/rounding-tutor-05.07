@@ -506,7 +506,6 @@ class RedesignedPracticePage {
                         <div class="example-header bg-blue-100 px-4 py-3 border-b border-blue-200">
                             <div class="flex items-center justify-between">
                                 <h4 class="font-semibold text-blue-800">Example 1</h4>
-                                <span class="text-xs bg-blue-200 text-blue-700 px-2 py-1 rounded">Completed</span>
                             </div>
                             <div class="text-sm text-blue-700 mt-1">
                                 <strong>Round 12.632 to 1 decimal place</strong>
@@ -563,7 +562,6 @@ class RedesignedPracticePage {
                         <div class="example-header bg-blue-100 px-4 py-3 border-b border-blue-200">
                             <div class="flex items-center justify-between">
                                 <h4 class="font-semibold text-blue-800">Example 2</h4>
-                                <span class="text-xs bg-blue-200 text-blue-700 px-2 py-1 rounded">Completed</span>
                             </div>
                             <div class="text-sm text-blue-700 mt-1">
                                 <strong>Round 12.682 to 1 decimal place</strong>
@@ -624,24 +622,8 @@ class RedesignedPracticePage {
         if (practiceContainer) {
             practiceContainer.innerHTML = `
                 <div class="space-y-4">
-                    <!-- Current Stage Indicator -->
-                    <div class="stage-indicator bg-green-50 border border-green-200 rounded-lg p-3">
-                        <div class="flex items-center justify-between mb-2">
-                            <h4 class="font-semibold text-green-800 text-sm">Practice Stage ${this.currentStage}</h4>
-                            <span class="text-xs bg-green-200 text-green-700 px-2 py-1 rounded">Active</span>
-                        </div>
-                        <div class="text-xs text-green-700">
-                            ${this.getStageDescription(this.currentStage)}
-                        </div>
-                        <div class="mt-2 text-xs text-green-600">
-                            Progress: ${this.consecutiveCorrect}/${this.getQuestionsNeededForStage(this.currentStage)} consecutive correct needed
-                        </div>
-                    </div>
-
                     <!-- Practice Question Container -->
                     <div id="question-container" class="question-area bg-white border border-gray-200 rounded-lg p-3">
-                        <h4 class="font-semibold text-gray-800 mb-3 text-sm">Current Question</h4>
-                        
                         <!-- Question Text -->
                         <div id="question-text" class="text-sm font-medium text-gray-800 mb-3" role="main" aria-live="polite"></div>
                         
@@ -651,10 +633,9 @@ class RedesignedPracticePage {
                         </div>
                         
                         <!-- Submit Button -->
-                        <button id="submit-answer" class="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-medium py-2 px-3 rounded text-sm transition-all focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" disabled aria-describedby="submit-help">
+                        <button id="submit-answer" class="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-medium py-2 px-3 rounded text-sm transition-all focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" disabled>
                             Submit Answer
                         </button>
-                        <div id="submit-help" class="text-xs text-gray-500 mt-1">Select an answer to enable submit button</div>
                     </div>
 
                     <!-- Feedback Container (hidden initially) -->
@@ -668,43 +649,16 @@ class RedesignedPracticePage {
                             Next Question
                         </button>
                     </div>
-
-                    <!-- Progress Info -->
-                    <div class="progress-info bg-gray-50 border border-gray-200 rounded-lg p-3">
-                        <h4 class="font-semibold text-gray-700 mb-2 text-sm">Session Progress</h4>
-                        <div class="grid grid-cols-2 gap-3 text-xs text-gray-600">
-                            <div>
-                                <div class="font-medium">Questions Attempted</div>
-                                <div class="text-base font-bold text-blue-600" id="questions-attempted">${this.questionsAttempted}</div>
-                            </div>
-                            <div>
-                                <div class="font-medium">Correct Answers</div>
-                                <div class="text-base font-bold text-green-600" id="questions-correct">${this.questionsCorrect}</div>
-                            </div>
-                        </div>
-                        <div class="mt-2 text-xs text-gray-500">
-                            Session time: <span id="session-time">0:00</span>
-                        </div>
-                    </div>
                 </div>
             `;
         }
         
         this.initializePractice();
-        this.startSessionTimer(); // NEW: Start session timer
     }
 
-    // NEW: Session timer for tracking study time
+    // Session timer function removed since we're not showing session progress
     startSessionTimer() {
-        setInterval(() => {
-            const elapsed = Math.floor((Date.now() - this.sessionStartTime) / 1000);
-            const minutes = Math.floor(elapsed / 60);
-            const seconds = elapsed % 60;
-            const timeElement = document.getElementById('session-time');
-            if (timeElement) {
-                timeElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-            }
-        }, 1000);
+        // Timer functionality removed as per request
     }
 
     initializePractice() {
@@ -816,12 +770,6 @@ class RedesignedPracticePage {
         const submitButton = document.getElementById('submit-answer');
         if (submitButton) {
             submitButton.disabled = false;
-        }
-        
-        // Update help text
-        const submitHelp = document.getElementById('submit-help');
-        if (submitHelp) {
-            submitHelp.textContent = `Selected answer ${this.selectedAnswer}. Click submit to continue.`;
         }
         
         // NEW: Announce selection to screen readers

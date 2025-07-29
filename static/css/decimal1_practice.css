@@ -1,6 +1,7 @@
 /* =======================================
  Decimal1 Practice Page - Stage 6: Polish & Test Complete CSS
  Enhanced with accessibility, animations, and robust error handling
+ STAGE 1: White backgrounds for whiteboard
  ======================================= */
 
 /* =======================================
@@ -257,10 +258,10 @@ body.decimal1-practice #progress-percentage {
 }
 
 /* =======================================
- 4. Enhanced Split Whiteboard Layout
+ 4. Enhanced Split Whiteboard Layout - STAGE 1: WHITE BACKGROUNDS
  ======================================= */
 body.decimal1-practice #main-whiteboard {
-    background-color: var(--color-white);
+    background-color: var(--color-white); /* Changed from white to white (no change needed) */
     border: 15px solid red;
     border-image: url('/static/images/whiteboard_border.jpg') 15;
     box-shadow: var(--shadow-lg);
@@ -279,7 +280,7 @@ body.decimal1-practice .whiteboard-left {
     height: 100%;
     overflow-y: auto;
     padding: var(--spacing-md);
-    background-color: var(--color-blue-25);
+    background-color: var(--color-white); /* Changed from blue-25 to white */
     border-right: 3px solid var(--color-gray-400);
     position: relative;
     display: flex;
@@ -291,7 +292,7 @@ body.decimal1-practice .whiteboard-right {
     height: 100%;
     overflow-y: auto;
     padding: var(--spacing-md);
-    background-color: var(--color-green-25);
+    background-color: var(--color-white); /* Changed from green-25 to white */
     position: relative;
     display: flex;
     flex-direction: column;
@@ -299,12 +300,12 @@ body.decimal1-practice .whiteboard-right {
 
 /* NEW: Enhanced section headers */
 body.decimal1-practice .section-header {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
+    background: var(--color-white); /* Changed from gradient to white */
     padding: 0.75rem var(--spacing-md);
     border-radius: 0.5rem;
     margin-bottom: var(--spacing-md);
     box-shadow: var(--shadow-sm);
-    border-left: 4px solid var(--color-blue-500);
+    border-left: 4px solid var(--color-blue-500); /* Keep blue accent */
     position: sticky;
     top: 0;
     z-index: 5;
@@ -312,7 +313,7 @@ body.decimal1-practice .section-header {
 }
 
 body.decimal1-practice .whiteboard-right .section-header {
-    border-left-color: var(--color-green-500);
+    border-left-color: var(--color-green-500); /* Keep green accent for practice */
 }
 
 body.decimal1-practice .section-header h3 {
@@ -332,7 +333,7 @@ body.decimal1-practice .examples-content,
 body.decimal1-practice .practice-content {
     flex: 1;
     padding: var(--spacing-sm);
-    background-color: var(--color-white);
+    background-color: var(--color-white); /* Already white */
     border-radius: 0.5rem;
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
@@ -594,7 +595,37 @@ body.decimal1-practice .tips-card {
 /* =======================================
  7. Enhanced Practice Question Styling
  ======================================= */
-body.decimal1-practice .choice-item {
+/* Make question container fill available height */
+body.decimal1-practice #question-container {
+    flex: 1; /* Make it expand to fill available space */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Make choices container expand to fill space between question and submit */
+body.decimal1-practice #choices-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center choices vertically in available space */
+    margin-bottom: var(--spacing-md); /* Add some space before submit button */
+}
+
+/* Adjust practice content container to use full height */
+body.decimal1-practice #practice-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Make the space-y-4 div fill height */
+body.decimal1-practice #practice-content > .space-y-4 {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+ body.decimal1-practice .choice-item {
     transition: all var(--transition-fast);
     cursor: pointer;
     border: 1px solid var(--color-gray-200);
