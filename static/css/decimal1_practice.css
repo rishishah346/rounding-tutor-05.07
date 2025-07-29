@@ -1,7 +1,8 @@
 /* =======================================
- Decimal1 Practice Page - Stage 6: Polish & Test Complete CSS
- Enhanced with accessibility, animations, and robust error handling
- STAGE 1: White backgrounds for whiteboard
+ Decimal1 Practice Page - Stage 6: Polish & Test Complete
+ File: static/css/decimal1_practice.css
+ Enhanced with robust error handling, accessibility, and UX improvements
+ UPDATED: Font size fix for question text
  ======================================= */
 
 /* =======================================
@@ -600,13 +601,32 @@ body.decimal1-practice .tips-card {
 }
 
 /* =======================================
- 7. Enhanced Practice Question Styling
+ 7. Enhanced Practice Question Styling - FONT SIZE FIX
  ======================================= */
+
+/* HIGH SPECIFICITY SELECTORS FOR QUESTION TEXT - FONT SIZE FIX */
+body.decimal1-practice #question-text,
+body.decimal1-practice div#question-text,
+body.decimal1-practice .question-area #question-text,
+body.decimal1-practice #practice-content #question-container #question-text {
+    font-size: 1.5rem !important;  /* 24px - much larger */
+    font-weight: 600 !important;
+    line-height: 1.4 !important;
+    color: #1f2937 !important;
+    margin-bottom: 1.5rem !important;
+}
+
+/* Override any Tailwind text-sm classes */
+body.decimal1-practice #question-text.text-sm {
+    font-size: 1.5rem !important;
+}
+
 /* Make question container fill available height */
 body.decimal1-practice #question-container {
     flex: 1; /* Make it expand to fill available space */
     display: flex;
     flex-direction: column;
+    margin-bottom: 1.5rem !important;
 }
 
 /* Make choices container expand to fill space between question and submit */
@@ -633,17 +653,19 @@ body.decimal1-practice #practice-content > .space-y-4 {
     flex-direction: column;
 }
 
- body.decimal1-practice .choice-item {
+/* ENHANCED CHOICE ITEMS FONT SIZE */
+body.decimal1-practice .choice-item,
+body.decimal1-practice #choices-container .choice-item {
     transition: all var(--transition-fast);
     cursor: pointer;
     border: 1px solid var(--color-gray-200);
     border-radius: 0.375rem;
-    padding: 1.25rem; /* STAGE 3: Increased from 0.75rem to 1.25rem for more height */
+    padding: 1.25rem !important; /* STAGE 3: Increased from 0.75rem to 1.25rem for more height */
     margin-bottom: 0; /* STAGE 3: Removed margin-bottom since we're using gap on parent */
-    font-size: 1rem; /* STAGE 3: Increased from 0.875rem to 1rem for larger font */
+    font-size: 1.125rem !important; /* 18px - larger font size */
     position: relative;
     overflow: hidden;
-    line-height: 1.4; /* STAGE 3: Added line-height for better text spacing */
+    line-height: 1.4 !important; /* STAGE 3: Added line-height for better text spacing */
 }
 
 /* NEW: Enhanced choice item interactions */
@@ -1097,10 +1119,10 @@ button:hover {
 }
 
 /* =======================================
- 12. Enhanced Responsive Design
+ 12. Enhanced Responsive Design - FONT SIZE RESPONSIVENESS
  ======================================= */
 
-/* Large screens - enhanced layout */
+/* Large screens - enhanced layout with larger fonts */
 @media (min-width: 1400px) {
     body.decimal1-practice .progress-column {
         width: 12% !important;
@@ -1118,6 +1140,16 @@ button:hover {
         padding: var(--spacing-lg);
         gap: var(--spacing-lg);
     }
+    
+    /* FONT SIZE: Larger screens get bigger fonts */
+    body.decimal1-practice #question-text {
+        font-size: 1.75rem !important;  /* 28px on larger screens */
+    }
+    
+    body.decimal1-practice .choice-item {
+        font-size: 1.25rem !important;  /* 20px on larger screens */
+        padding: 1.5rem !important;
+    }
 }
 
 /* Medium-large screens */
@@ -1132,6 +1164,15 @@ button:hover {
     
     body.decimal1-practice .tutor-column {
         width: 30% !important;
+    }
+    
+    /* FONT SIZE: Standard size for medium-large screens */
+    body.decimal1-practice #question-text {
+        font-size: 1.5rem !important;  /* 24px */
+    }
+    
+    body.decimal1-practice .choice-item {
+        font-size: 1.125rem !important;  /* 18px */
     }
 }
 
@@ -1162,6 +1203,15 @@ button:hover {
     
     body.decimal1-practice #tutor-text {
         font-size: 0.9rem;
+    }
+    
+    /* FONT SIZE: Slightly smaller for smaller laptops */
+    body.decimal1-practice #question-text {
+        font-size: 1.375rem !important;  /* 22px */
+    }
+    
+    body.decimal1-practice .choice-item {
+        font-size: 1rem !important;  /* 16px */
     }
 }
 
@@ -1243,6 +1293,16 @@ button:hover {
         font-size: 0.8rem;
     }
     
+    /* FONT SIZE: Tablet responsive fonts */
+    body.decimal1-practice #question-text {
+        font-size: 1.375rem !important;  /* 22px for tablets */
+    }
+    
+    body.decimal1-practice .choice-item {
+        font-size: 1rem !important;  /* 16px for tablets */
+        padding: 1rem !important;
+    }
+    
     /* Mobile progress bar - horizontal layout */
     body.decimal1-practice .progress-bar-container {
         flex-direction: row;
@@ -1309,9 +1369,14 @@ button:hover {
         font-size: 0.85rem;
     }
     
+    /* FONT SIZE: Mobile responsive fonts */
+    body.decimal1-practice #question-text {
+        font-size: 1.25rem !important;  /* 20px for small screens - still larger than default */
+    }
+    
     body.decimal1-practice .choice-item {
-        padding: var(--spacing-sm);
-        font-size: 0.8rem;
+        font-size: 0.9rem !important;  /* 14.4px for small screens */
+        padding: var(--spacing-sm) !important;
     }
     
     body.decimal1-practice #submit-answer,
@@ -1419,6 +1484,15 @@ body.decimal1-practice .practice-content {
         overflow: visible;
         page-break-inside: avoid;
     }
+    
+    /* FONT SIZE: Print-friendly fonts */
+    body.decimal1-practice #question-text {
+        font-size: 1.5rem !important;
+    }
+    
+    body.decimal1-practice .choice-item {
+        font-size: 1rem !important;
+    }
 }
 
 /* =======================================
@@ -1437,6 +1511,12 @@ body.decimal1-practice .practice-content {
     
     body.decimal1-practice #progress-bar {
         border: 2px solid var(--color-blue-700);
+    }
+    
+    /* FONT SIZE: High contrast with larger fonts for readability */
+    body.decimal1-practice #question-text {
+        font-size: 1.75rem !important;
+        font-weight: 700 !important;
     }
 }
 
@@ -1651,9 +1731,14 @@ body.decimal1-practice *:focus-visible {
         font-size: 0.9rem;
     }
     
+    /* FONT SIZE: Very small screens - maintain readability */
+    body.decimal1-practice #question-text {
+        font-size: 1.125rem !important;  /* 18px - still larger than default */
+    }
+    
     body.decimal1-practice .choice-item {
-        padding: 8px;
-        font-size: 0.75rem;
+        padding: 8px !important;
+        font-size: 0.875rem !important;  /* 14px */
     }
 }
 
@@ -1666,6 +1751,15 @@ body.decimal1-practice *:focus-visible {
     
     body.decimal1-practice .math-display {
         font-size: 3rem;
+    }
+    
+    /* FONT SIZE: Very large screens get biggest fonts */
+    body.decimal1-practice #question-text {
+        font-size: 2rem !important;  /* 32px on very large screens */
+    }
+    
+    body.decimal1-practice .choice-item {
+        font-size: 1.375rem !important;  /* 22px on very large screens */
     }
 }
 

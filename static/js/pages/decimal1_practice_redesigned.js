@@ -2,6 +2,7 @@
 * Decimal1 Practice Page - Stage 6: Polish & Test Complete
 * File: static/js/pages/decimal1_practice_redesigned.js
 * Enhanced with robust error handling, accessibility, and UX improvements
+* UPDATED: Font size fix - removed conflicting Tailwind classes
 */
 
 class RedesignedPracticePage {
@@ -624,8 +625,8 @@ class RedesignedPracticePage {
                 <div class="space-y-4">
                     <!-- Practice Question Container -->
                     <div id="question-container" class="question-area bg-white border border-gray-200 rounded-lg p-3">
-                        <!-- Question Text -->
-                        <div id="question-text" class="text-sm font-medium text-gray-800 mb-3" role="main" aria-live="polite"></div>
+                        <!-- Question Text - REMOVED text-sm class to prevent font size conflicts -->
+                        <div id="question-text" class="font-medium text-gray-800 mb-3" role="main" aria-live="polite"></div>
                         
                         <!-- Choices Container -->
                         <div id="choices-container" class="space-y-2 mb-3" role="radiogroup" aria-label="Answer choices">
@@ -633,7 +634,7 @@ class RedesignedPracticePage {
                         </div>
                         
                         <!-- Submit Button -->
-                        <button id="submit-answer" class="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-medium py-2 px-3 rounded text-sm transition-all focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" disabled>
+                        <button id="submit-answer" class="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-medium py-2 px-3 rounded transition-all focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" disabled>
                             Submit Answer
                         </button>
                     </div>
@@ -645,7 +646,7 @@ class RedesignedPracticePage {
 
                     <!-- Next Button Container -->
                     <div id="next-button-container" class="text-center hidden">
-                        <button id="next-button" class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded text-sm transition-all focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                        <button id="next-button" class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded transition-all focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
                             Next Question
                         </button>
                     </div>
@@ -703,6 +704,8 @@ class RedesignedPracticePage {
         
         const questionText = document.getElementById('question-text');
         if (questionText) {
+            // FONT SIZE FIX: Clear any existing classes that might interfere and don't add text-sm
+            questionText.className = 'font-medium text-gray-800 mb-3';
             questionText.textContent = question.question_text;
         }
         
@@ -712,7 +715,8 @@ class RedesignedPracticePage {
             
             for (const [letter, answer] of Object.entries(question.choices)) {
                 const choiceElement = document.createElement('div');
-                choiceElement.className = 'choice-item p-2 border rounded cursor-pointer hover:bg-gray-50 transition-all text-sm focus:ring-2 focus:ring-blue-500 focus:ring-offset-1';
+                // FONT SIZE FIX: REMOVED text-sm class to prevent font size conflicts
+                choiceElement.className = 'choice-item p-2 border rounded cursor-pointer hover:bg-gray-50 transition-all focus:ring-2 focus:ring-blue-500 focus:ring-offset-1';
                 choiceElement.innerHTML = `
                     <span class="font-medium">${letter})</span> ${answer}
                 `;
@@ -925,7 +929,7 @@ class RedesignedPracticePage {
                         <div>→ Ready for 2-3 decimal places</div>
                     </div>
                     <button onclick="window.location.href='${data.next_stage_redirect || '/rounding/decimal2/examples'}'" 
-                            class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded text-sm transition-all focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                            class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded transition-all focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                         Continue to Next Section
                     </button>
                 </div>
@@ -1030,7 +1034,7 @@ class RedesignedPracticePage {
                     </div>
                     <h3 class="text-lg font-bold text-green-600 mb-2">Practice Complete!</h3>
                     <p class="text-sm text-gray-600 mb-4">${data.message}</p>
-                    <button onclick="window.location.href='/'" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded text-sm focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                    <button onclick="window.location.href='/'" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                         Continue Lesson
                     </button>
                 </div>
