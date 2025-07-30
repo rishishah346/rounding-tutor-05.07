@@ -3,6 +3,7 @@
 * File: static/js/pages/decimal1_practice_redesigned.js
 * Enhanced with robust error handling, accessibility, and UX improvements
 * UPDATED: Font size fix - removed conflicting Tailwind classes
+* UPDATED: Reduced spacing for MCQ options
 */
 
 class RedesignedPracticePage {
@@ -312,6 +313,9 @@ class RedesignedPracticePage {
     initializeEventListeners() {
         // Reset button
         document.getElementById('reset-button')?.addEventListener('click', () => this.resetLesson());
+        
+        // Return to examples button
+        document.getElementById('return-to-examples')?.addEventListener('click', () => this.returnToExamples());
         
         // NEW: Add visibility change handler to detect when tab becomes active
         document.addEventListener('visibilitychange', () => {
@@ -628,8 +632,8 @@ class RedesignedPracticePage {
                         <!-- Question Text - REMOVED text-sm class to prevent font size conflicts -->
                         <div id="question-text" class="font-medium text-gray-800 mb-3" role="main" aria-live="polite"></div>
                         
-                        <!-- Choices Container -->
-                        <div id="choices-container" class="space-y-2 mb-3" role="radiogroup" aria-label="Answer choices">
+                        <!-- Choices Container - REDUCED SPACING -->
+                        <div id="choices-container" class="space-y-1 mb-3" role="radiogroup" aria-label="Answer choices">
                             <!-- Choices will be inserted here by JavaScript -->
                         </div>
                         
@@ -716,7 +720,8 @@ class RedesignedPracticePage {
             for (const [letter, answer] of Object.entries(question.choices)) {
                 const choiceElement = document.createElement('div');
                 // FONT SIZE FIX: REMOVED text-sm class to prevent font size conflicts
-                choiceElement.className = 'choice-item p-2 border rounded cursor-pointer hover:bg-gray-50 transition-all focus:ring-2 focus:ring-blue-500 focus:ring-offset-1';
+                // REDUCED PADDING: Changed from p-2 to p-1.5 for tighter spacing
+                choiceElement.className = 'choice-item p-1.5 border rounded cursor-pointer hover:bg-gray-50 transition-all focus:ring-2 focus:ring-blue-500 focus:ring-offset-1';
                 choiceElement.innerHTML = `
                     <span class="font-medium">${letter})</span> ${answer}
                 `;
@@ -1063,6 +1068,31 @@ class RedesignedPracticePage {
         }
     }
 
+    // NEW: Return to examples method
+    returnToExamples() {
+        // Navigate back to the decimal 1 examples page
+        // The session state will be preserved, so when they click "Continue" 
+        // from examples, they'll return to their current practice stage
+        window.location.href = '/rounding/examples';
+    }
+        // NEW: Confirm before reset if there's significant progress
+        if (this.questionsAttempted > 3) {
+            const confirmed = confirm('Are you sure you want to reset your lesson progress? This will clear all your current progress.');
+            if (!confirmed) return;
+        }
+        
+        this.fetchWithRetry('/api/reset', { method: 'POST' })
+            .then(data => {
+                if (data.status === 'reset' && data.redirect) {
+                    window.location.href = data.redirect;
+                }
+            })
+            .catch(error => {
+                console.error('Error resetting lesson:', error);
+                window.location.href = '/';
+            });
+    }
+
     resetLesson() {
         // NEW: Confirm before reset if there's significant progress
         if (this.questionsAttempted > 3) {
@@ -1083,6 +1113,7 @@ class RedesignedPracticePage {
     }
 
     // Utility methods
+    showLoading() {
     showLoading() {
         if (this.elements.loading) {
             this.elements.loading.classList.remove('hidden');
