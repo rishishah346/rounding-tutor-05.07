@@ -1,9 +1,9 @@
-/* =======================================
- Decimal1 Practice Page - Stage 6: Polish & Test Complete
- File: static/css/decimal1_practice.css
- Enhanced with robust error handling, accessibility, and UX improvements
- UPDATED: Font size fix for question text
- ======================================= */
+/**
+* Decimal1 Practice Page - Stage 6: Polish & Test Complete
+* File: static/css/decimal1_practice.css
+* Enhanced with robust error handling, accessibility, and UX improvements
+* UPDATED: Font size REDUCED from 1.5rem to 1.125rem for question text
+*/
 
 /* =======================================
  1. CSS Variables & Enhanced Base Styles
@@ -504,7 +504,7 @@ body.decimal1-practice #tutor-text {
 }
 
 /* =======================================
- 6. Enhanced Examples Content Styling - REMOVED BLUE BACKGROUNDS
+ 6. Enhanced Examples Content Styling - REMOVED BLUE BACKGROUNDS + BLACK TEXT
  ======================================= */
 body.decimal1-practice .example-detailed {
     transition: all var(--transition-normal);
@@ -520,6 +520,42 @@ body.decimal1-practice .example-detailed {
 body.decimal1-practice .example-header {
     background: var(--color-white); /* Changed from blue gradient to white */
     border-bottom: 1px solid var(--color-gray-200); /* Changed from blue-200 to gray-200 */
+}
+
+/* NEW: Make example titles and text black */
+body.decimal1-practice .example-header h4,
+body.decimal1-practice .example-detailed h3,
+body.decimal1-practice .example-detailed h4:not(.step-header h4),
+body.decimal1-practice .examples-content h4:not(.step-header h4) {
+    color: #000000 !important; /* Force black color for example titles */
+}
+
+body.decimal1-practice .example-header .text-blue-700,
+body.decimal1-practice .example-detailed .text-blue-700:not(.step-header *),
+body.decimal1-practice .examples-content .text-blue-700:not(.step-header *) {
+    color: #000000 !important; /* Force black for blue text */
+}
+
+/* NEW: Make example question text black */
+body.decimal1-practice .example-detailed .text-sm.text-blue-700,
+body.decimal1-practice .examples-content .text-sm.text-blue-700,
+body.decimal1-practice .example-header .text-sm.text-blue-700 {
+    color: #000000 !important; /* Force black for question text */
+}
+
+/* NEW: Make step explanation text black */
+body.decimal1-practice .step-explanation,
+body.decimal1-practice .step-explanation p,
+body.decimal1-practice .text-blue-600:not(.step-header *):not(.step-number):not(.font-semibold) {
+    color: #000000 !important; /* Force black for explanation text */
+}
+
+/* KEEP: Step headers (circle numbers and "Step X") remain blue */
+body.decimal1-practice .step-header,
+body.decimal1-practice .step-header h5,
+body.decimal1-practice .step-header .font-semibold,
+body.decimal1-practice .step-number {
+    color: var(--color-blue-700) !important; /* Keep step indicators blue */
 }
 
 body.decimal1-practice .step {
@@ -601,15 +637,15 @@ body.decimal1-practice .tips-card {
 }
 
 /* =======================================
- 7. Enhanced Practice Question Styling - FONT SIZE FIX
+ 7. Enhanced Practice Question Styling - FONT SIZE REDUCED
  ======================================= */
 
-/* HIGH SPECIFICITY SELECTORS FOR QUESTION TEXT - FONT SIZE FIX */
+/* HIGH SPECIFICITY SELECTORS FOR QUESTION TEXT - FONT SIZE REDUCED */
 body.decimal1-practice #question-text,
 body.decimal1-practice div#question-text,
 body.decimal1-practice .question-area #question-text,
 body.decimal1-practice #practice-content #question-container #question-text {
-    font-size: 1.5rem !important;  /* 24px - much larger */
+    font-size: 1.125rem !important;  /* REDUCED from 1.5rem to 1.125rem (18px instead of 24px) */
     font-weight: 600 !important;
     line-height: 1.4 !important;
     color: #1f2937 !important;
@@ -618,39 +654,62 @@ body.decimal1-practice #practice-content #question-container #question-text {
 
 /* Override any Tailwind text-sm classes */
 body.decimal1-practice #question-text.text-sm {
-    font-size: 1.5rem !important;
+    font-size: 1.125rem !important;  /* REDUCED from 1.5rem to 1.125rem */
 }
 
-/* Make question container fill available height */
+/* CHANGE 1: Remove border from innermost container (question area) */
+body.decimal1-practice .question-area,
 body.decimal1-practice #question-container {
-    flex: 1; /* Make it expand to fill available space */
+    border: none !important;
+    box-shadow: none !important;
+    background-color: transparent !important;
+}
+
+/* CHANGE 2: Add hover effect (same as examples) to outer practice content container */
+body.decimal1-practice .practice-content {
+    transition: all var(--transition-normal);
+}
+
+body.decimal1-practice .practice-content:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+}
+
+/* CHANGE 3: Reverted to original practice container sizing */
+body.decimal1-practice #question-container {
+    flex: 1; /* Back to original flex value */
     display: flex;
     flex-direction: column;
-    margin-bottom: 1.5rem !important;
+    margin-bottom: 1.5rem !important; /* Restored original margin */
 }
 
-/* Make choices container expand to fill space between question and submit */
+/* Make choices container with original spacing */
 body.decimal1-practice #choices-container {
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Center choices vertically in available space */
-    margin-bottom: var(--spacing-md); /* Add some space before submit button */
-    gap: 1rem; /* STAGE 3: Use gap instead of margin-bottom for consistent spacing */
+    justify-content: center; /* Back to original center alignment */
+    margin-bottom: var(--spacing-md); /* Back to original spacing variable */
+    gap: 1rem; /* Original gap between choices */
 }
 
-/* Adjust practice content container to use full height */
+/* Adjust practice content container to original setup */
 body.decimal1-practice #practice-content {
     height: 100%;
     display: flex;
     flex-direction: column;
 }
 
-/* Make the space-y-4 div fill height */
+/* Make the space-y-4 div with original constraints */
 body.decimal1-practice #practice-content > .space-y-4 {
     flex: 1;
     display: flex;
     flex-direction: column;
+}
+
+/* Position submit button with original spacing */
+body.decimal1-practice #submit-answer {
+    /* Remove all custom margins and padding to revert to original */
 }
 
 /* ENHANCED CHOICE ITEMS FONT SIZE */
@@ -662,7 +721,7 @@ body.decimal1-practice #choices-container .choice-item {
     border-radius: 0.375rem;
     padding: 1.25rem !important; /* STAGE 3: Increased from 0.75rem to 1.25rem for more height */
     margin-bottom: 0; /* STAGE 3: Removed margin-bottom since we're using gap on parent */
-    font-size: 1.125rem !important; /* 18px - larger font size */
+    font-size: 1rem !important; /* REDUCED from 1.125rem to 1rem (16px instead of 18px) */
     position: relative;
     overflow: hidden;
     line-height: 1.4 !important; /* STAGE 3: Added line-height for better text spacing */
@@ -1119,10 +1178,10 @@ button:hover {
 }
 
 /* =======================================
- 12. Enhanced Responsive Design - FONT SIZE RESPONSIVENESS
+ 12. Enhanced Responsive Design - FONT SIZE RESPONSIVENESS REDUCED
  ======================================= */
 
-/* Large screens - enhanced layout with larger fonts */
+/* Large screens - enhanced layout with smaller fonts */
 @media (min-width: 1400px) {
     body.decimal1-practice .progress-column {
         width: 12% !important;
@@ -1141,13 +1200,13 @@ button:hover {
         gap: var(--spacing-lg);
     }
     
-    /* FONT SIZE: Larger screens get bigger fonts */
+    /* FONT SIZE: Large screens get moderately larger fonts */
     body.decimal1-practice #question-text {
-        font-size: 1.75rem !important;  /* 28px on larger screens */
+        font-size: 1.25rem !important;  /* REDUCED from 1.75rem to 1.25rem (20px instead of 28px) */
     }
     
     body.decimal1-practice .choice-item {
-        font-size: 1.25rem !important;  /* 20px on larger screens */
+        font-size: 1.125rem !important;  /* REDUCED from 1.25rem to 1.125rem (18px instead of 20px) */
         padding: 1.5rem !important;
     }
 }
@@ -1168,11 +1227,11 @@ button:hover {
     
     /* FONT SIZE: Standard size for medium-large screens */
     body.decimal1-practice #question-text {
-        font-size: 1.5rem !important;  /* 24px */
+        font-size: 1.125rem !important;  /* REDUCED from 1.5rem to 1.125rem (18px instead of 24px) */
     }
     
     body.decimal1-practice .choice-item {
-        font-size: 1.125rem !important;  /* 18px */
+        font-size: 1rem !important;  /* REDUCED from 1.125rem to 1rem (16px instead of 18px) */
     }
 }
 
@@ -1207,11 +1266,11 @@ button:hover {
     
     /* FONT SIZE: Slightly smaller for smaller laptops */
     body.decimal1-practice #question-text {
-        font-size: 1.375rem !important;  /* 22px */
+        font-size: 1rem !important;  /* REDUCED from 1.375rem to 1rem (16px instead of 22px) */
     }
     
     body.decimal1-practice .choice-item {
-        font-size: 1rem !important;  /* 16px */
+        font-size: 0.9rem !important;  /* REDUCED from 1rem to 0.9rem (14.4px instead of 16px) */
     }
 }
 
@@ -1295,11 +1354,11 @@ button:hover {
     
     /* FONT SIZE: Tablet responsive fonts */
     body.decimal1-practice #question-text {
-        font-size: 1.375rem !important;  /* 22px for tablets */
+        font-size: 1rem !important;  /* REDUCED from 1.375rem to 1rem (16px instead of 22px) */
     }
     
     body.decimal1-practice .choice-item {
-        font-size: 1rem !important;  /* 16px for tablets */
+        font-size: 0.9rem !important;  /* REDUCED from 1rem to 0.9rem (14.4px instead of 16px) */
         padding: 1rem !important;
     }
     
@@ -1371,11 +1430,11 @@ button:hover {
     
     /* FONT SIZE: Mobile responsive fonts */
     body.decimal1-practice #question-text {
-        font-size: 1.25rem !important;  /* 20px for small screens - still larger than default */
+        font-size: 0.9rem !important;  /* REDUCED from 1.25rem to 0.9rem (14.4px instead of 20px) */
     }
     
     body.decimal1-practice .choice-item {
-        font-size: 0.9rem !important;  /* 14.4px for small screens */
+        font-size: 0.8rem !important;  /* REDUCED from 0.9rem to 0.8rem (12.8px instead of 14.4px) */
         padding: var(--spacing-sm) !important;
     }
     
@@ -1487,11 +1546,11 @@ body.decimal1-practice .practice-content {
     
     /* FONT SIZE: Print-friendly fonts */
     body.decimal1-practice #question-text {
-        font-size: 1.5rem !important;
+        font-size: 1.125rem !important;  /* REDUCED from 1.5rem to 1.125rem for print */
     }
     
     body.decimal1-practice .choice-item {
-        font-size: 1rem !important;
+        font-size: 1rem !important;  /* Keep consistent with screen version */
     }
 }
 
@@ -1513,9 +1572,9 @@ body.decimal1-practice .practice-content {
         border: 2px solid var(--color-blue-700);
     }
     
-    /* FONT SIZE: High contrast with larger fonts for readability */
+    /* FONT SIZE: High contrast with moderate font increase for readability */
     body.decimal1-practice #question-text {
-        font-size: 1.75rem !important;
+        font-size: 1.25rem !important;  /* REDUCED from 1.75rem to 1.25rem for high contrast */
         font-weight: 700 !important;
     }
 }
@@ -1733,12 +1792,12 @@ body.decimal1-practice *:focus-visible {
     
     /* FONT SIZE: Very small screens - maintain readability */
     body.decimal1-practice #question-text {
-        font-size: 1.125rem !important;  /* 18px - still larger than default */
+        font-size: 0.875rem !important;  /* REDUCED from 1.125rem to 0.875rem (14px instead of 18px) */
     }
     
     body.decimal1-practice .choice-item {
         padding: 8px !important;
-        font-size: 0.875rem !important;  /* 14px */
+        font-size: 0.75rem !important;  /* REDUCED from 0.875rem to 0.75rem (12px instead of 14px) */
     }
 }
 
@@ -1753,13 +1812,13 @@ body.decimal1-practice *:focus-visible {
         font-size: 3rem;
     }
     
-    /* FONT SIZE: Very large screens get biggest fonts */
+    /* FONT SIZE: Very large screens get moderately bigger fonts */
     body.decimal1-practice #question-text {
-        font-size: 2rem !important;  /* 32px on very large screens */
+        font-size: 1.5rem !important;  /* REDUCED from 2rem to 1.5rem (24px instead of 32px) */
     }
     
     body.decimal1-practice .choice-item {
-        font-size: 1.375rem !important;  /* 22px on very large screens */
+        font-size: 1.25rem !important;  /* REDUCED from 1.375rem to 1.25rem (20px instead of 22px) */
     }
 }
 
