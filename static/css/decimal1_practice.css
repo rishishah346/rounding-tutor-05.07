@@ -3,6 +3,7 @@
 * File: static/css/decimal1_practice.css
 * Enhanced with robust error handling, accessibility, and UX improvements
 * UPDATED: Font size REDUCED from 1.5rem to 1.125rem for question text
+* UPDATED: Fixed step header text color and step number text color
 */
 
 /* =======================================
@@ -262,7 +263,7 @@ body.decimal1-practice #progress-percentage {
  4. Enhanced Split Whiteboard Layout - STAGE 1: WHITE BACKGROUNDS
  ======================================= */
 body.decimal1-practice #main-whiteboard {
-    background-color: var(--color-white); /* Changed from white to white (no change needed) */
+    background-color: var(--color-white);
     border: 15px solid red;
     border-image: url('/static/images/whiteboard_border.jpg') 15;
     box-shadow: var(--shadow-lg);
@@ -281,7 +282,7 @@ body.decimal1-practice .whiteboard-left {
     height: 100%;
     overflow-y: auto;
     padding: var(--spacing-md);
-    background-color: var(--color-white); /* Changed from blue-25 to white */
+    background-color: var(--color-white);
     border-right: 3px solid var(--color-gray-400);
     position: relative;
     display: flex;
@@ -293,7 +294,7 @@ body.decimal1-practice .whiteboard-right {
     height: 100%;
     overflow-y: auto;
     padding: var(--spacing-md);
-    background-color: var(--color-white); /* Changed from green-25 to white */
+    background-color: var(--color-white);
     position: relative;
     display: flex;
     flex-direction: column;
@@ -301,12 +302,12 @@ body.decimal1-practice .whiteboard-right {
 
 /* NEW: Enhanced section headers */
 body.decimal1-practice .section-header {
-    background: var(--color-white); /* Changed from gradient to white */
+    background: var(--color-white);
     padding: 0.75rem var(--spacing-md);
     border-radius: 0.5rem;
     margin-bottom: var(--spacing-md);
     box-shadow: var(--shadow-sm);
-    border-left: 4px solid var(--color-blue-500); /* Keep blue accent */
+    border-left: 4px solid var(--color-blue-500);
     position: sticky;
     top: 0;
     z-index: 5;
@@ -314,7 +315,7 @@ body.decimal1-practice .section-header {
 }
 
 body.decimal1-practice .whiteboard-right .section-header {
-    border-left-color: var(--color-green-500); /* Keep green accent for practice */
+    border-left-color: var(--color-green-500);
 }
 
 body.decimal1-practice .section-header h3 {
@@ -334,11 +335,11 @@ body.decimal1-practice .examples-content,
 body.decimal1-practice .practice-content {
     flex: 1;
     padding: var(--spacing-sm);
-    background-color: var(--color-white); /* Already white */
+    background-color: var(--color-white);
     border-radius: 0.5rem;
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
-    transition: all var(--transition-normal); /* STAGE 2: Added transition for hover effect */
+    transition: all var(--transition-normal);
 }
 
 /* STAGE 2: Added hover effect to outer examples container */
@@ -504,22 +505,19 @@ body.decimal1-practice #tutor-text {
 }
 
 /* =======================================
- 6. Enhanced Examples Content Styling - REMOVED BLUE BACKGROUNDS + BLACK TEXT
+ 6. Enhanced Examples Content Styling - REMOVED BLUE BACKGROUNDS + BLACK TEXT + FIXED STEP STYLING
  ======================================= */
 body.decimal1-practice .example-detailed {
     transition: all var(--transition-normal);
     overflow: hidden;
     border-radius: 0.75rem;
-    background-color: var(--color-white); /* Changed from blue-50 to white */
-    border: none; /* STAGE 1: Removed border completely */
+    background-color: var(--color-white);
+    border: none;
 }
 
-/* STAGE 2: Removed hover effect from inner container */
-/* body.decimal1-practice .example-detailed:hover - REMOVED */
-
 body.decimal1-practice .example-header {
-    background: var(--color-white); /* Changed from blue gradient to white */
-    border-bottom: 1px solid var(--color-gray-200); /* Changed from blue-200 to gray-200 */
+    background: var(--color-white);
+    border-bottom: 1px solid var(--color-gray-200);
 }
 
 /* NEW: Make example titles and text black */
@@ -527,27 +525,27 @@ body.decimal1-practice .example-header h4,
 body.decimal1-practice .example-detailed h3,
 body.decimal1-practice .example-detailed h4:not(.step-header h4),
 body.decimal1-practice .examples-content h4:not(.step-header h4) {
-    color: #000000 !important; /* Force black color for example titles */
+    color: #000000 !important;
 }
 
 body.decimal1-practice .example-header .text-blue-700,
 body.decimal1-practice .example-detailed .text-blue-700:not(.step-header *),
 body.decimal1-practice .examples-content .text-blue-700:not(.step-header *) {
-    color: #000000 !important; /* Force black for blue text */
+    color: #000000 !important;
 }
 
 /* NEW: Make example question text black */
 body.decimal1-practice .example-detailed .text-sm.text-blue-700,
 body.decimal1-practice .examples-content .text-sm.text-blue-700,
 body.decimal1-practice .example-header .text-sm.text-blue-700 {
-    color: #000000 !important; /* Force black for question text */
+    color: #000000 !important;
 }
 
 /* NEW: Make step explanation text black */
 body.decimal1-practice .step-explanation,
 body.decimal1-practice .step-explanation p,
 body.decimal1-practice .text-blue-600:not(.step-header *):not(.step-number):not(.font-semibold) {
-    color: #000000 !important; /* Force black for explanation text */
+    color: #000000 !important;
 }
 
 /* KEEP: Step headers (circle numbers and "Step X") remain blue */
@@ -555,12 +553,38 @@ body.decimal1-practice .step-header,
 body.decimal1-practice .step-header h5,
 body.decimal1-practice .step-header .font-semibold,
 body.decimal1-practice .step-number {
-    color: var(--color-blue-700) !important; /* Keep step indicators blue */
+    color: var(--color-blue-700) !important;
+}
+
+/* FIXED: Step header "Step X" text color - make it blue to match the blue accent */
+/* Target all possible variations of step text elements */
+body.decimal1-practice .step-header h5,
+body.decimal1-practice .step h5,
+body.decimal1-practice .step-header .font-semibold,
+body.decimal1-practice .step .font-semibold,
+body.decimal1-practice .step-header .text-blue-700,
+body.decimal1-practice .step .text-blue-700,
+body.decimal1-practice .step-header h4,
+body.decimal1-practice .step h4,
+body.decimal1-practice .step-header span:not(.step-number),
+body.decimal1-practice .step span:not(.step-number),
+body.decimal1-practice .example-steps h5,
+body.decimal1-practice .example-steps h4,
+body.decimal1-practice .example-steps .font-semibold {
+    color: var(--color-blue-700) !important;
+}
+
+/* FIXED: Step number text inside blue circles - make it white */
+body.decimal1-practice .step-number {
+    background: linear-gradient(135deg, var(--color-blue-500), var(--color-blue-600));
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-normal);
+    color: white !important;
 }
 
 body.decimal1-practice .step {
     transition: all var(--transition-normal);
-    border: 1px solid var(--color-gray-100); /* Changed from blue-100 to gray-100 */
+    border: 1px solid var(--color-gray-100);
     border-radius: 0.5rem;
     overflow: hidden;
 }
@@ -568,13 +592,7 @@ body.decimal1-practice .step {
 body.decimal1-practice .step:hover {
     box-shadow: var(--shadow-md);
     transform: translateY(-1px);
-    border-color: var(--color-gray-300); /* Changed from blue-300 to gray-300 */
-}
-
-body.decimal1-practice .step-number {
-    background: linear-gradient(135deg, var(--color-blue-500), var(--color-blue-600));
-    box-shadow: var(--shadow-sm);
-    transition: all var(--transition-normal);
+    border-color: var(--color-gray-300);
 }
 
 body.decimal1-practice .step:hover .step-number {
@@ -645,7 +663,7 @@ body.decimal1-practice #question-text,
 body.decimal1-practice div#question-text,
 body.decimal1-practice .question-area #question-text,
 body.decimal1-practice #practice-content #question-container #question-text {
-    font-size: 1.125rem !important;  /* REDUCED from 1.5rem to 1.125rem (18px instead of 24px) */
+    font-size: 1.125rem !important;
     font-weight: 600 !important;
     line-height: 1.4 !important;
     color: #1f2937 !important;
@@ -654,7 +672,7 @@ body.decimal1-practice #practice-content #question-container #question-text {
 
 /* Override any Tailwind text-sm classes */
 body.decimal1-practice #question-text.text-sm {
-    font-size: 1.125rem !important;  /* REDUCED from 1.5rem to 1.125rem */
+    font-size: 1.125rem !important;
 }
 
 /* CHANGE 1: Remove border from innermost container (question area) */
@@ -677,10 +695,10 @@ body.decimal1-practice .practice-content:hover {
 
 /* CHANGE 3: Reverted to original practice container sizing */
 body.decimal1-practice #question-container {
-    flex: 1; /* Back to original flex value */
+    flex: 1;
     display: flex;
     flex-direction: column;
-    margin-bottom: 1.5rem !important; /* Restored original margin */
+    margin-bottom: 1.5rem !important;
 }
 
 /* Make choices container with original spacing */
@@ -688,9 +706,9 @@ body.decimal1-practice #choices-container {
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Back to original center alignment */
-    margin-bottom: var(--spacing-md); /* Back to original spacing variable */
-    gap: 1rem; /* Original gap between choices */
+    justify-content: center;
+    margin-bottom: var(--spacing-md);
+    gap: 1rem;
 }
 
 /* Adjust practice content container to original setup */
@@ -707,11 +725,6 @@ body.decimal1-practice #practice-content > .space-y-4 {
     flex-direction: column;
 }
 
-/* Position submit button with original spacing */
-body.decimal1-practice #submit-answer {
-    /* Remove all custom margins and padding to revert to original */
-}
-
 /* ENHANCED CHOICE ITEMS FONT SIZE */
 body.decimal1-practice .choice-item,
 body.decimal1-practice #choices-container .choice-item {
@@ -719,12 +732,12 @@ body.decimal1-practice #choices-container .choice-item {
     cursor: pointer;
     border: 1px solid var(--color-gray-200);
     border-radius: 0.375rem;
-    padding: 1.25rem !important; /* STAGE 3: Increased from 0.75rem to 1.25rem for more height */
-    margin-bottom: 0; /* STAGE 3: Removed margin-bottom since we're using gap on parent */
-    font-size: 1rem !important; /* REDUCED from 1.125rem to 1rem (16px instead of 18px) */
+    padding: 1.25rem !important;
+    margin-bottom: 0;
+    font-size: 1rem !important;
     position: relative;
     overflow: hidden;
-    line-height: 1.4 !important; /* STAGE 3: Added line-height for better text spacing */
+    line-height: 1.4 !important;
 }
 
 /* NEW: Enhanced choice item interactions */
@@ -926,7 +939,7 @@ body.decimal1-practice .progress-info:hover {
 }
 
 /* =======================================
- 9. Error Handling & Status Indicators (NEW)
+ 9. Error Handling & Status Indicators
  ======================================= */
 
 /* Error container styling */
@@ -960,7 +973,7 @@ body.decimal1-practice .progress-info:hover {
     animation: pulse 2s ease-in-out infinite;
 }
 
-/* NEW: Toast notifications for better UX */
+/* Toast notifications for better UX */
 .toast-notification {
     position: fixed;
     top: 20px;
@@ -1049,7 +1062,6 @@ body.decimal1-practice .progress-info:hover {
     to { transform: rotate(360deg); }
 }
 
-/* NEW: Additional animations */
 @keyframes pulseGlow {
     0%, 100% { 
         box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
@@ -1108,13 +1120,13 @@ body.decimal1-practice .progress-info:hover {
     }
 }
 
-/* NEW: Focus-within effects for better accessibility */
+/* Focus-within effects for better accessibility */
 body.decimal1-practice .choice-item:focus-within,
 body.decimal1-practice button:focus-within {
     box-shadow: var(--focus-ring);
 }
 
-/* NEW: Reduced motion support for accessibility */
+/* Reduced motion support for accessibility */
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -1178,7 +1190,7 @@ button:hover {
 }
 
 /* =======================================
- 12. Enhanced Responsive Design - FONT SIZE RESPONSIVENESS REDUCED
+ 12. Enhanced Responsive Design
  ======================================= */
 
 /* Large screens - enhanced layout with smaller fonts */
@@ -1200,13 +1212,12 @@ button:hover {
         gap: var(--spacing-lg);
     }
     
-    /* FONT SIZE: Large screens get moderately larger fonts */
     body.decimal1-practice #question-text {
-        font-size: 1.25rem !important;  /* REDUCED from 1.75rem to 1.25rem (20px instead of 28px) */
+        font-size: 1.25rem !important;
     }
     
     body.decimal1-practice .choice-item {
-        font-size: 1.125rem !important;  /* REDUCED from 1.25rem to 1.125rem (18px instead of 20px) */
+        font-size: 1.125rem !important;
         padding: 1.5rem !important;
     }
 }
@@ -1225,13 +1236,12 @@ button:hover {
         width: 30% !important;
     }
     
-    /* FONT SIZE: Standard size for medium-large screens */
     body.decimal1-practice #question-text {
-        font-size: 1.125rem !important;  /* REDUCED from 1.5rem to 1.125rem (18px instead of 24px) */
+        font-size: 1.125rem !important;
     }
     
     body.decimal1-practice .choice-item {
-        font-size: 1rem !important;  /* REDUCED from 1.125rem to 1rem (16px instead of 18px) */
+        font-size: 1rem !important;
     }
 }
 
@@ -1264,13 +1274,12 @@ button:hover {
         font-size: 0.9rem;
     }
     
-    /* FONT SIZE: Slightly smaller for smaller laptops */
     body.decimal1-practice #question-text {
-        font-size: 1rem !important;  /* REDUCED from 1.375rem to 1rem (16px instead of 22px) */
+        font-size: 1rem !important;
     }
     
     body.decimal1-practice .choice-item {
-        font-size: 0.9rem !important;  /* REDUCED from 1rem to 0.9rem (14.4px instead of 16px) */
+        font-size: 0.9rem !important;
     }
 }
 
@@ -1352,13 +1361,12 @@ button:hover {
         font-size: 0.8rem;
     }
     
-    /* FONT SIZE: Tablet responsive fonts */
     body.decimal1-practice #question-text {
-        font-size: 1rem !important;  /* REDUCED from 1.375rem to 1rem (16px instead of 22px) */
+        font-size: 1rem !important;
     }
     
     body.decimal1-practice .choice-item {
-        font-size: 0.9rem !important;  /* REDUCED from 1rem to 0.9rem (14.4px instead of 16px) */
+        font-size: 0.9rem !important;
         padding: 1rem !important;
     }
     
@@ -1428,13 +1436,12 @@ button:hover {
         font-size: 0.85rem;
     }
     
-    /* FONT SIZE: Mobile responsive fonts */
     body.decimal1-practice #question-text {
-        font-size: 0.9rem !important;  /* REDUCED from 1.25rem to 0.9rem (14.4px instead of 20px) */
+        font-size: 0.9rem !important;
     }
     
     body.decimal1-practice .choice-item {
-        font-size: 0.8rem !important;  /* REDUCED from 0.9rem to 0.8rem (12.8px instead of 14.4px) */
+        font-size: 0.8rem !important;
         padding: var(--spacing-sm) !important;
     }
     
@@ -1544,13 +1551,12 @@ body.decimal1-practice .practice-content {
         page-break-inside: avoid;
     }
     
-    /* FONT SIZE: Print-friendly fonts */
     body.decimal1-practice #question-text {
-        font-size: 1.125rem !important;  /* REDUCED from 1.5rem to 1.125rem for print */
+        font-size: 1.125rem !important;
     }
     
     body.decimal1-practice .choice-item {
-        font-size: 1rem !important;  /* Keep consistent with screen version */
+        font-size: 1rem !important;
     }
 }
 
@@ -1572,9 +1578,8 @@ body.decimal1-practice .practice-content {
         border: 2px solid var(--color-blue-700);
     }
     
-    /* FONT SIZE: High contrast with moderate font increase for readability */
     body.decimal1-practice #question-text {
-        font-size: 1.25rem !important;  /* REDUCED from 1.75rem to 1.25rem for high contrast */
+        font-size: 1.25rem !important;
         font-weight: 700 !important;
     }
 }
@@ -1790,14 +1795,13 @@ body.decimal1-practice *:focus-visible {
         font-size: 0.9rem;
     }
     
-    /* FONT SIZE: Very small screens - maintain readability */
     body.decimal1-practice #question-text {
-        font-size: 0.875rem !important;  /* REDUCED from 1.125rem to 0.875rem (14px instead of 18px) */
+        font-size: 0.875rem !important;
     }
     
     body.decimal1-practice .choice-item {
         padding: 8px !important;
-        font-size: 0.75rem !important;  /* REDUCED from 0.875rem to 0.75rem (12px instead of 14px) */
+        font-size: 0.75rem !important;
     }
 }
 
@@ -1812,13 +1816,12 @@ body.decimal1-practice *:focus-visible {
         font-size: 3rem;
     }
     
-    /* FONT SIZE: Very large screens get moderately bigger fonts */
     body.decimal1-practice #question-text {
-        font-size: 1.5rem !important;  /* REDUCED from 2rem to 1.5rem (24px instead of 32px) */
+        font-size: 1.5rem !important;
     }
     
     body.decimal1-practice .choice-item {
-        font-size: 1.25rem !important;  /* REDUCED from 1.375rem to 1.25rem (20px instead of 22px) */
+        font-size: 1.25rem !important;
     }
 }
 
