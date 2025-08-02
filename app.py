@@ -112,10 +112,8 @@ def rounding_examples():
         learning_sequence.showing_example = True
         learning_sequence.current_example = 1
         session['learning_state'] = prepare_session_data(learning_sequence, topic='rounding')
-    elif session['learning_state']['stage'] != STAGES["ROUNDING_1DP_NO_UP"] or not session['learning_state']['showing_example']:
-        # User is in the wrong stage, redirect to appropriate page
-        return redirect(url_for('rounding_current_stage'))
     
+    # Always show examples page when explicitly requested (e.g., from "Return to Examples" button)
     return render_template('pages/rounding/decimal1_examples.html')
 
 @app.route('/rounding/practice')

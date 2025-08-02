@@ -4,6 +4,7 @@
 * Enhanced with robust error handling, accessibility, and UX improvements
 * UPDATED: Font size fix - removed conflicting Tailwind classes
 * UPDATED: Reduced spacing for MCQ options
+* FIXED: Syntax errors and missing method declarations
 */
 
 class RedesignedPracticePage {
@@ -317,6 +318,9 @@ class RedesignedPracticePage {
         // Return to examples button
         document.getElementById('return-to-examples')?.addEventListener('click', () => this.returnToExamples());
         
+        // Continue practice button (replaces next button functionality)
+        document.getElementById('continue-practice')?.addEventListener('click', () => this.handleContinueButton());
+        
         // NEW: Add visibility change handler to detect when tab becomes active
         document.addEventListener('visibilitychange', () => {
             if (!document.hidden && this.backendSessionData) {
@@ -335,7 +339,17 @@ class RedesignedPracticePage {
         });
     }
 
-    // NEW: Refresh backend state when tab becomes active
+    // NEW: Handle continue button functionality
+    handleContinueButton() {
+        // If a question has been submitted and answered, move to next question
+        if (this.selectedAnswer && this.currentQuestion) {
+            this.nextQuestion();
+        }
+        // If no question is currently active, fetch a new one
+        else {
+            this.fetchQuestion();
+        }
+    }
     async refreshBackendState() {
         try {
             const data = await this.fetchWithRetry('/api/current-stage');
@@ -499,6 +513,12 @@ class RedesignedPracticePage {
         this.loadExamplesContent();
         this.loadPracticeContent();
         this.loadTutorContent();
+        
+        // Ensure continue button starts disabled
+        const continueButton = document.getElementById('continue-practice');
+        if (continueButton) {
+            continueButton.disabled = true;
+        }
     }
 
     loadExamplesContent() {
@@ -642,18 +662,6 @@ class RedesignedPracticePage {
                             Submit Answer
                         </button>
                     </div>
-
-                    <!-- Feedback Container (hidden initially) -->
-                    <div id="feedback-container" class="feedback-area bg-gray-50 border border-gray-200 rounded-lg p-3 hidden" role="alert" aria-live="assertive">
-                        <!-- Feedback will be inserted here by JavaScript -->
-                    </div>
-
-                    <!-- Next Button Container -->
-                    <div id="next-button-container" class="text-center hidden">
-                        <button id="next-button" class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded transition-all focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
-                            Next Question
-                        </button>
-                    </div>
                 </div>
             `;
         }
@@ -668,14 +676,16 @@ class RedesignedPracticePage {
 
     initializePractice() {
         const submitButton = document.getElementById('submit-answer');
-        const nextButton = document.getElementById('next-button');
+        const continueButton = document.getElementById('continue-practice');
         
         if (submitButton) {
             submitButton.addEventListener('click', () => this.submitAnswer());
         }
         
-        if (nextButton) {
-            nextButton.addEventListener('click', () => this.nextQuestion());
+        if (continueButton) {
+            continueButton.addEventListener('click', () => this.nextQuestion());
+            // Ensure continue button starts disabled
+            continueButton.disabled = true;
         }
         
         this.fetchQuestion();
@@ -748,8 +758,11 @@ class RedesignedPracticePage {
             submitButton.disabled = true;
         }
         
-        this.hideFeedback();
-        this.hideNextButton();
+        // Ensure continue button is disabled when new question loads
+        const continueButton = document.getElementById('continue-practice');
+        if (continueButton) {
+            continueButton.disabled = true;
+        }
         
         const questionContainer = document.getElementById('question-container');
         if (questionContainer) {
@@ -791,6 +804,8 @@ class RedesignedPracticePage {
         this.isSubmitting = true; // NEW: Prevent double submissions
         
         const submitButton = document.getElementById('submit-answer');
+        const continueButton = document.getElementById('continue-practice');
+        
         if (submitButton) {
             submitButton.disabled = true;
             submitButton.textContent = 'Submitting...';
@@ -812,9 +827,16 @@ class RedesignedPracticePage {
             this.hideLoading();
             this.isSubmitting = false;
             
-            // Reset submit button
+            // Reset submit button and enable continue button
             if (submitButton) {
                 submitButton.textContent = 'Submit Answer';
+                submitButton.disabled = true; // Keep disabled until next question
+            }
+            
+            // Enable continue button but keep the same text and color
+            if (continueButton) {
+                continueButton.disabled = false;
+                // Keep "Continue" text and blue styling
             }
             
             this.syncWithBackendResponse(data);
@@ -824,9 +846,8 @@ class RedesignedPracticePage {
                 return;
             }
             
-            this.displayFeedback(data);
+            // Show feedback in answer highlighting only (no feedback box)
             this.highlightAnswers(data.is_correct);
-            this.showNextButton();
             this.updateProgressDisplays();
             this.updateProgressFromBackend();
             
@@ -836,7 +857,7 @@ class RedesignedPracticePage {
             
             // NEW: Announce result to screen readers
             const resultText = data.is_correct ? 'Correct answer!' : 'Incorrect answer.';
-            this.announceToScreenReader(`${resultText} ${data.feedback}`);
+            this.announceToScreenReader(`${resultText} Answer submitted. Click Continue for next question.`);
             
         })
         .catch(error => {
@@ -1009,8 +1030,12 @@ class RedesignedPracticePage {
     }
 
     nextQuestion() {
-        this.hideFeedback();
-        this.hideNextButton();
+        // Reset continue button back to disabled state for next question
+        const continueButton = document.getElementById('continue-practice');
+        if (continueButton) {
+            continueButton.disabled = true; // Disable until next answer is submitted
+        }
+        
         this.fetchQuestion();
     }
 
@@ -1075,23 +1100,6 @@ class RedesignedPracticePage {
         // from examples, they'll return to their current practice stage
         window.location.href = '/rounding/examples';
     }
-        // NEW: Confirm before reset if there's significant progress
-        if (this.questionsAttempted > 3) {
-            const confirmed = confirm('Are you sure you want to reset your lesson progress? This will clear all your current progress.');
-            if (!confirmed) return;
-        }
-        
-        this.fetchWithRetry('/api/reset', { method: 'POST' })
-            .then(data => {
-                if (data.status === 'reset' && data.redirect) {
-                    window.location.href = data.redirect;
-                }
-            })
-            .catch(error => {
-                console.error('Error resetting lesson:', error);
-                window.location.href = '/';
-            });
-    }
 
     resetLesson() {
         // NEW: Confirm before reset if there's significant progress
@@ -1113,7 +1121,6 @@ class RedesignedPracticePage {
     }
 
     // Utility methods
-    showLoading() {
     showLoading() {
         if (this.elements.loading) {
             this.elements.loading.classList.remove('hidden');
