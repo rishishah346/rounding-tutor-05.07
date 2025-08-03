@@ -1256,3 +1256,223 @@
   body.decimal1-examples .animate-stagger > *:nth-child(2) { animation-delay: 0.2s; }
   body.decimal1-examples .animate-stagger > *:nth-child(3) { animation-delay: 0.3s; }
   body.decimal1-examples .animate-stagger > *:nth-child(4) { animation-delay: 0.4s; }
+
+  /* =======================================
+ Progress Bar with Increments - Updated CSS
+ Add this to both decimal1_examples.css and decimal1_practice.css
+ ======================================= */
+
+/* Updated Progress Bar Container - Horizontal Layout */
+body.decimal1-examples .progress-bar-container,
+body.decimal1-practice .progress-bar-container {
+    flex: 1;
+    display: flex;
+    flex-direction: row; /* Changed from column to row */
+    align-items: flex-start; /* Changed from center */
+    justify-content: flex-start; /* Changed from center */
+    min-height: 200px;
+    padding: 1rem;
+    gap: 1rem; /* Add gap between progress bar and labels */
+}
+
+/* Left side container for progress bar and percentage */
+body.decimal1-examples .progress-bar-left,
+body.decimal1-practice .progress-bar-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60px; /* Fixed width for progress bar area */
+}
+
+/* Vertical Progress Bar Track - Moved to left */
+body.decimal1-examples .progress-bar-track,
+body.decimal1-practice .progress-bar-track {
+    width: 20px;
+    height: 300px; /* Increased height for better visibility */
+    background-color: var(--color-gray-200);
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Progress Bar Fill */
+body.decimal1-examples #progress-bar,
+body.decimal1-practice #progress-bar {
+    width: 100%;
+    height: 20%; /* Will be updated by JavaScript */
+    background: linear-gradient(to top, var(--color-blue-500), var(--color-blue-400));
+    border-radius: 10px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transition: height var(--transition-slow, 0.8s) cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 -2px 8px rgba(59, 130, 246, 0.3);
+}
+
+/* Progress Percentage Display - Below progress bar */
+body.decimal1-examples #progress-percentage,
+body.decimal1-practice #progress-percentage {
+    font-weight: 700;
+    font-size: clamp(1rem, 3vw, 1.25rem);
+    color: var(--color-blue-600);
+    margin-top: 1rem;
+    text-align: center;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Right side container for labels */
+body.decimal1-examples .progress-bar-right,
+body.decimal1-practice .progress-bar-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 300px; /* Match progress bar height */
+    padding-left: 1rem;
+}
+
+/* Progress increment markers */
+body.decimal1-examples .progress-increment,
+body.decimal1-practice .progress-increment {
+    display: flex;
+    align-items: center;
+    position: relative;
+    height: 50%;
+    padding: 0.5rem 0;
+}
+
+/* Connecting line from progress bar to label */
+body.decimal1-examples .progress-increment::before,
+body.decimal1-practice .progress-increment::before {
+    content: '';
+    position: absolute;
+    left: -1rem;
+    top: 50%;
+    width: 1rem;
+    height: 2px;
+    background-color: var(--color-gray-300);
+    transform: translateY(-1px);
+}
+
+/* Special styling for active increment */
+body.decimal1-examples .progress-increment.active::before,
+body.decimal1-practice .progress-increment.active::before {
+    background-color: var(--color-blue-500);
+}
+
+/* Increment labels */
+body.decimal1-examples .increment-label,
+body.decimal1-practice .increment-label {
+    background-color: var(--color-white);
+    border: 2px solid var(--color-gray-200);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-gray-700);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    cursor: default;
+    min-width: 180px;
+    text-align: center;
+}
+
+/* Active increment styling */
+body.decimal1-examples .progress-increment.active .increment-label,
+body.decimal1-practice .progress-increment.active .increment-label {
+    border-color: var(--color-blue-500);
+    background-color: var(--color-blue-50);
+    color: var(--color-blue-800);
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(59, 130, 246, 0.2);
+}
+
+/* Completed increment styling */
+body.decimal1-examples .progress-increment.completed .increment-label,
+body.decimal1-practice .progress-increment.completed .increment-label {
+    border-color: var(--color-green-500);
+    background-color: var(--color-green-50);
+    color: var(--color-green-800);
+}
+
+/* Add checkmark for completed increments */
+body.decimal1-examples .progress-increment.completed .increment-label::after,
+body.decimal1-practice .progress-increment.completed .increment-label::after {
+    content: '✓';
+    margin-left: 0.5rem;
+    color: var(--color-green-600);
+    font-weight: bold;
+}
+
+/* Progress bar markers at 50% mark */
+body.decimal1-examples .progress-bar-track::after,
+body.decimal1-practice .progress-bar-track::after {
+    content: '';
+    position: absolute;
+    left: -5px;
+    right: -5px;
+    top: 50%;
+    height: 2px;
+    background-color: var(--color-gray-400);
+    transform: translateY(-1px);
+    z-index: 5;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    body.decimal1-examples .progress-bar-container,
+    body.decimal1-practice .progress-bar-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    body.decimal1-examples .progress-bar-left,
+    body.decimal1-practice .progress-bar-left {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+    
+    body.decimal1-examples .progress-bar-right,
+    body.decimal1-practice .progress-bar-right {
+        width: 100%;
+        flex-direction: row;
+        height: auto;
+        justify-content: space-around;
+        padding-left: 0;
+    }
+    
+    body.decimal1-examples .progress-increment,
+    body.decimal1-practice .progress-increment {
+        height: auto;
+        flex: 1;
+        justify-content: center;
+    }
+    
+    body.decimal1-examples .progress-increment::before,
+    body.decimal1-practice .progress-increment::before {
+        display: none;
+    }
+    
+    body.decimal1-examples .increment-label,
+    body.decimal1-practice .increment-label {
+        min-width: auto;
+        width: 100%;
+        max-width: 200px;
+    }
+}
+
+@media (max-width: 600px) {
+    body.decimal1-examples .progress-bar-right,
+    body.decimal1-practice .progress-bar-right {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    body.decimal1-examples .increment-label,
+    body.decimal1-practice .increment-label {
+        font-size: 0.75rem;
+        padding: 0.5rem;
+    }
+}
+
