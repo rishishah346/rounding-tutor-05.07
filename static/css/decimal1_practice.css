@@ -1489,3 +1489,245 @@ body.decimal1-practice #error-container { z-index: 50; }
 body.decimal1-practice #connection-status { z-index: 40; }
 body.decimal1-practice .loading-overlay { z-index: 999; }
 body.decimal1-practice .offline-mode { z-index: 1000; }
+
+/* Add this to the END of your decimal1_practice.css file */
+
+/* CONTINUE BUTTON DISABLED STATE FIX - Faded Blue Like Submit Button */
+/* Same blue color but dimmed/faded, exactly like Submit button disabled state */
+
+body.decimal1-practice #continue-practice:disabled {
+    background-color: #93c5fd !important; /* Light blue (blue-300) - faded version of blue-600 */
+    border-color: #93c5fd !important;
+    color: white !important; /* Keep white text */
+    cursor: not-allowed !important;
+    opacity: 0.7 !important; /* Slight opacity for extra fading effect */
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+/* Prevent hover effects when disabled */
+body.decimal1-practice #continue-practice:disabled:hover {
+    background-color: #93c5fd !important; /* Stay faded blue */
+    border-color: #93c5fd !important;
+    color: white !important;
+    transform: none !important;
+    box-shadow: none !important;
+    opacity: 0.7 !important;
+}
+
+/* Prevent focus effects when disabled */
+body.decimal1-practice #continue-practice:disabled:focus {
+    outline: none !important;
+    box-shadow: none !important;
+    ring: none !important;
+    background-color: #93c5fd !important;
+    opacity: 0.7 !important;
+}
+
+/* Override any ::before pseudo-element effects when disabled */
+body.decimal1-practice #continue-practice:disabled::before {
+    display: none !important;
+}
+
+/* Also handle the [disabled] attribute selector */
+body.decimal1-practice #continue-practice[disabled] {
+    background-color: #93c5fd !important; /* Light blue - faded version */
+    border-color: #93c5fd !important;
+    color: white !important;
+    cursor: not-allowed !important;
+    opacity: 0.7 !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+body.decimal1-practice #continue-practice[disabled]:hover {
+    background-color: #93c5fd !important;
+    border-color: #93c5fd !important;
+    color: white !important;
+    transform: none !important;
+    box-shadow: none !important;
+    opacity: 0.7 !important;
+}
+
+body.decimal1-practice #continue-practice[disabled]:focus {
+    outline: none !important;
+    box-shadow: none !important;
+    background-color: #93c5fd !important;
+    opacity: 0.7 !important;
+}
+
+body.decimal1-practice #continue-practice[disabled]::before {
+    display: none !important;
+}
+
+body.decimal1-practice #continue-practice {
+    width: auto !important; /* Let it size naturally like Return button */
+    min-width: auto !important;
+    padding-left: 1.5rem !important; /* Same as Return button (px-6) */
+    padding-right: 1.5rem !important; /* Same as Return button (px-6) */
+    flex: none !important;
+}
+
+/* Ensure Return button keeps its original sizing */
+body.decimal1-practice #return-to-examples {
+    width: auto !important; /* Original auto width */
+    min-width: auto !important;
+    max-width: none !important;
+    flex: none !important;
+}
+
+/* Alternative: If they're still not matching, force them to be the same */
+/* Uncomment this section if the above doesn't work perfectly */
+
+body.decimal1-practice #return-to-examples,
+body.decimal1-practice #continue-practice {
+    min-width: 200px !important;
+    width: auto !important;
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+    white-space: nowrap !important;
+    flex: none !important;
+}
+
+/* Add this to your decimal1_practice.css file to make Submit Answer button green */
+
+/* SUBMIT ANSWER BUTTON - Green styling to match Practice Questions section */
+
+/* Green enabled state - matches the Practice Questions header green */
+body.decimal1-practice #submit-answer {
+    background-color: #059669 !important; /* green-600 - matches Practice Questions section */
+    border-color: #059669 !important;
+    color: white !important;
+}
+
+/* Green hover state - darker green */
+body.decimal1-practice #submit-answer:hover:not(:disabled) {
+    background-color: #047857 !important; /* green-700 - darker on hover */
+    border-color: #047857 !important;
+    color: white !important;
+}
+
+/* Green focus state */
+body.decimal1-practice #submit-answer:focus {
+    background-color: #059669 !important;
+    border-color: #059669 !important;
+    outline: none !important;
+    box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.5) !important; /* Green focus ring */
+}
+
+/* Disabled state - darker green for better text readability */
+body.decimal1-practice #submit-answer:disabled {
+    background-color: #10b981 !important; /* green-500 - darker than before but lighter than enabled */
+    border-color: #10b981 !important;
+    color: white !important;
+    cursor: not-allowed !important;
+    opacity: 0.8 !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+/* Disabled hover state - stay darker green */
+body.decimal1-practice #submit-answer:disabled:hover {
+    background-color: #10b981 !important; /* Stay darker green */
+    border-color: #10b981 !important;
+    color: white !important;
+    transform: none !important;
+    box-shadow: none !important;
+    opacity: 0.8 !important;
+}
+
+/* Disabled focus state */
+body.decimal1-practice #submit-answer:disabled:focus {
+    outline: none !important;
+    box-shadow: none !important;
+    background-color: #10b981 !important;
+}
+
+/* Override any ::before pseudo-element effects when disabled */
+body.decimal1-practice #submit-answer:disabled::before {
+    display: none !important;
+}
+
+/* Also handle the [disabled] attribute selector */
+body.decimal1-practice #submit-answer[disabled] {
+    background-color: #10b981 !important; /* Darker green for readability */
+    border-color: #10b981 !important;
+    color: white !important;
+    cursor: not-allowed !important;
+    opacity: 0.8 !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+body.decimal1-practice #submit-answer[disabled]:hover {
+    background-color: #10b981 !important;
+    border-color: #10b981 !important;
+    color: white !important;
+    transform: none !important;
+    box-shadow: none !important;
+    opacity: 0.8 !important;
+}
+
+body.decimal1-practice #submit-answer[disabled]:focus {
+    outline: none !important;
+    box-shadow: none !important;
+    background-color: #10b981 !important;
+}
+
+body.decimal1-practice #submit-answer[disabled]::before {
+    display: none !important;
+}
+
+/* Add this to your decimal1_practice.css file to extend progress bar and hide text */
+
+/* PROGRESS BAR CONTAINER - Remove text and extend bar */
+
+/* Hide the "Progress through the lesson" text */
+body.decimal1-practice #progress-sidebar h3 {
+    display: none !important;
+}
+
+/* Extend the progress bar container to use more space */
+body.decimal1-practice .progress-bar-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start !important; /* Start from top instead of center */
+    min-height: 200px;
+    padding-top: 1rem !important; /* Small gap from top */
+    padding-bottom: 1rem !important; /* Small gap from bottom */
+}
+
+/* Make the progress bar track much taller - extends further down */
+body.decimal1-practice .progress-bar-track {
+    width: 20px;
+    height: calc(100% - 4rem) !important; /* Take most of container height minus padding and percentage text */
+    background-color: var(--color-gray-200);
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Adjust the progress percentage position - moved further down */
+body.decimal1-practice #progress-percentage {
+    font-weight: 700;
+    font-size: clamp(1rem, 3vw, 1.25rem);
+    color: var(--color-blue-600);
+    margin-top: 1.5rem !important; /* Increased margin to push it down */
+    text-align: center;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Reduce padding in the progress sidebar to maximize space */
+body.decimal1-practice #progress-sidebar {
+    background-color: var(--color-gray-50);
+    border: 1px solid var(--color-gray-200);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem !important; /* Reduced from 1rem */
+    box-sizing: border-box;
+    overflow-y: auto;
+}

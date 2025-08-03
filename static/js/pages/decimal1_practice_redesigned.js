@@ -1,10 +1,8 @@
 /**
-* Decimal1 Practice Page - Stage 6: Polish & Test Complete
+* Decimal1 Practice Page - Complete Redesigned Implementation
 * File: static/js/pages/decimal1_practice_redesigned.js
 * Enhanced with robust error handling, accessibility, and UX improvements
-* UPDATED: Font size fix - removed conflicting Tailwind classes
-* UPDATED: Reduced spacing for MCQ options
-* FIXED: Syntax errors and missing method declarations
+* FIXED: Continue button now properly disabled until submit button is pressed
 */
 
 class RedesignedPracticePage {
@@ -17,15 +15,15 @@ class RedesignedPracticePage {
         this.selectedAnswer = null;
         this.backendSessionData = null;
         this.initialProgressCalculated = false;
-        this.isSubmitting = false; // NEW: Prevent double submissions
-        this.retryCount = 0; // NEW: Track API retry attempts
-        this.maxRetries = 3; // NEW: Maximum retry attempts
-        this.sessionStartTime = Date.now(); // NEW: Track session duration
-        this.questionStartTime = null; // NEW: Track response time per question
+        this.isSubmitting = false;
+        this.retryCount = 0;
+        this.maxRetries = 3;
+        this.sessionStartTime = Date.now();
+        this.questionStartTime = null;
         
         this.initializeElements();
         this.initializeEventListeners();
-        this.initializeAccessibility(); // NEW: Accessibility features
+        this.initializeAccessibility();
         this.loadBackendState();
     }
 
@@ -45,13 +43,12 @@ class RedesignedPracticePage {
             // Loading
             loading: document.getElementById('loading'),
             
-            // NEW: Additional elements for better UX
+            // Additional elements for better UX
             errorContainer: this.createErrorContainer(),
             connectionStatus: this.createConnectionStatus()
         };
     }
 
-    // NEW: Create error container for better error display
     createErrorContainer() {
         const container = document.createElement('div');
         container.id = 'error-container';
@@ -83,7 +80,6 @@ class RedesignedPracticePage {
         return container;
     }
 
-    // NEW: Create connection status indicator
     createConnectionStatus() {
         const container = document.createElement('div');
         container.id = 'connection-status';
@@ -104,7 +100,6 @@ class RedesignedPracticePage {
         return container;
     }
 
-    // NEW: Initialize accessibility features
     initializeAccessibility() {
         // Add ARIA labels to progress bar
         if (this.elements.progressBar) {
@@ -124,20 +119,14 @@ class RedesignedPracticePage {
             }
         });
 
-        // Add focus management
         this.setupFocusManagement();
     }
 
-    // NEW: Setup focus management for better accessibility
     setupFocusManagement() {
-        // Announce screen reader updates
         this.createAriaLiveRegion();
-        
-        // Handle focus after content updates
         this.focusAfterUpdate = null;
     }
 
-    // NEW: Create ARIA live region for screen reader announcements
     createAriaLiveRegion() {
         const liveRegion = document.createElement('div');
         liveRegion.id = 'aria-live-region';
@@ -148,7 +137,6 @@ class RedesignedPracticePage {
         this.ariaLiveRegion = liveRegion;
     }
 
-    // NEW: Announce updates to screen readers
     announceToScreenReader(message) {
         if (this.ariaLiveRegion) {
             this.ariaLiveRegion.textContent = message;
@@ -159,7 +147,6 @@ class RedesignedPracticePage {
         this.showLoading();
         this.showConnectionStatus('Connecting to server...');
         
-        // NEW: Enhanced error handling with retry logic
         this.fetchWithRetry('/api/current-stage', {
             method: 'GET'
         })
@@ -208,7 +195,6 @@ class RedesignedPracticePage {
         });
     }
 
-    // NEW: Enhanced fetch with retry logic and better error handling
     async fetchWithRetry(url, options = {}, retryCount = 0) {
         try {
             const response = await fetch(url, {
@@ -224,13 +210,13 @@ class RedesignedPracticePage {
             }
 
             const data = await response.json();
-            this.retryCount = 0; // Reset retry count on success
+            this.retryCount = 0;
             return data;
 
         } catch (error) {
             if (retryCount < this.maxRetries) {
                 console.log(`Attempt ${retryCount + 1} failed, retrying...`);
-                await this.delay(Math.pow(2, retryCount) * 1000); // Exponential backoff
+                await this.delay(Math.pow(2, retryCount) * 1000);
                 return this.fetchWithRetry(url, options, retryCount + 1);
             } else {
                 throw error;
@@ -238,12 +224,10 @@ class RedesignedPracticePage {
         }
     }
 
-    // NEW: Utility method for delays
     delay(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-    // NEW: Show connection status
     showConnectionStatus(message, type = 'warning') {
         const status = this.elements.connectionStatus;
         const indicator = document.getElementById('connection-indicator');
@@ -252,7 +236,6 @@ class RedesignedPracticePage {
         if (status && indicator && text) {
             text.textContent = message;
             
-            // Update indicator color based on type
             indicator.className = `h-3 w-3 rounded-full ${
                 type === 'success' ? 'bg-green-400' :
                 type === 'error' ? 'bg-red-400' :
@@ -261,21 +244,18 @@ class RedesignedPracticePage {
             
             status.classList.remove('hidden');
             
-            // Auto-hide success messages
             if (type === 'success') {
                 setTimeout(() => this.hideConnectionStatus(), 3000);
             }
         }
     }
 
-    // NEW: Hide connection status
     hideConnectionStatus() {
         if (this.elements.connectionStatus) {
             this.elements.connectionStatus.classList.add('hidden');
         }
     }
 
-    // NEW: Show connection error with retry option
     showConnectionError(message) {
         const errorContainer = this.elements.errorContainer;
         const errorMessage = document.getElementById('error-message');
@@ -286,7 +266,6 @@ class RedesignedPracticePage {
             errorMessage.textContent = message;
             errorContainer.classList.remove('hidden');
             
-            // Setup retry button
             if (retryButton) {
                 retryButton.onclick = () => {
                     this.hideError();
@@ -294,17 +273,14 @@ class RedesignedPracticePage {
                 };
             }
             
-            // Setup dismiss button
             if (dismissButton) {
                 dismissButton.onclick = () => this.hideError();
             }
             
-            // Auto-dismiss after 10 seconds
             setTimeout(() => this.hideError(), 10000);
         }
     }
 
-    // NEW: Hide error message
     hideError() {
         if (this.elements.errorContainer) {
             this.elements.errorContainer.classList.add('hidden');
@@ -318,18 +294,17 @@ class RedesignedPracticePage {
         // Return to examples button
         document.getElementById('return-to-examples')?.addEventListener('click', () => this.returnToExamples());
         
-        // Continue practice button (replaces next button functionality)
+        // Continue practice button
         document.getElementById('continue-practice')?.addEventListener('click', () => this.handleContinueButton());
         
-        // NEW: Add visibility change handler to detect when tab becomes active
+        // Add visibility change handler to detect when tab becomes active
         document.addEventListener('visibilitychange', () => {
             if (!document.hidden && this.backendSessionData) {
-                // Refresh state when user returns to tab
                 this.refreshBackendState();
             }
         });
 
-        // NEW: Add beforeunload handler to warn about unsaved progress
+        // Add beforeunload handler to warn about unsaved progress
         window.addEventListener('beforeunload', (e) => {
             if (this.questionsAttempted > 0 && !this.isLessonComplete()) {
                 e.preventDefault();
@@ -339,7 +314,6 @@ class RedesignedPracticePage {
         });
     }
 
-    // NEW: Handle continue button functionality
     handleContinueButton() {
         // If a question has been submitted and answered, move to next question
         if (this.selectedAnswer && this.currentQuestion) {
@@ -350,6 +324,7 @@ class RedesignedPracticePage {
             this.fetchQuestion();
         }
     }
+
     async refreshBackendState() {
         try {
             const data = await this.fetchWithRetry('/api/current-stage');
@@ -361,7 +336,6 @@ class RedesignedPracticePage {
         }
     }
 
-    // NEW: Check if lesson is complete
     isLessonComplete() {
         return this.currentStage === 'complete' || this.currentStage === '2.1';
     }
@@ -384,10 +358,8 @@ class RedesignedPracticePage {
             console.log('Using local progress calculation as fallback:', calculatedProgress);
         }
         
-        // NEW: Smooth progress bar animation
         this.animateProgressUpdate(calculatedProgress);
         
-        // NEW: Update ARIA attributes
         if (this.elements.progressBar) {
             this.elements.progressBar.setAttribute('aria-valuenow', Math.round(calculatedProgress));
         }
@@ -395,14 +367,13 @@ class RedesignedPracticePage {
         console.log(`Backend-driven progress: ${Math.round(calculatedProgress)}% (Stage: ${this.currentStage})`);
     }
 
-    // NEW: Animate progress bar updates for smoother UX
     animateProgressUpdate(targetProgress) {
         if (!this.elements.progressBar || !this.elements.progressPercentage) return;
         
         const currentProgress = parseFloat(this.elements.progressBar.style.height) || 0;
         const difference = targetProgress - currentProgress;
-        const duration = 800; // Animation duration in ms
-        const steps = 30; // Number of animation steps
+        const duration = 800;
+        const steps = 30;
         const stepValue = difference / steps;
         const stepDuration = duration / steps;
         
@@ -416,7 +387,6 @@ class RedesignedPracticePage {
                 currentStep++;
                 setTimeout(animate, stepDuration);
             } else {
-                // Ensure final value is exact
                 this.elements.progressBar.style.height = `${targetProgress}%`;
                 this.elements.progressPercentage.textContent = `${Math.round(targetProgress)}%`;
             }
@@ -514,7 +484,7 @@ class RedesignedPracticePage {
         this.loadPracticeContent();
         this.loadTutorContent();
         
-        // Ensure continue button starts disabled
+        // CRITICAL: Ensure continue button starts disabled
         const continueButton = document.getElementById('continue-practice');
         if (continueButton) {
             continueButton.disabled = true;
@@ -526,7 +496,7 @@ class RedesignedPracticePage {
         if (examplesContainer) {
             examplesContainer.innerHTML = `
                 <div class="space-y-6">
-                    <!-- Example 1 - Using Original Images and Tutor Text -->
+                    <!-- Example 1 -->
                     <div class="example-detailed bg-blue-50 border border-blue-200 rounded-lg overflow-hidden">
                         <div class="example-header bg-blue-100 px-4 py-3 border-b border-blue-200">
                             <div class="flex items-center justify-between">
@@ -582,7 +552,7 @@ class RedesignedPracticePage {
                         </div>
                     </div>
 
-                    <!-- Example 2 - Using Original Images and Tutor Text -->
+                    <!-- Example 2 -->
                     <div class="example-detailed bg-blue-50 border border-blue-200 rounded-lg overflow-hidden">
                         <div class="example-header bg-blue-100 px-4 py-3 border-b border-blue-200">
                             <div class="flex items-center justify-between">
@@ -649,10 +619,10 @@ class RedesignedPracticePage {
                 <div class="space-y-4">
                     <!-- Practice Question Container -->
                     <div id="question-container" class="question-area bg-white border border-gray-200 rounded-lg p-3">
-                        <!-- Question Text - REMOVED text-sm class to prevent font size conflicts -->
+                        <!-- Question Text -->
                         <div id="question-text" class="font-medium text-gray-800 mb-3" role="main" aria-live="polite"></div>
                         
-                        <!-- Choices Container - REDUCED SPACING -->
+                        <!-- Choices Container -->
                         <div id="choices-container" class="space-y-1 mb-3" role="radiogroup" aria-label="Answer choices">
                             <!-- Choices will be inserted here by JavaScript -->
                         </div>
@@ -669,11 +639,6 @@ class RedesignedPracticePage {
         this.initializePractice();
     }
 
-    // Session timer function removed since we're not showing session progress
-    startSessionTimer() {
-        // Timer functionality removed as per request
-    }
-
     initializePractice() {
         const submitButton = document.getElementById('submit-answer');
         const continueButton = document.getElementById('continue-practice');
@@ -684,7 +649,7 @@ class RedesignedPracticePage {
         
         if (continueButton) {
             continueButton.addEventListener('click', () => this.nextQuestion());
-            // Ensure continue button starts disabled
+            // CRITICAL: Ensure continue button starts disabled
             continueButton.disabled = true;
         }
         
@@ -693,7 +658,7 @@ class RedesignedPracticePage {
 
     fetchQuestion() {
         this.showLoading();
-        this.questionStartTime = Date.now(); // NEW: Track question start time
+        this.questionStartTime = Date.now();
         
         this.fetchWithRetry('/api/decimal1/practice/question')
             .then(data => {
@@ -718,7 +683,6 @@ class RedesignedPracticePage {
         
         const questionText = document.getElementById('question-text');
         if (questionText) {
-            // FONT SIZE FIX: Clear any existing classes that might interfere and don't add text-sm
             questionText.className = 'font-medium text-gray-800 mb-3';
             questionText.textContent = question.question_text;
         }
@@ -729,8 +693,6 @@ class RedesignedPracticePage {
             
             for (const [letter, answer] of Object.entries(question.choices)) {
                 const choiceElement = document.createElement('div');
-                // FONT SIZE FIX: REMOVED text-sm class to prevent font size conflicts
-                // REDUCED PADDING: Changed from p-2 to p-1.5 for tighter spacing
                 choiceElement.className = 'choice-item p-1.5 border rounded cursor-pointer hover:bg-gray-50 transition-all focus:ring-2 focus:ring-blue-500 focus:ring-offset-1';
                 choiceElement.innerHTML = `
                     <span class="font-medium">${letter})</span> ${answer}
@@ -758,7 +720,7 @@ class RedesignedPracticePage {
             submitButton.disabled = true;
         }
         
-        // Ensure continue button is disabled when new question loads
+        // CRITICAL: Ensure continue button is disabled when new question loads
         const continueButton = document.getElementById('continue-practice');
         if (continueButton) {
             continueButton.disabled = true;
@@ -769,7 +731,6 @@ class RedesignedPracticePage {
             questionContainer.classList.remove('hidden');
         }
         
-        // NEW: Announce new question to screen readers
         this.announceToScreenReader(`New question loaded: ${question.question_text}`);
     }
 
@@ -788,20 +749,19 @@ class RedesignedPracticePage {
         // Update selected answer
         this.selectedAnswer = choiceElement.dataset.letter;
         
-        // Enable submit button
+        // Enable submit button (but keep continue button disabled)
         const submitButton = document.getElementById('submit-answer');
         if (submitButton) {
             submitButton.disabled = false;
         }
         
-        // NEW: Announce selection to screen readers
         this.announceToScreenReader(`Selected answer ${this.selectedAnswer}`);
     }
 
     submitAnswer() {
         if (!this.selectedAnswer || this.isSubmitting) return;
         
-        this.isSubmitting = true; // NEW: Prevent double submissions
+        this.isSubmitting = true;
         
         const submitButton = document.getElementById('submit-answer');
         const continueButton = document.getElementById('continue-practice');
@@ -811,32 +771,35 @@ class RedesignedPracticePage {
             submitButton.textContent = 'Submitting...';
         }
         
+        // CRITICAL: Keep continue button disabled during submission
+        if (continueButton) {
+            continueButton.disabled = true;
+        }
+        
         this.showLoading();
         
-        // NEW: Calculate response time
         const responseTime = this.questionStartTime ? Date.now() - this.questionStartTime : 0;
         
         this.fetchWithRetry('/api/verify-answer', {
             method: 'POST',
             body: JSON.stringify({
                 answer: this.selectedAnswer,
-                response_time: responseTime // NEW: Send response time to backend
+                response_time: responseTime
             })
         })
         .then(data => {
             this.hideLoading();
             this.isSubmitting = false;
             
-            // Reset submit button and enable continue button
+            // Reset submit button text but keep it disabled
             if (submitButton) {
                 submitButton.textContent = 'Submit Answer';
-                submitButton.disabled = true; // Keep disabled until next question
+                submitButton.disabled = true;
             }
             
-            // Enable continue button but keep the same text and color
+            // CRITICAL: Only enable continue button AFTER successful submission
             if (continueButton) {
                 continueButton.disabled = false;
-                // Keep "Continue" text and blue styling
             }
             
             this.syncWithBackendResponse(data);
@@ -846,7 +809,6 @@ class RedesignedPracticePage {
                 return;
             }
             
-            // Show feedback in answer highlighting only (no feedback box)
             this.highlightAnswers(data.is_correct);
             this.updateProgressDisplays();
             this.updateProgressFromBackend();
@@ -855,7 +817,6 @@ class RedesignedPracticePage {
                 this.handleStageCompletion(data);
             }
             
-            // NEW: Announce result to screen readers
             const resultText = data.is_correct ? 'Correct answer!' : 'Incorrect answer.';
             this.announceToScreenReader(`${resultText} Answer submitted. Click Continue for next question.`);
             
@@ -865,10 +826,15 @@ class RedesignedPracticePage {
             this.hideLoading();
             this.isSubmitting = false;
             
-            // Reset submit button
+            // Reset submit button on error
             if (submitButton) {
                 submitButton.disabled = false;
                 submitButton.textContent = 'Submit Answer';
+            }
+            
+            // Keep continue button disabled on error
+            if (continueButton) {
+                continueButton.disabled = true;
             }
             
             this.showConnectionError('Failed to submit answer. Please check your connection and try again.');
@@ -934,7 +900,6 @@ class RedesignedPracticePage {
             }, 1500);
         }
         
-        // NEW: Announce stage completion
         this.announceToScreenReader(`Stage ${this.currentStage} completed! Great job!`);
     }
 
@@ -962,31 +927,7 @@ class RedesignedPracticePage {
             `;
             
             practiceContainer.innerHTML = transitionHTML;
-            
-            // NEW: Announce transition
             this.announceToScreenReader('Practice section complete! Ready to continue to the next section.');
-        }
-    }
-
-    displayFeedback(data) {
-        const feedbackContainer = document.getElementById('feedback-container');
-        if (feedbackContainer) {
-            const feedbackClass = data.is_correct ? 
-                'bg-green-50 border-green-200' : 
-                'bg-red-50 border-red-200';
-                
-            feedbackContainer.className = `feedback-area border rounded-lg p-3 ${feedbackClass}`;
-            feedbackContainer.innerHTML = `
-                <div class="text-sm">
-                    <h4 class="font-semibold mb-2 ${data.is_correct ? 'text-green-800' : 'text-red-800'}">
-                        ${data.is_correct ? 'Correct!' : 'Not quite right'}
-                    </h4>
-                    <div class="text-xs ${data.is_correct ? 'text-green-700' : 'text-red-700'}">
-                        ${data.feedback}
-                    </div>
-                </div>
-            `;
-            feedbackContainer.classList.remove('hidden');
         }
     }
 
@@ -1008,32 +949,11 @@ class RedesignedPracticePage {
         });
     }
 
-    showNextButton() {
-        const nextButtonContainer = document.getElementById('next-button-container');
-        if (nextButtonContainer) {
-            nextButtonContainer.classList.remove('hidden');
-        }
-    }
-
-    hideNextButton() {
-        const nextButtonContainer = document.getElementById('next-button-container');
-        if (nextButtonContainer) {
-            nextButtonContainer.classList.add('hidden');
-        }
-    }
-
-    hideFeedback() {
-        const feedbackContainer = document.getElementById('feedback-container');
-        if (feedbackContainer) {
-            feedbackContainer.classList.add('hidden');
-        }
-    }
-
     nextQuestion() {
-        // Reset continue button back to disabled state for next question
+        // CRITICAL: Reset continue button back to disabled state for next question
         const continueButton = document.getElementById('continue-practice');
         if (continueButton) {
-            continueButton.disabled = true; // Disable until next answer is submitted
+            continueButton.disabled = true;
         }
         
         this.fetchQuestion();
@@ -1071,7 +991,6 @@ class RedesignedPracticePage {
             `;
         }
         
-        // NEW: Announce lesson completion
         this.announceToScreenReader('Congratulations! You have completed the practice section.');
     }
 
@@ -1093,16 +1012,11 @@ class RedesignedPracticePage {
         }
     }
 
-    // NEW: Return to examples method
     returnToExamples() {
-        // Navigate back to the decimal 1 examples page
-        // The session state will be preserved, so when they click "Continue" 
-        // from examples, they'll return to their current practice stage
         window.location.href = '/rounding/examples';
     }
 
     resetLesson() {
-        // NEW: Confirm before reset if there's significant progress
         if (this.questionsAttempted > 3) {
             const confirmed = confirm('Are you sure you want to reset your lesson progress? This will clear all your current progress.');
             if (!confirmed) return;
