@@ -1881,8 +1881,7 @@ body.decimal1-practice .progress-increment.completed .increment-label::after {
     font-weight: bold;
 }
 
-/* Progress bar markers at 50% mark */
-body.decimal1-examples .progress-bar-track::after,
+/* FIXED: Progress bar marker at exactly 50% */
 body.decimal1-practice .progress-bar-track::after {
     content: '';
     position: absolute;
@@ -1891,7 +1890,7 @@ body.decimal1-practice .progress-bar-track::after {
     top: 50%;
     height: 2px;
     background-color: var(--color-gray-400);
-    transform: translateY(-1px);
+    transform: translateY(-50%);
     z-index: 5;
 }
 
@@ -1949,5 +1948,201 @@ body.decimal1-practice .progress-bar-track::after {
     body.decimal1-practice .increment-label {
         font-size: 0.75rem;
         padding: 0.5rem;
+    }
+}
+
+/* =======================================
+ Progress Bar Enhancement - Remove Text and Extend Height
+ Add this to both decimal1_examples.css and decimal1_practice.css
+ ======================================= */
+
+/* Hide the "Progress through the lesson" text */
+body.decimal1-examples #progress-sidebar h3,
+body.decimal1-practice #progress-sidebar h3 {
+    display: none !important;
+}
+
+/* Extend the progress bar container to use more space */
+body.decimal1-examples .progress-bar-container,
+body.decimal1-practice .progress-bar-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center !important; /* Center the progress bar */
+    justify-content: center !important; /* Center vertically in container */
+    min-height: 200px;
+    padding: 1rem !important;
+}
+
+/* Make the progress bar track much taller - extends further down */
+body.decimal1-examples .progress-bar-track,
+body.decimal1-practice .progress-bar-track {
+    width: 20px;
+    height: calc(100% - 3rem) !important; /* Dynamic height: full container minus space for percentage text */
+    background-color: var(--color-gray-200);
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* FIXED: Single interval marker at 50% only */
+body.decimal1-examples .progress-bar-track::after,
+body.decimal1-practice .progress-bar-track::after {
+    content: '';
+    position: absolute;
+    left: -5px;
+    right: -5px;
+    top: 50%;
+    height: 2px;
+    background-color: var(--color-gray-400);
+    transform: translateY(-1px);
+    z-index: 5;
+}
+
+/* REMOVE any other interval markers */
+body.decimal1-examples .progress-bar-track::before,
+body.decimal1-practice .progress-bar-track::before {
+    display: none !important;
+}
+
+/* Adjust the progress percentage position - below progress bar, centered */
+body.decimal1-examples #progress-percentage,
+body.decimal1-practice #progress-percentage {
+    font-weight: 700;
+    font-size: clamp(1rem, 3vw, 1.25rem);
+    color: var(--color-blue-600);
+    margin-top: 1rem !important; /* Space below progress bar */
+    text-align: center;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    order: 2; /* Ensure percentage appears after progress bar */
+}
+
+/* Ensure progress bar appears first */
+body.decimal1-examples .progress-bar-track,
+body.decimal1-practice .progress-bar-track {
+    order: 1;
+}
+
+/* Reduce padding in the progress sidebar to maximize space */
+body.decimal1-examples #progress-sidebar,
+body.decimal1-practice #progress-sidebar {
+    background-color: var(--color-gray-50);
+    border: 1px solid var(--color-gray-200);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem !important; /* Reduced from 1rem */
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+/* Optional: Add visual markers at key progress points */
+body.decimal1-examples .progress-bar-track::before,
+body.decimal1-practice .progress-bar-track::before {
+    content: '';
+    position: absolute;
+    left: -5px;
+    right: -5px;
+    top: 25%;
+    height: 2px;
+    background-color: var(--color-gray-400);
+    transform: translateY(-1px);
+    z-index: 5;
+    opacity: 0.5;
+}
+
+body.decimal1-examples .progress-bar-track::after,
+body.decimal1-practice .progress-bar-track::after {
+    content: '';
+    position: absolute;
+    left: -5px;
+    right: -5px;
+    top: 50%;
+    height: 2px;
+    background-color: var(--color-gray-400);
+    transform: translateY(-1px);
+    z-index: 5;
+    opacity: 0.7;
+}
+
+/* Add a third marker at 75% */
+body.decimal1-examples .progress-bar-track::after,
+body.decimal1-practice .progress-bar-track::after {
+    content: '';
+    position: absolute;
+    left: -8px;
+    right: -8px;
+    top: 75%;
+    height: 3px;
+    background-color: var(--color-gray-500);
+    transform: translateY(-1px);
+    z-index: 5;
+    opacity: 0.8;
+}
+
+/* Enhanced progress bar styling for better visibility with increased height */
+body.decimal1-examples #progress-bar,
+body.decimal1-practice #progress-bar {
+    width: 100%;
+    height: 20%; /* Will be updated by JavaScript */
+    background: linear-gradient(to top, var(--color-blue-500), var(--color-blue-400));
+    border-radius: 10px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transition: height 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 -2px 8px rgba(59, 130, 246, 0.3);
+}
+
+/* Enhanced shimmer effect for taller progress bar */
+body.decimal1-examples #progress-bar::after,
+body.decimal1-practice #progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    animation: shimmerVertical 2s infinite;
+}
+
+@keyframes shimmerVertical {
+    0% { transform: translateY(100%); }
+    100% { transform: translateY(-100%); }
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 1200px) {
+    body.decimal1-examples .progress-bar-track,
+    body.decimal1-practice .progress-bar-track {
+        height: calc(100% - 3rem) !important; /* Slightly less space on smaller screens */
+    }
+    
+    body.decimal1-examples #progress-percentage,
+    body.decimal1-practice #progress-percentage {
+        margin-top: 1rem !important;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 600px) {
+    body.decimal1-examples .progress-bar-container,
+    body.decimal1-practice .progress-bar-container {
+        padding-top: 0.5rem !important;
+        padding-bottom: 0.5rem !important;
+    }
+    
+    body.decimal1-examples .progress-bar-track,
+    body.decimal1-practice .progress-bar-track {
+        height: calc(100% - 2rem) !important;
+        width: 16px; /* Slightly smaller on mobile */
+    }
+    
+    body.decimal1-examples #progress-percentage,
+    body.decimal1-practice #progress-percentage {
+        margin-top: 0.5rem !important;
+        font-size: 0.9rem;
     }
 }
