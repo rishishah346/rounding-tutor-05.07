@@ -1057,11 +1057,8 @@ class RedesignedPracticePage {
 document.addEventListener('DOMContentLoaded', () => {
     new RedesignedPracticePage();
 });
-
-// STEP 2: Add this JavaScript to enhance the progress bar with hover tooltips
-// Add this to your decimal1_practice_redesigned.js file
-
-function enhanceProgressBarWithTooltips() {
+// Clean, single tooltip implementation
+function createInstantTooltips() {
     const progressBarTrack = document.querySelector('.progress-bar-track');
     
     if (!progressBarTrack) {
@@ -1069,203 +1066,59 @@ function enhanceProgressBarWithTooltips() {
         return;
     }
     
-    // Remove any existing hover elements
-    const existingHoverElements = progressBarTrack.querySelectorAll('.progress-bar-hover, .progress-tooltip');
-    existingHoverElements.forEach(el => el.remove());
+    // Remove any existing tooltip elements
+    const existingElements = progressBarTrack.querySelectorAll('.progress-bar-bottom-hover, .progress-bar-top-hover, .progress-tooltip');
+    existingElements.forEach(el => el.remove());
     
     // Create hover areas
-    const bottomHoverArea = document.createElement('div');
-    bottomHoverArea.className = 'progress-bar-bottom-hover';
-    bottomHoverArea.title = 'Rounding to 1 decimal place';
+    const bottomHover = document.createElement('div');
+    bottomHover.className = 'progress-bar-bottom-hover';
     
-    const topHoverArea = document.createElement('div');
-    topHoverArea.className = 'progress-bar-top-hover';
-    topHoverArea.title = 'Rounding to more than 1 decimal place';
+    const topHover = document.createElement('div');
+    topHover.className = 'progress-bar-top-hover';
     
-    // Create custom tooltips with INSTANT visibility
+    // Create tooltips
     const bottomTooltip = document.createElement('div');
     bottomTooltip.className = 'progress-tooltip bottom-section';
     bottomTooltip.textContent = 'Rounding to 1 decimal place';
     bottomTooltip.style.opacity = '0';
-    bottomTooltip.style.transition = 'none'; // Remove all transitions
     bottomTooltip.style.pointerEvents = 'none';
     
     const topTooltip = document.createElement('div');
     topTooltip.className = 'progress-tooltip top-section';
     topTooltip.textContent = 'Rounding to more than 1 decimal place';
     topTooltip.style.opacity = '0';
-    topTooltip.style.transition = 'none'; // Remove all transitions
     topTooltip.style.pointerEvents = 'none';
     
-    // INSTANT hover event listeners - no delays whatsoever
-    bottomHoverArea.addEventListener('mouseenter', () => {
-        bottomTooltip.style.display = 'block';
+    // Instant event listeners
+    bottomHover.onmouseenter = () => {
         bottomTooltip.style.opacity = '1';
         topTooltip.style.opacity = '0';
-        topTooltip.style.display = 'none';
-    });
-    
-    bottomHoverArea.addEventListener('mouseleave', () => {
+    };
+    bottomHover.onmouseleave = () => {
         bottomTooltip.style.opacity = '0';
-        bottomTooltip.style.display = 'none';
-    });
+    };
     
-    topHoverArea.addEventListener('mouseenter', () => {
-        topTooltip.style.display = 'block';
+    topHover.onmouseenter = () => {
         topTooltip.style.opacity = '1';
         bottomTooltip.style.opacity = '0';
-        bottomTooltip.style.display = 'none';
-    });
-    
-    topHoverArea.addEventListener('mouseleave', () => {
+    };
+    topHover.onmouseleave = () => {
         topTooltip.style.opacity = '0';
-        topTooltip.style.display = 'none';
-    });
+    };
     
-    // Append elements to progress bar track
-    progressBarTrack.appendChild(bottomHoverArea);
-    progressBarTrack.appendChild(topHoverArea);
+    // Append to progress bar
+    progressBarTrack.appendChild(bottomHover);
+    progressBarTrack.appendChild(topHover);
     progressBarTrack.appendChild(bottomTooltip);
     progressBarTrack.appendChild(topTooltip);
     
-    console.log('INSTANT progress bar tooltips added');
+    console.log('Clean instant tooltips created');
 }
 
-// Call this function in your RedesignedPracticePage constructor
-// Add this line to the end of your constructor method:
-// this.enhanceProgressBarWithTooltips();
-
-// OR call it after the page loads
+// Call once when page loads
 document.addEventListener('DOMContentLoaded', () => {
-    // Wait a bit for the page to fully load
     setTimeout(() => {
-        enhanceProgressBarWithTooltips();
-    }, 500);
-});
-
-// FIX: Override the existing tooltip JavaScript to remove delays
-// Add this to your decimal1_practice_redesigned.js file
-
-// Function to make tooltips appear instantly by overriding existing delays
-function makeTooltipsInstant() {
-    const bottomHoverArea = document.querySelector('.progress-bar-bottom-hover');
-    const topHoverArea = document.querySelector('.progress-bar-top-hover');
-    const bottomTooltip = document.querySelector('.progress-tooltip.bottom-section');
-    const topTooltip = document.querySelector('.progress-tooltip.top-section');
-    
-    if (!bottomHoverArea || !topHoverArea || !bottomTooltip || !topTooltip) {
-        console.log('Tooltip elements not found');
-        return;
-    }
-    
-    // Clear any existing event listeners by cloning the elements
-    const newBottomHover = bottomHoverArea.cloneNode(true);
-    const newTopHover = topHoverArea.cloneNode(true);
-    
-    bottomHoverArea.parentNode.replaceChild(newBottomHover, bottomHoverArea);
-    topHoverArea.parentNode.replaceChild(newTopHover, topHoverArea);
-    
-    // Add new instant event listeners
-    newBottomHover.addEventListener('mouseenter', () => {
-        bottomTooltip.classList.add('show');
-        topTooltip.classList.remove('show'); // Hide the other one
-        console.log('Bottom tooltip shown instantly');
-    });
-    
-    newBottomHover.addEventListener('mouseleave', () => {
-        bottomTooltip.classList.remove('show');
-    });
-    
-    newTopHover.addEventListener('mouseenter', () => {
-        topTooltip.classList.add('show');
-        bottomTooltip.classList.remove('show'); // Hide the other one
-        console.log('Top tooltip shown instantly');
-    });
-    
-    newTopHover.addEventListener('mouseleave', () => {
-        topTooltip.classList.remove('show');
-    });
-    
-    console.log('Instant tooltips enabled');
-}
-
-// Call this function after the page loads and after any existing tooltip setup
-document.addEventListener('DOMContentLoaded', () => {
-    // Wait for existing tooltip setup, then override it
-    setTimeout(() => {
-        makeTooltipsInstant();
-    }, 1000); // Wait 1 second for existing setup to complete, then override
-});
-
-// DIRECT FIX: Override the enhanceProgressBarWithTooltips function to remove delays
-// Add this to the END of your decimal1_practice_redesigned.js file
-
-// Override the existing function to remove any setTimeout delays
-function enhanceProgressBarWithTooltips() {
-    const progressBarTrack = document.querySelector('.progress-bar-track');
-    
-    if (!progressBarTrack) {
-        console.log('Progress bar track not found');
-        return;
-    }
-    
-    // Remove any existing hover elements
-    const existingHoverElements = progressBarTrack.querySelectorAll('.progress-bar-hover, .progress-tooltip');
-    existingHoverElements.forEach(el => el.remove());
-    
-    // Create hover areas
-    const bottomHoverArea = document.createElement('div');
-    bottomHoverArea.className = 'progress-bar-bottom-hover';
-    bottomHoverArea.title = 'Rounding to 1 decimal place';
-    
-    const topHoverArea = document.createElement('div');
-    topHoverArea.className = 'progress-bar-top-hover';
-    topHoverArea.title = 'Rounding to more than 1 decimal place';
-    
-    // Create custom tooltips
-    const bottomTooltip = document.createElement('div');
-    bottomTooltip.className = 'progress-tooltip bottom-section';
-    bottomTooltip.textContent = 'Rounding to 1 decimal place';
-    
-    const topTooltip = document.createElement('div');
-    topTooltip.className = 'progress-tooltip top-section';
-    topTooltip.textContent = 'Rounding to more than 1 decimal place';
-    
-    // Add INSTANT hover event listeners (NO setTimeout, NO delays)
-    bottomHoverArea.addEventListener('mouseenter', () => {
-        bottomTooltip.style.opacity = '1';
-        bottomTooltip.classList.add('show');
-        topTooltip.style.opacity = '0';
-        topTooltip.classList.remove('show');
-    });
-    
-    bottomHoverArea.addEventListener('mouseleave', () => {
-        bottomTooltip.style.opacity = '0';
-        bottomTooltip.classList.remove('show');
-    });
-    
-    topHoverArea.addEventListener('mouseenter', () => {
-        topTooltip.style.opacity = '1';
-        topTooltip.classList.add('show');
-        bottomTooltip.style.opacity = '0';
-        bottomTooltip.classList.remove('show');
-    });
-    
-    topHoverArea.addEventListener('mouseleave', () => {
-        topTooltip.style.opacity = '0';
-        topTooltip.classList.remove('show');
-    });
-    
-    // Append elements to progress bar track
-    progressBarTrack.appendChild(bottomHoverArea);
-    progressBarTrack.appendChild(topHoverArea);
-    progressBarTrack.appendChild(bottomTooltip);
-    progressBarTrack.appendChild(topTooltip);
-    
-    console.log('INSTANT progress bar tooltips added successfully');
-}
-
-// Call it immediately when DOM is ready - NO delays
-document.addEventListener('DOMContentLoaded', () => {
-    enhanceProgressBarWithTooltips(); // Call immediately only
+        createInstantTooltips();
+    }, 100); // Very short delay to ensure progress bar exists
 });
