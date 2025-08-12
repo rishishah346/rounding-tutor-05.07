@@ -1061,7 +1061,6 @@ document.addEventListener('DOMContentLoaded', () => {
 // STEP 2: Add this JavaScript to enhance the progress bar with hover tooltips
 // Add this to your decimal1_practice_redesigned.js file
 
-// Function to add hover areas and tooltips to progress bar
 function enhanceProgressBarWithTooltips() {
     const progressBarTrack = document.querySelector('.progress-bar-track');
     
@@ -1077,38 +1076,50 @@ function enhanceProgressBarWithTooltips() {
     // Create hover areas
     const bottomHoverArea = document.createElement('div');
     bottomHoverArea.className = 'progress-bar-bottom-hover';
-    bottomHoverArea.title = 'Rounding to 1 decimal place'; // Fallback tooltip
+    bottomHoverArea.title = 'Rounding to 1 decimal place';
     
     const topHoverArea = document.createElement('div');
     topHoverArea.className = 'progress-bar-top-hover';
-    topHoverArea.title = 'Rounding to more than 1 decimal place'; // Fallback tooltip
+    topHoverArea.title = 'Rounding to more than 1 decimal place';
     
-    // Create custom tooltips
+    // Create custom tooltips with INSTANT visibility
     const bottomTooltip = document.createElement('div');
     bottomTooltip.className = 'progress-tooltip bottom-section';
     bottomTooltip.textContent = 'Rounding to 1 decimal place';
+    bottomTooltip.style.opacity = '0';
+    bottomTooltip.style.transition = 'none'; // Remove all transitions
+    bottomTooltip.style.pointerEvents = 'none';
     
     const topTooltip = document.createElement('div');
     topTooltip.className = 'progress-tooltip top-section';
     topTooltip.textContent = 'Rounding to more than 1 decimal place';
+    topTooltip.style.opacity = '0';
+    topTooltip.style.transition = 'none'; // Remove all transitions
+    topTooltip.style.pointerEvents = 'none';
     
-    // Add hover event listeners
+    // INSTANT hover event listeners - no delays whatsoever
     bottomHoverArea.addEventListener('mouseenter', () => {
-        bottomTooltip.classList.add('show');
-        console.log('Hovering over bottom section');
+        bottomTooltip.style.display = 'block';
+        bottomTooltip.style.opacity = '1';
+        topTooltip.style.opacity = '0';
+        topTooltip.style.display = 'none';
     });
     
     bottomHoverArea.addEventListener('mouseleave', () => {
-        bottomTooltip.classList.remove('show');
+        bottomTooltip.style.opacity = '0';
+        bottomTooltip.style.display = 'none';
     });
     
     topHoverArea.addEventListener('mouseenter', () => {
-        topTooltip.classList.add('show');
-        console.log('Hovering over top section');
+        topTooltip.style.display = 'block';
+        topTooltip.style.opacity = '1';
+        bottomTooltip.style.opacity = '0';
+        bottomTooltip.style.display = 'none';
     });
     
     topHoverArea.addEventListener('mouseleave', () => {
-        topTooltip.classList.remove('show');
+        topTooltip.style.opacity = '0';
+        topTooltip.style.display = 'none';
     });
     
     // Append elements to progress bar track
@@ -1117,7 +1128,7 @@ function enhanceProgressBarWithTooltips() {
     progressBarTrack.appendChild(bottomTooltip);
     progressBarTrack.appendChild(topTooltip);
     
-    console.log('Progress bar tooltips added successfully');
+    console.log('INSTANT progress bar tooltips added');
 }
 
 // Call this function in your RedesignedPracticePage constructor
@@ -1254,12 +1265,7 @@ function enhanceProgressBarWithTooltips() {
     console.log('INSTANT progress bar tooltips added successfully');
 }
 
-// Call it immediately when DOM is ready, and again after a short delay to override any existing setup
+// Call it immediately when DOM is ready - NO delays
 document.addEventListener('DOMContentLoaded', () => {
-    enhanceProgressBarWithTooltips(); // Call immediately
-    
-    // Also call after a short delay to override any existing setup
-    setTimeout(() => {
-        enhanceProgressBarWithTooltips();
-    }, 100); // Much shorter delay, just to ensure it overrides
+    enhanceProgressBarWithTooltips(); // Call immediately only
 });

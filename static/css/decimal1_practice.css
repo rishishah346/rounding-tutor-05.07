@@ -2242,7 +2242,7 @@ body.decimal1-practice .progress-tooltip {
     z-index: 20;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.2s ease;
+    transition: none !important;
 }
 
 /* Position tooltips */
@@ -2359,4 +2359,22 @@ body.decimal1-practice .progress-bar-container .progress-bar-track .progress-bar
     display: block !important;
     transition: none !important;
     animation: none !important;
+}
+
+/* INSTANT TOOLTIPS - Override all transitions */
+body.decimal1-practice .progress-tooltip {
+    transition: none !important;
+    animation: none !important;
+}
+
+body.decimal1-practice .progress-tooltip.show {
+    opacity: 1 !important;
+    display: block !important;
+    transition: none !important;
+}
+
+body.decimal1-practice .progress-tooltip:not(.show) {
+    opacity: 0 !important;
+    display: none !important;
+    transition: none !important;
 }
