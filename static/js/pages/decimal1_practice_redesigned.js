@@ -1057,7 +1057,9 @@ class RedesignedPracticePage {
 document.addEventListener('DOMContentLoaded', () => {
     new RedesignedPracticePage();
 });
+
 // Clean, single tooltip implementation
+/* COMMENTED OUT WHILST DEBBUGING IN PLACE
 function createInstantTooltips() {
     const progressBarTrack = document.querySelector('.progress-bar-track');
     
@@ -1114,11 +1116,4 @@ function createInstantTooltips() {
     progressBarTrack.appendChild(topTooltip);
     
     console.log('Clean instant tooltips created');
-}
-
-// Call once when page loads
-document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-        createInstantTooltips();
-    }, 100); // Very short delay to ensure progress bar exists
-});
+}*/
