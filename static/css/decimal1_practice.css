@@ -2116,3 +2116,36 @@ body.decimal1-practice .progress-bar-track::after {
     z-index: 5;
     border-radius: 1px; /* Rounded edges */
 }
+
+/* Tutor feedback styling */
+.tutor-feedback-correct {
+    background-color: #f0fdf4;
+    border-left: 4px solid #10b981;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    animation: fadeIn 0.3s ease-in;
+}
+
+.tutor-feedback-incorrect {
+    background-color: #fef2f2;
+    border-left: 4px solid #ef4444;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    animation: fadeIn 0.3s ease-in;
+}
+
+.tutor-feedback-correct p,
+.tutor-feedback-incorrect p {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+}
+
+.tutor-feedback-correct p:last-child,
+.tutor-feedback-incorrect p:last-child {
+    margin-bottom: 0;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

@@ -787,6 +787,7 @@ class RedesignedPracticePage {
                 response_time: responseTime
             })
         })
+
         .then(data => {
             this.hideLoading();
             this.isSubmitting = false;
@@ -809,6 +810,9 @@ class RedesignedPracticePage {
                 return;
             }
             
+            // NEW: Display feedback in tutor panel
+            this.displayFeedbackInTutor(data.feedback, data.is_correct);
+            
             this.highlightAnswers(data.is_correct);
             this.updateProgressDisplays();
             this.updateProgressFromBackend();
@@ -819,8 +823,8 @@ class RedesignedPracticePage {
             
             const resultText = data.is_correct ? 'Correct answer!' : 'Incorrect answer.';
             this.announceToScreenReader(`${resultText} Answer submitted. Click Continue for next question.`);
-            
         })
+
         .catch(error => {
             console.error('Error verifying answer:', error);
             this.hideLoading();
@@ -947,6 +951,32 @@ class RedesignedPracticePage {
                 item.classList.add('bg-green-50', 'border-green-500');
             }
         });
+    }
+
+    displayFeedbackInTutor(feedback, isCorrect) {
+        const tutorText = document.getElementById('tutor-text');
+        if (!tutorText) return;
+        
+        // Clear existing content
+        tutorText.innerHTML = '';
+        
+        // Add feedback with appropriate styling
+        const feedbackDiv = document.createElement('div');
+        feedbackDiv.className = isCorrect ? 'tutor-feedback-correct' : 'tutor-feedback-incorrect';
+        
+        // Split feedback by newlines for better formatting
+        const paragraphs = feedback.split('\n').filter(p => p.trim());
+        paragraphs.forEach(paragraph => {
+            const p = document.createElement('p');
+            p.textContent = paragraph.trim();
+            p.className = 'mb-2';
+            feedbackDiv.appendChild(p);
+        });
+        
+        tutorText.appendChild(feedbackDiv);
+        
+        // Scroll to top of tutor text
+        tutorText.scrollTop = 0;
     }
 
     nextQuestion() {

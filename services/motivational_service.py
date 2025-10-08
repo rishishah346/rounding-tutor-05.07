@@ -38,11 +38,11 @@ class MotivationalService:
         # Performance-based supportive feedback templates - POSITIVE & EMPOWERING for struggling
         self.supportive_templates = {
             "struggling": [
-                "You're learning! {mathematical_feedback} Each practice builds your understanding. You're getting stronger at this.",
-                "Good effort! {mathematical_feedback} Every mathematician practices to improve. You're on the right track.",
-                "Keep going! {mathematical_feedback} Your brain is building new connections. This is how learning works.",
-                "Nice try! {mathematical_feedback} You're developing these skills step by step. Progress takes practice.",
-                "Well done trying! {mathematical_feedback} Each attempt teaches you something. You're moving forward."
+                "You're learning! {mathematical_feedback} Each practice builds your understanding.",
+                "Good effort! {mathematical_feedback} Every mathematician practices to improve.",
+                "Keep going! {mathematical_feedback}  Progress takes practice.",
+                "Nice try! {mathematical_feedback} You're developing these skills step by step.",
+                "Well done trying! {mathematical_feedback} Each attempt teaches you something."
             ],
             "progressing": [
                 "Close! {mathematical_feedback}",
