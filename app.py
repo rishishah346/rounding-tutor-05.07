@@ -476,12 +476,14 @@ def verify_rounding_answer():
     }
     
     # Get enhanced feedback with motivational messaging
+    # UPDATED: Pass session ID for AI conversation memory
     feedback = content_service.get_feedback(
         current_question,
         verification_steps,
         is_correct,
         misconception,
-        student_context
+        student_context,
+        session_id=session.get('user_id')  # Use user_id as session identifier
     )
     
     # Handle special redirects

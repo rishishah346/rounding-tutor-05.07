@@ -1,6 +1,8 @@
 """Provides explanations and feedback for rounding questions with integrated motivational messaging."""
 
 from services.motivational_service import MotivationalService
+from services.ai_feedback_service import AIFeedbackService  # NEW LINE
+import os  # NEW LINE
 
 class ContentService:
     """Handles generation of explanations and feedback for rounding questions."""
@@ -8,6 +10,12 @@ class ContentService:
     def __init__(self):
         # Initialize the motivational service
         self.motivational_service = MotivationalService()
+    
+        # Initialize AI feedback service (NEW)
+        self.ai_feedback_service = AIFeedbackService()
+    
+        # Check if AI is enabled (requires API key) (NEW)
+        self.ai_enabled = bool(os.environ.get("LLM_API_KEY"))
 
     def get_explanation(self, question, verification_steps):
         """
@@ -55,7 +63,7 @@ class ContentService:
         
         return explanation
 
-    def get_feedback(self, question, verification_steps, is_correct, misconception_data=None, student_context=None):
+    def get_feedback(self, question, verification_steps, is_correct, misconception_data=None, student_context=None, session_id=None):
         """Gets feedback for a student's answer with enhanced formatting and motivational messaging."""
         
         # CRITICAL FIX: Ensure feedback uses the correct question data
@@ -71,16 +79,44 @@ class ContentService:
             # Generate positive mathematical feedback - CONCISE
             mathematical_feedback = f"""{verification_steps['correct_answer']} is right."""
         else:
-            # Generate specific misconception feedback or generic feedback
+            # Determine if this is a repeated mistake
+            attempt_number = 1
             if misconception_data and isinstance(misconception_data, dict):
-                mathematical_feedback = self._generate_specific_misconception_feedback(
+                from helpers.session_helper import track_misconception_attempt
+                misconception_type = misconception_data.get('type', 'unknown')
+                attempt_number = track_misconception_attempt(misconception_type)
+            
+            # Use AI only for repeated mistakes (attempt 2+)
+            if (self.ai_enabled and 
+                misconception_data and 
+                isinstance(misconception_data, dict) and 
+                session_id and 
+                attempt_number >= 2):  # NEW CONDITION
+                
+                try:
+                    print(f"DEBUG: Using AI feedback (attempt #{attempt_number} for {misconception_type})")
+                    mathematical_feedback = self.ai_feedback_service.generate_feedback(
+                        question_data=question,
+                        verification_steps=verification_steps,
+                        misconception_data=misconception_data,
+                        student_context=student_context or {},
+                        session_id=session_id
+                    )
+                except Exception as e:
+                    print(f"AI feedback failed, using fallback: {e}")
+                    mathematical_feedback = self._generate_template_feedback(
+                        question, verification_steps, misconception_data
+                    )
+            else:
+                # First attempt or AI disabled - use template
+                if attempt_number == 1:
+                    print(f"DEBUG: Using template feedback (first attempt)")
+                else:
+                    print(f"DEBUG: Using template feedback (AI disabled)")
+                mathematical_feedback = self._generate_template_feedback(
                     question, verification_steps, misconception_data
                 )
-            else:
-                mathematical_feedback = self._generate_generic_feedback(
-                    question, verification_steps
-                )
-        
+
         # Add motivational messaging if student context is provided
         if student_context:
             # Get misconception type for targeted support
@@ -101,6 +137,18 @@ class ContentService:
             # Fallback to plain mathematical feedback if no student context
             return mathematical_feedback.strip()
 
+    def _generate_template_feedback(self, question, verification_steps, misconception_data):
+        """Generate template-based feedback (existing logic)"""
+        if misconception_data and isinstance(misconception_data, dict):
+            return self._generate_specific_misconception_feedback(
+                question, verification_steps, misconception_data
+            )
+        else:
+            return self._generate_generic_feedback(
+                question, verification_steps
+            )
+
+    
     def _generate_specific_misconception_feedback(self, question, verification_steps, misconception_data):
         """Generate feedback specific to the identified misconception."""
         

@@ -234,3 +234,21 @@ def switch_topic(new_topic: str):
     profile = get_student_profile()
     profile.current_topic = new_topic
     save_student_profile(profile)
+
+def track_misconception_attempt(misconception_type: str) -> int:
+    """
+    Track how many times student has made this misconception type.
+    Returns the attempt number (1 for first time, 2 for second, etc.)
+    """
+    if 'misconception_history' not in session:
+        session['misconception_history'] = {}
+    
+    history = session['misconception_history']
+    
+    if misconception_type not in history:
+        history[misconception_type] = 0
+    
+    history[misconception_type] += 1
+    session['misconception_history'] = history
+    
+    return history[misconception_type]
